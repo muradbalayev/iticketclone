@@ -1,21 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import translations from '../translations.json'
-
 import axios from 'axios';
 import Select from 'react-select'
 import DatePicker from "react-multi-date-picker";
-import { useParams } from 'react-router-dom';
 import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';
 import 'rsuite/RangeSlider/styles/index.css';
+import { useNavigate } from 'react-router-dom';
 
 
-
-const EventPage = () => {
-
-  const { category, language } = useParams();
+const Home = () => {
   const navigate = useNavigate()
 
   const [events, setEvents] = useState([]);
@@ -30,66 +24,13 @@ const EventPage = () => {
   const [maxPrice, setMaxPrice] = useState(null);
   const [minPriceAPI, setMinPriceAPI] = useState(null)
   const [maxPriceAPI, setMaxPriceAPI] = useState(null);
-  const [pageTitle, setPageTitle] = useState('');
   const [showWarning, setShowWarning] = useState(false);
 
 
-  const getVenueName = (language) => {
-    switch(language) {
-      case 'az':
-      return "Məkan seçin";
-      case 'en':
-      return "Choose venue";
-      case 'ru':
-      return "Выберите местоположение";
-      default:
-        return "Məkan seçin";
-    }
-  }
-  const venueTitle = getVenueName(language);
-  const getDateName = (language) => {
-    switch(language) {
-      case 'az':
-      return "Tarix aralığını seçin";
-      case 'en':
-      return "Choose date range";
-      case 'ru':
-      return "Выберите диапазон дат";
-      default:
-        return "Tarix aralığını seçin";
-    }
-  }
-
-  const dateTitle = getDateName(language);
-
-
-  const getPriceName = (language) => {
-    switch(language) {
-      case 'az':
-      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
-      case 'en':
-      return `Price from ${minPrice} ₼ to ${maxPrice}`;
-      case 'ru':
-      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
-      default:
-        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
-    }
-  }
-
-  const priceTitle = getPriceName(language);
-
-
-
-
-
-  const fetchData = useCallback(async (pageNumber, category, startDate, endDate, venueId, minPrice, maxPrice) => {
+  const fetchData = useCallback(async (pageNumber, startDate, endDate, venueId, minPrice, maxPrice) => {
     try {
       setLoading(true);
-      let url = `https://api.iticket.az/${language}/v5/events?client=web`;
-
-      if (category) {
-        url += `&category_slug=${category}`
-      }
+      let url = `https://api.iticket.az/az/v5/events?client=web`;
 
       if (pageNumber > 1) {
         url += `&page=${pageNumber}`
@@ -103,12 +44,9 @@ const EventPage = () => {
         url += `&end_date=${formatDate(endDate)}`;
       }
 
-
       if (venueId) {
         url += `&venue_id=${venueId}`;
       }
-
-
       if ((minPrice !== null || maxPrice !== null) && (minPrice !== minPriceAPI || maxPrice !== maxPriceAPI)) {
         url += `&min_price=${minPrice}&max_price=${maxPrice}`;
       }
@@ -124,8 +62,8 @@ const EventPage = () => {
       }
 
       const venueNames = response.data.response.venues.map(venue => ({ value: venue.id, label: venue.name }));
-      setPageTitle(response.data.response.category.name)
       setVenues(venueNames);
+
 
       if (pageNumber === 1) {
         setEvents(response.data.response.events.data);
@@ -141,7 +79,7 @@ const EventPage = () => {
       setLoading(false);
       setTimeout(() => setShowWarning(true), 1000);
     }
-  }, [minPriceAPI, maxPriceAPI, language]);
+  }, [ minPriceAPI, maxPriceAPI]);
 
 
   const handleLoadMore = () => {
@@ -196,7 +134,7 @@ const EventPage = () => {
   const handleDateChange = (dates) => {
     let url = '';
     if (selectedVenue && selectedVenue.value) {
-      if(url !== ''){
+        if(url !== ''){
         url += '&'
       }
       else {
@@ -236,30 +174,7 @@ const EventPage = () => {
       setEndDate(dates[1]);
     }
     navigate(url);
-  };
-
-  const formatDate = date => {
-    const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    return formattedDate.split('.').join('.');
-  };
-
-  useEffect(() => {
-    setStartDate(null)
-    setEndDate(null)
-    setSelectedVenue(category);
-    setPage(1)
-    setMaxPriceAPI(null)
-    setMinPriceAPI(null)
-    setMaxPrice(null)
-    setMinPrice(null)
-  }, [category, language]);
-
-
-  useEffect(() => {
-    fetchData(page, category, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
-  }, [fetchData, page, category, startDate, endDate, selectedVenue, minPrice, maxPrice]);
-
-
+  }
 
   const handleSliderChange = (values) => {
     const [minValue, maxValue] = values;
@@ -306,17 +221,28 @@ const EventPage = () => {
     }
   };
 
+  const formatDate = date => {
+    const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return formattedDate.split('.').join('.');
+  };
+
+
+
+  useEffect(() => {
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null,  minPrice, maxPrice);
+  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice]);
+
 
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
-        <h1 className="page-title">{pageTitle} </h1>
+        <h1 className="page-title">Bütün Tədbirlər</h1>
       </div>
       <div className="content-container concert-filter mx-auto pt-7 px-3 lg:px-0 lg:pt-12 pb-6">
         <div className="grid lg:grid-cols-3 gap-10">
           <div className='form-control flex items-center shadow-md'>
             <Select classNamePrefix="react-select"
-              placeholder={venueTitle}
+              placeholder="Məkan seçin"
               className='react-select-container z-20 w-full text-start'
               options={venues}
               onChange={handleVenueChange}
@@ -329,7 +255,7 @@ const EventPage = () => {
               format="DD MMM YYYY"
               maxDate={endDate}
               multiple={false}
-              placeholder={dateTitle}
+              placeholder="Tarix aralığını seçin"
               containerClassName='DatePicker myDatePicker'
               inputClass='DatePicker'
               minDate={new Date()}
@@ -340,15 +266,15 @@ const EventPage = () => {
           <div className='form-control relative flex items-center shadow-md flex-col'>
             <input type='text' className='w-full text-center price-sorter'
               placeholder={
-                (minPrice === null || maxPrice === null) ? '' : priceTitle
+                (minPrice === null || maxPrice === null) ? '' : `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`
               }
               readOnly />
-            {(minPrice !== null || maxPrice !== null) &&
-              <RangeSlider className='w-full absolute -bottom-5'
-                min={minPriceAPI}
-                max={maxPriceAPI}
-                value={[minPrice, maxPrice]}
-                onChange={handleSliderChange} />}
+              {(minPrice !== null || maxPrice !== null) &&
+            <RangeSlider className='w-full absolute -bottom-5'
+              min={minPriceAPI}
+              max={maxPriceAPI}
+              value={[minPrice, maxPrice]}
+              onChange={handleSliderChange} /> }
           </div>
         </div>
       </div>
@@ -358,7 +284,7 @@ const EventPage = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <a key={event.id} href='!#' className='event-list-item'>
+                  <a key={event.name} href='!#' className='event-list-item'>
                     <div className='relative'>
                       <div className='image'>
                         <img
@@ -375,7 +301,7 @@ const EventPage = () => {
 
                         />
                         <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
-                          <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
+                          <span className="price whitespace-nowrap">{event.min_price} ₼</span>-dan
                         </span>
                       </div>
                       <div className='info lg:p-8 lg:text-xl'>
@@ -384,8 +310,7 @@ const EventPage = () => {
                         </p>
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
-                            {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
-                             { month: 'long', day: 'numeric', year: 'numeric' })}
+                            {new Date(event.event_starts_at).toLocaleDateString('tr-TR', { month: 'long', day: 'numeric', year: 'numeric' })}
                           </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
@@ -405,12 +330,12 @@ const EventPage = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-          {translations[language]['loading']}
+Daha çox
           </button>}
 
           {hasMore && !loading && (
             <button onClick={handleLoadMore} className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4'>
-              {translations[language]['loadmore']}
+Yüklənir...
             </button>
           )}
         </div>
@@ -419,4 +344,4 @@ const EventPage = () => {
   )
 }
 
-export default EventPage
+export default Home

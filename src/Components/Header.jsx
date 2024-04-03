@@ -239,24 +239,24 @@ const Header = () => {
                             </div>
                             <nav className="mobilenav-links flex flex-col">
                                 <NavLink exact to={`/${language}`} >{translations[language]['all_events']}</NavLink>
-                                <NavLink to='/concerts' >{translations[language]['concerts']}</NavLink>
-                                <NavLink to='/theatre' >{translations[language]['theatre']}</NavLink>
-                                <NavLink to='/kids' >{translations[language]['concerts']}</NavLink>
-                                <NavLink to='/dream-fest-2024' >Dream Fest 2024</NavLink>
-                                <NavLink to='/sport'>{translations[language]['sport']}</NavLink>
-                                <NavLink to='/jolly-joker-baku'>Jolly Joker</NavLink>
-                                <NavLink to='/museum'>{translations[language]['museum']}</NavLink>
-                                <NavLink to='/tourism'>{translations[language]['tourism']}</NavLink>
-                                <NavLink to='/seminar'>{translations[language]['seminar']}</NavLink>
-                                <NavLink to='/master-class'>{translations[language]['master-class']}</NavLink>
-                                <NavLink to='/other'>{translations[language]['other']}</NavLink>
+                                <NavLink to={`/${language}/concerts`}  >{translations[language]['concerts']}</NavLink>
+                                <NavLink to={`/${language}/theatre`}  >{translations[language]['theatre']}</NavLink>
+                                <NavLink to={`/${language}/kids`}  >{translations[language]['concerts']}</NavLink>
+                                <NavLink to={`/${language}/dream-fest-2024`}  >Dream Fest 2024</NavLink>
+                                <NavLink to={`/${language}/sport`} >{translations[language]['sport']}</NavLink>
+                                <NavLink to={`/${language}/jolly-joker-baku`} >Jolly Joker</NavLink>
+                                <NavLink to={`/${language}/museum`} >{translations[language]['museum']}</NavLink>
+                                <NavLink to={`/${language}/tourism`} >{translations[language]['tourism']}</NavLink>
+                                <NavLink to={`/${language}/seminar`} >{translations[language]['seminar']}</NavLink>
+                                <NavLink to={`/${language}/master-class`} >{translations[language]['master-class']}</NavLink>
+                                <NavLink to={`/${language}/other`} >{translations[language]['other']}</NavLink>
                             </nav>
                         </div>
                         <div className="mobilenav-footer flex justify-between items-center shadow-md border-t py-2 px-4">
-                            <a href="/point-of-sales" className="">
+                            <a href="/" className="">
                                 Biletlərin Satış Məntəqələri
                             </a>
-                            <a href="/page/contacts" className="">
+                            <a href="/" className="">
                                 Əlaqə
                             </a>
                         </div>
@@ -316,13 +316,13 @@ const Header = () => {
                             <div id="dropdown" className='navigation-dropdown absolute z-30 shadow-md rounded-lg bg-white'>
                                 <nav className='flex flex-col'>
                                     {/* <NavLink to='/hayal'>Hayal Kahvesi </NavLink> */}
-                                    <NavLink to='/sport'>{translations[language]['sport']}</NavLink>
-                                    <NavLink to='/jolly-joker-baku'>Jolly Joker</NavLink>
-                                    <NavLink to='/museum'>{translations[language]['museum']}</NavLink>
-                                    <NavLink to='/tourism'>{translations[language]['tourism']}</NavLink>
-                                    <NavLink to='/seminar'>{translations[language]['seminar']}</NavLink>
-                                    <NavLink to='/master-class'>{translations[language]['master-class']}</NavLink>
-                                    <NavLink to='/other'>{translations[language]['other']}</NavLink>
+                                    <NavLink to={`/${language}/sport`} >{translations[language]['sport']}</NavLink>
+                                    <NavLink to={`/${language}/jolly-joker-baku`} >Jolly Joker</NavLink>
+                                    <NavLink to={`/${language}/museum`} >{translations[language]['museum']}</NavLink>
+                                    <NavLink to={`/${language}/tourism`} >{translations[language]['tourism']}</NavLink>
+                                    <NavLink to={`/${language}/seminar`} >{translations[language]['seminar']}</NavLink>
+                                    <NavLink to={`/${language}/master-class`} >{translations[language]['master-class']}</NavLink>
+                                    <NavLink to={`/${language}/other`} >{translations[language]['other']}</NavLink>
 
                                 </nav>
                             </div>

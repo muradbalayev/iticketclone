@@ -7,6 +7,7 @@ import Footer from './Footer';
 import AllEvents from './Pages/AllEvents';
 import Cart from './Pages/Cart';
 import Favorites from './Pages/Favorites';
+import Home from './Pages/Home';
 
 
 
@@ -18,6 +19,7 @@ function App() {
     <div className='relative'>
       <Header/>
       <Routes>
+      <Route path="/" element={<Home/>} exact/>
       <Route path="/:language" element={<AllEvents/>} exact/>
       <Route path="/:language/:category" element={<EventPage/>} exact/>
       <Route path='/cart' element={<Cart/>} exact/>

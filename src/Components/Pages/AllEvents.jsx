@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 
 const AllEvents = () => {
   const navigate = useNavigate()
-
   const { language } = useParams();
 
   const [events, setEvents] = useState([]);
@@ -200,7 +199,7 @@ const AllEvents = () => {
 
   const handleDateChange = (dates) => {
     let url = '';
-    if (selectedVenue.value) {
+    if (selectedVenue && selectedVenue.value) {
       if(url !== ''){
         url += '&'
       }
@@ -241,8 +240,29 @@ const AllEvents = () => {
       setEndDate(dates[1]);
     }
     navigate(url);
-  }
+  };
+  
+  const formatDate = date => {
+    const formattedDate = new Date(date).toLocaleDateString('en-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return formattedDate.split('.').join('.');
+  };
+  
+  
+  
+  useEffect(() => {
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null,  minPrice, maxPrice ,language);
+  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
 
+
+  useEffect(() => {
+    setStartDate(null)
+    setEndDate(null)
+    setSelectedVenue(null);
+    setPage(1)
+    setMaxPrice(null)
+    setMinPrice(null)
+  }, [ language]);
+  
   const handleSliderChange = (values) => {
     const [minValue, maxValue] = values;
     if (minPrice !== null && maxPrice !== null) {
@@ -287,29 +307,7 @@ const AllEvents = () => {
     navigate(url);
     }
   };
-
-  const formatDate = date => {
-    const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    return formattedDate.split('.').join('.');
-  };
-
-
-
-  useEffect(() => {
-    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null,  minPrice, maxPrice ,language);
-  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
-
-
-  useEffect(() => {
-    setStartDate(null)
-    setEndDate(null)
-    setSelectedVenue(null);
-    setPage(1)
-    setMaxPrice(null)
-    setMinPrice(null)
-  }, [ language]);
-
-
+  
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
@@ -378,7 +376,7 @@ const AllEvents = () => {
 
                         />
                         <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
-                          <span className="price whitespace-nowrap">{event.min_price} ₼</span>-dan
+                          <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
                         </span>
                       </div>
                       <div className='info lg:p-8 lg:text-xl'>
@@ -387,7 +385,8 @@ const AllEvents = () => {
                         </p>
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
-                            {new Date(event.event_starts_at).toLocaleDateString('tr-TR', { month: 'long', day: 'numeric', year: 'numeric' })}
+                            {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
+                             { month: 'long', day: 'numeric', year: 'numeric' })}
                           </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
