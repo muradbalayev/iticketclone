@@ -238,7 +238,7 @@ const Header = () => {
 
                             </div>
                             <nav className="mobilenav-links flex flex-col">
-                                <NavLink exact to='/' >{translations[language]['all_events']}</NavLink>
+                                <NavLink exact to={`/${language}`} >{translations[language]['all_events']}</NavLink>
                                 <NavLink to='/concerts' >{translations[language]['concerts']}</NavLink>
                                 <NavLink to='/theatre' >{translations[language]['theatre']}</NavLink>
                                 <NavLink to='/kids' >{translations[language]['concerts']}</NavLink>
