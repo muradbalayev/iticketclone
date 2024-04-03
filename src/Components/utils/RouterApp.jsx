@@ -13,11 +13,11 @@ export const RouterApp = createBrowserRouter([
         element: <App />,
         children: [
             {
-                path: 'cart',
+                path: ':language/cart',
                 element: <Cart/>
             },
             {
-                path: 'favorites',
+                path: ':language/favorites',
                 element: <Favorites/>
             },
             {

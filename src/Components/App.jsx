@@ -22,8 +22,8 @@ function App() {
       <Route path="/" element={<Home/>} exact/>
       <Route path="/:language" element={<AllEvents/>} exact/>
       <Route path="/:language/:category" element={<EventPage/>} exact/>
-      <Route path='/cart' element={<Cart/>} exact/>
-      <Route path='/favorites' element={<Favorites/>} exact/>
+      <Route path='/:language/cart' element={<Cart/>} exact/>
+      <Route path='/:language/favorites' element={<Favorites/>} exact/>
       </Routes>
       <Footer/>
     </div>

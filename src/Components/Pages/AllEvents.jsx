@@ -399,7 +399,7 @@ const AllEvents = () => {
               </div>
             ) : (showWarning && <div className='warning mt-7 relative flex items-center gap-2'>
               <img src={warning} alt='warning' className='w-8' />
-              <p className='font-medium text-lg'>Sorğunuza uyğun tədbir tapılmadı.</p>
+              <p className='font-medium text-lg'>{translations[language]['fetcherror']}</p>
             </div>
             )}
           </div>
