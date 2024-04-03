@@ -1,7 +1,9 @@
-import React from 'react'
+import { useParams } from "react-router-dom";
 import warning from "../Images/warning.svg"
 
 const Cart = () => {
+  const { language } = useParams();
+console.log(language)
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">

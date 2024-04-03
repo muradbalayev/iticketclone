@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import './App.scss';
 import EventPage from './Pages/EventPage';
 import Header from './Header';
@@ -11,12 +11,15 @@ import Favorites from './Pages/Favorites';
 
 
 function App() {
+  const { language } = useParams()
+  console.log(language)
+  
   return (
     <div className='relative'>
       <Header/>
       <Routes>
-      <Route path="/" element={<AllEvents/>} exact/>
-      <Route path="/:category" element={<EventPage/>} exact/>
+      <Route path="/:language" element={<AllEvents/>} exact/>
+      <Route path="/:language/:category" element={<EventPage/>} exact/>
       <Route path='/cart' element={<Cart/>} exact/>
       <Route path='/favorites' element={<Favorites/>} exact/>
       </Routes>

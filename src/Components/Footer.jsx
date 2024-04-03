@@ -1,4 +1,3 @@
-import React from 'react'
 import visa from "./Images/cards.svg"
 
 const Footer = () => {

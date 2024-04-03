@@ -1,0 +1,53 @@
+{
+    "az": {
+        "loadmore": "Daha çox",
+        "loading": "Yüklənir...",
+        "all_events": "Bütün tədbirlər",
+        "concerts": "Konsert",
+        "theatre": "Tamaşa",
+        "kids": "Uşaqlar",
+        "sport": "İdman",
+        "museum": "Muzey",
+        "tourism": "Turizm",
+        "seminar": "Seminar",
+        "master-class": "Master klass",
+        "other": "Digər",
+        "search": "Axtarış",
+        "login": "Daxil ol"
+        
+    },
+    "en": {
+        "loadmore": "Load more",
+        "loading": "Loading...",
+        "all_events": "All Events",
+        "concerts": "Concerts",
+        "theatre": "Theatre",
+        "kids": "Kids",
+        "sport": "Sport",
+        "museum": "Museum",
+        "tourism": "Tourism",
+        "seminar": "Seminar",
+        "master-class": "Master Class",
+        "other": "Other",
+        "search": "Search",
+        "login": "Login"
+
+    },
+    "ru": {
+        "loadmore": "Более",
+        "loading": "Загрузка...",
+        "all_events": "Все события",
+        "concerts": "Концерты",
+        "theatre": "Театр",
+        "kids": "Дети",
+        "sport": "Спорт",
+        "museum": "Музей",
+        "tourism": "Туризм",
+        "seminar": "Семинар",
+        "master-class": "Мастер-класс",
+        "other": "Другие",
+        "search": "Поиск",
+        "login": "Войти"
+
+    }
+}

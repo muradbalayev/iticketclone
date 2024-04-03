@@ -1,19 +1,22 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { x } from 'react-icons-kit/feather/x'
+import translations from "../translations.json"
+
 import Icon from 'react-icons-kit';
 
 
 
-const SearchModal = ({ show, onHide }) => {
+const SearchModal = ({ show, onHide, language }) => {
     const [events, setEvents] = useState([])
     const [venues, setVenues] = useState([])
     const [inputValue, setInputValue] = useState('')
 
     useEffect(() => {
         if (inputValue.trim() !== '') {
-            axios.get(`https://api.iticket.az/az/v5/events/search?client=web&q=${inputValue}`)
+            axios.get(`https://api.iticket.az/${language}/v5/events/search?client=web&q=${inputValue}`)
                 .then(response => {
                     const searchEvents = response.data.response.events.map(event => event.name);
                     const searchVenues = response.data.response.venues.map(venue => venue.name);
@@ -26,7 +29,7 @@ const SearchModal = ({ show, onHide }) => {
         } else {
             setEvents([]);
         }
-    }, [inputValue]);
+    }, [inputValue, language]);
 
     const handleClose = () => {
         onHide();
@@ -54,8 +57,8 @@ const SearchModal = ({ show, onHide }) => {
                     <input value={inputValue}
                         onChange={handleInputChange}
                         className='w-full border rounded-2xl py-5 outline-none pe-4 ps-14'
-                        placeholder='Axtaris' />
-                    <button className='top-16 right-2 sm:block absolute' variant="secondary" onClick={handleClose}>
+                        placeholder={translations[language]['search']} />
+                    <button className='top-16 right-2 sm:block absolute' onClick={handleClose}>
                         <Icon className='text-white' icon={x} size={35} />
                     </button>
                 </div>

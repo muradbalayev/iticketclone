@@ -12,12 +12,12 @@ export const RouterApp = createBrowserRouter([
         element: <App />,
         children: [
             {
-                path: '',
+                path: ':language',
                 element: <AllEvents />
             },
             {
-                path: ':category',
-                element: <EventPage />,
+                path: ':language/:category',
+                element: <EventPage />
             },
             {
                 path: 'cart',

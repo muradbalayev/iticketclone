@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import translations from "./translations.json"
 import { heart } from 'react-icons-kit/feather/heart'
 import Icon from 'react-icons-kit'
 import { search } from 'react-icons-kit/feather/search'
@@ -12,13 +13,61 @@ import { x } from 'react-icons-kit/feather/x'
 import SearchModal from './Modals/SearchModal'
 import axios from 'axios'
 
+
 const Header = () => {
     const location = useLocation();
     const [openDrop, setOpenDrop] = useState(false);
     const [loginModalShow, setLoginModalShow] = useState(false);
     const [searchModalShow, setSearchModalShow] = useState(false);
     const [openNav, setOpenNav] = useState(false)
-    // const [showMobileSearch, setShowMobileSearch] = useState(false)
+    const [language, setLanguage] = useState(localStorage.getItem('language') || 'az');
+
+    useEffect(() => {
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage) {
+            setLanguage(savedLanguage);
+        }
+    }, []);
+
+    const handleLanguageChange = (newLanguage) => {
+        setLanguage(newLanguage);
+        localStorage.setItem('language', newLanguage);
+        // window.location.reload(); 
+        // window.location.href = `${window.location.origin}/${newLanguage}${location.pathname}`;
+    };
+
+    const languages = [
+        { code: 'az', label: 'AZ' },
+        { code: 'en', label: 'EN' },
+        { code: 'ru', label: 'RU' },
+    ];
+
+    const filteredLanguages = languages.filter(lang => lang.code !== language);
+
+    const getCategoryFromUrl = () => {
+        const parts = location.pathname.split('/');
+        const languageIndex = parts.findIndex(part => ['az', 'ru', 'en'].includes(part));
+        if (languageIndex >= 0) {
+            const categoryIndex = languageIndex + 1;
+            if (categoryIndex < parts.length && parts[categoryIndex] !== '') {
+                return parts[categoryIndex];
+            }
+        }
+        return '';
+    };
+
+    const currentCategory = getCategoryFromUrl();
+
+    //      https://iticket.az/en/concerts
+    //     window.location.href =url
+    // const url =[
+    //     url[0] = 'https://iticket.az/',
+    //     url[1] = language
+    //     url[2] = category
+    // ]
+
+
+
 
     useEffect(() => {
         const handleCloseMobileNav = () => {
@@ -67,7 +116,7 @@ const Header = () => {
 
     useEffect(() => {
         if (inputValue.trim() !== '') {
-            axios.get(`https://api.iticket.az/az/v5/events/search?client=web&q=${inputValue}`)
+            axios.get(`https://api.iticket.az/${language}/v5/events/search?client=web&q=${inputValue}`)
                 .then(response => {
                     const searchEvents = response.data.response.events.map(event => event.name);
                     const searchVenues = response.data.response.venues.map(venue => venue.name);
@@ -82,7 +131,8 @@ const Header = () => {
             setVenues([]);
             setInputValue('');
         }
-    }, [inputValue]);
+    }, [inputValue,language]);
+
 
     const clearSearchResults = (openNav) => {
         if (!openNav) {
@@ -98,6 +148,11 @@ const Header = () => {
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
+
+        if (inputValue === '') {
+            setEvents([]);
+            setVenues([]);
+        }
     };
 
 
@@ -106,10 +161,12 @@ const Header = () => {
     return (
         <div className='header w-full bg-white shadow-md'>
             <LoginModal
+                language={language}
                 show={loginModalShow}
                 onHide={() => { setLoginModalShow(false); }}
             />
             <SearchModal
+                language={language}
                 show={searchModalShow}
                 onHide={() => { setSearchModalShow(false); }}
             />
@@ -118,7 +175,7 @@ const Header = () => {
             {
                 openNav &&
                 <div className='mobile-overlay bg-black z-50 fixed'>
-                    <button className='absolute top-5 right-10 z-30' variant="secondary" onClick={() => { setOpenNav(!openNav) }}>
+                    <button className='absolute top-5 right-10 z-30' onClick={() => { setOpenNav(!openNav) }}>
                         <Icon className='text-white' icon={x} size={35} />
                     </button>
                     <div className='mobile-navigation relative flex flex-col'>
@@ -155,7 +212,7 @@ const Header = () => {
 
                             <div className='form-control relative'>
                                 <Icon className='absolute search-icon text-gray-400' icon={search} />
-                                <input placeholder='Axtar'
+                                <input placeholder={translations[language]['search']}
                                     value={inputValue}
                                     onChange={handleInputChange}
                                     className='search-input w-full border rounded-lg' />
@@ -180,23 +237,22 @@ const Header = () => {
                                 ))}
 
                             </div>
-                            <nav class="mobilenav-links flex flex-col">
-                                <NavLink exact to='/' >Bütün tədbirlər</NavLink>
-                                <NavLink to='/concerts' >Konsert</NavLink>
-                                <NavLink to='/theatre' >Tamaşa</NavLink>
-                                <NavLink to='/kids' >Uşaqlar</NavLink>
+                            <nav className="mobilenav-links flex flex-col">
+                                <NavLink exact to='/' >{translations[language]['all_events']}</NavLink>
+                                <NavLink to='/concerts' >{translations[language]['concerts']}</NavLink>
+                                <NavLink to='/theatre' >{translations[language]['theatre']}</NavLink>
+                                <NavLink to='/kids' >{translations[language]['concerts']}</NavLink>
                                 <NavLink to='/dream-fest-2024' >Dream Fest 2024</NavLink>
-                                {/* <NavLink to='/hayal'>Hayal Kahvesi </NavLink> */}
-                                <NavLink to='/sport'>Idman</NavLink>
+                                <NavLink to='/sport'>{translations[language]['sport']}</NavLink>
                                 <NavLink to='/jolly-joker-baku'>Jolly Joker</NavLink>
-                                <NavLink to='/museum'>Muzey</NavLink>
-                                <NavLink to='/tourism'>Turizm</NavLink>
-                                <NavLink to='/seminar'>Seminar</NavLink>
-                                <NavLink to='/master-class'>Master Klass</NavLink>
-                                <NavLink to='/other'>Digər</NavLink>
+                                <NavLink to='/museum'>{translations[language]['museum']}</NavLink>
+                                <NavLink to='/tourism'>{translations[language]['tourism']}</NavLink>
+                                <NavLink to='/seminar'>{translations[language]['seminar']}</NavLink>
+                                <NavLink to='/master-class'>{translations[language]['master-class']}</NavLink>
+                                <NavLink to='/other'>{translations[language]['other']}</NavLink>
                             </nav>
                         </div>
-                        <div class="mobilenav-footer flex justify-between items-center shadow-md border-t py-2 px-4">
+                        <div className="mobilenav-footer flex justify-between items-center shadow-md border-t py-2 px-4">
                             <a href="/point-of-sales" className="">
                                 Biletlərin Satış Məntəqələri
                             </a>
@@ -234,19 +290,23 @@ const Header = () => {
                 {/* Header Middle */}
                 <div className='items-center justify-start xl:flex xl:grow hidden'>
                     <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
-                        <a className='text-gray-400 border-e' href="!#">
-                            EN
-                        </a>
-                        <a className='text-gray-400' href="!#">
-                            RU
-                        </a>
+                        {filteredLanguages.map(lang => (
+                            <NavLink
+                                to={`/${lang.code}/${currentCategory}`}
+                                key={lang.code}
+                                className={`text-gray-400 text-sm font-medium px-0.5 first:border-e`}
+                                onClick={() => handleLanguageChange(lang.code)}
+                            >
+                                {lang.label}
+                            </NavLink>
+                        ))}
                     </div>
                     <nav className='navigation flex items-center'>
-                        <NavLink to='/' end>Bütün tədbirlər</NavLink>
-                        <NavLink to='/concerts' >Konsert</NavLink>
-                        <NavLink to='/theatre' >Tamaşa</NavLink>
-                        <NavLink to='/kids' >Uşaqlar</NavLink>
-                        <NavLink to='/dream-fest-2024' >Dream Fest 2024</NavLink>
+                        <NavLink to={`/${language}`} end>{translations[language]['all_events']}</NavLink>
+                        <NavLink to={`/${language}/concerts`} >{translations[language]['concerts']}</NavLink>
+                        <NavLink to={`/${language}/theatre`} >{translations[language]['theatre']}</NavLink>
+                        <NavLink to={`/${language}/kids`} >{translations[language]['kids']}</NavLink>
+                        <NavLink to={`/${language}/dream-fest-2024`} >Dream Fest 2024</NavLink>
                     </nav>
                     <div className='dropdown relative lg:block hidden'>
                         <button onClick={DropToggle} type="button">
@@ -256,13 +316,13 @@ const Header = () => {
                             <div id="dropdown" className='navigation-dropdown absolute z-30 shadow-md rounded-lg bg-white'>
                                 <nav className='flex flex-col'>
                                     {/* <NavLink to='/hayal'>Hayal Kahvesi </NavLink> */}
-                                    <NavLink to='/sport'>Idman</NavLink>
+                                    <NavLink to='/sport'>{translations[language]['sport']}</NavLink>
                                     <NavLink to='/jolly-joker-baku'>Jolly Joker</NavLink>
-                                    <NavLink to='/museum'>Muzey</NavLink>
-                                    <NavLink to='/tourism'>Turizm</NavLink>
-                                    <NavLink to='/seminar'>Seminar</NavLink>
-                                    <NavLink to='/master-class'>Master Klass</NavLink>
-                                    <NavLink to='/other'>Digər</NavLink>
+                                    <NavLink to='/museum'>{translations[language]['museum']}</NavLink>
+                                    <NavLink to='/tourism'>{translations[language]['tourism']}</NavLink>
+                                    <NavLink to='/seminar'>{translations[language]['seminar']}</NavLink>
+                                    <NavLink to='/master-class'>{translations[language]['master-class']}</NavLink>
+                                    <NavLink to='/other'>{translations[language]['other']}</NavLink>
 
                                 </nav>
                             </div>

@@ -1,4 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import translations from '../translations.json'
+
 import axios from 'axios';
 import Select from 'react-select'
 import DatePicker from "react-multi-date-picker";
@@ -9,13 +12,11 @@ import { RangeSlider } from 'rsuite';
 import 'rsuite/RangeSlider/styles/index.css';
 
 
-// import RangeSlider from 'react-range-slider-input';
-
-
 
 const EventPage = () => {
 
-  const { category } = useParams();
+  const { category, language } = useParams();
+  const navigate = useNavigate()
 
   const [events, setEvents] = useState([]);
   const [page, setPage] = useState(1);
@@ -33,11 +34,59 @@ const EventPage = () => {
   const [showWarning, setShowWarning] = useState(false);
 
 
+  const getVenueName = (language) => {
+    switch(language) {
+      case 'az':
+      return "Məkan seçin";
+      case 'en':
+      return "Choose venue";
+      case 'ru':
+      return "Выберите местоположение";
+      default:
+        return "Məkan seçin";
+    }
+  }
+  const venueTitle = getVenueName(language);
+  const getDateName = (language) => {
+    switch(language) {
+      case 'az':
+      return "Tarix aralığını seçin";
+      case 'en':
+      return "Choose date range";
+      case 'ru':
+      return "Выберите диапазон дат";
+      default:
+        return "Tarix aralığını seçin";
+    }
+  }
+
+  const dateTitle = getDateName(language);
+
+
+  const getPriceName = (language) => {
+    switch(language) {
+      case 'az':
+      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+      case 'en':
+      return `Price from ${minPrice} ₼ to ${maxPrice}`;
+      case 'ru':
+      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
+      default:
+        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+    }
+  }
+
+  const priceTitle = getPriceName(language);
+
+
+
+
 
   const fetchData = useCallback(async (pageNumber, category, startDate, endDate, venueId, minPrice, maxPrice) => {
     try {
       setLoading(true);
-      let url = `https://api.iticket.az/az/v5/events?client=web`;
+      let url = `https://api.iticket.az/${language}/v5/events?client=web`;
+
       if (category) {
         url += `&category_slug=${category}`
       }
@@ -92,7 +141,7 @@ const EventPage = () => {
       setLoading(false);
       setTimeout(() => setShowWarning(true), 1000);
     }
-  }, [minPriceAPI, maxPriceAPI]);
+  }, [minPriceAPI, maxPriceAPI, language]);
 
 
   const handleLoadMore = () => {
@@ -103,16 +152,90 @@ const EventPage = () => {
   const handleVenueChange = selectedOption => {
     setSelectedVenue(selectedOption);
     setPage(1)
+    const venueId = selectedOption ? selectedOption.value : null;
+    let url = '';
+
+    if (startDate && endDate) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
+    } else if (startDate) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(startDate)}`;
+    }
+
+    if (venueId) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `venue_id=${venueId}`;
+    }
+
+    if ((minPrice !== null || maxPrice !== null) && (minPrice !== minPriceAPI || maxPrice !== maxPriceAPI)) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `min_price=${minPrice}&max_price=${maxPrice}`;
+    }
+
+
+    navigate(url);
   };
 
   const handleDateChange = (dates) => {
+    let url = '';
+    if (selectedVenue.value) {
+      if(url !== ''){
+        url += '&'
+      }
+      else {
+        url += '?';
+      }
+      url += `venue_id=${selectedVenue.value}`;
+    }
+
+    if ((minPrice !== null || maxPrice !== null) && (minPrice !== minPriceAPI || maxPrice !== maxPriceAPI)) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `min_price=${minPrice}&max_price=${maxPrice}`;
+    }
+
     if (dates.length === 1) {
+      if(url !== ''){
+        url += '&'
+      }
+      else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(dates[0])}`;
       setStartDate(dates[0]);
       setEndDate(null);
     } else if (dates.length === 2) {
+      if(url !== ''){
+        url += '&'
+      }
+      else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(dates[0])}&end_date=${formatDate(dates[1])}`;
       setStartDate(dates[0]);
       setEndDate(dates[1]);
     }
+    navigate(url);
   };
 
   const formatDate = date => {
@@ -129,8 +252,7 @@ const EventPage = () => {
     setMinPriceAPI(null)
     setMaxPrice(null)
     setMinPrice(null)
-
-  }, [category]);
+  }, [category, language]);
 
 
   useEffect(() => {
@@ -144,11 +266,45 @@ const EventPage = () => {
     if (minPrice !== null && maxPrice !== null) {
       setMinPrice(minValue);
       setMaxPrice(maxValue);
+      let url = '';
+
+    if (startDate && endDate) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
+    } else if (startDate) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `start_date=${formatDate(startDate)}`;
+    }
+
+    if (selectedVenue && selectedVenue.value) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      } 
+      url += `venue_id=${selectedVenue.value}`;
+    }
+
+    if (minValue !== null || maxValue !== null) {
+      if (url !== '') {
+        url += '&';
+      } else {
+        url += '?';
+      }
+      url += `min_price=${minValue}&max_price=${maxValue}`;
+    }
+
+    navigate(url);
     }
   };
-
-  // console.log(`MinPrice ${minPrice}`)
-  // console.log(`MaxPrice ${maxPrice}`)
 
 
   return (
@@ -160,7 +316,7 @@ const EventPage = () => {
         <div className="grid lg:grid-cols-3 gap-10">
           <div className='form-control flex items-center shadow-md'>
             <Select classNamePrefix="react-select"
-              placeholder='Məkanı seçin'
+              placeholder={venueTitle}
               className='react-select-container z-20 w-full text-start'
               options={venues}
               onChange={handleVenueChange}
@@ -173,7 +329,7 @@ const EventPage = () => {
               format="DD MMM YYYY"
               maxDate={endDate}
               multiple={false}
-              placeholder='Tarix aralığını seçin'
+              placeholder={dateTitle}
               containerClassName='DatePicker myDatePicker'
               inputClass='DatePicker'
               minDate={new Date()}
@@ -184,15 +340,15 @@ const EventPage = () => {
           <div className='form-control relative flex items-center shadow-md flex-col'>
             <input type='text' className='w-full text-center price-sorter'
               placeholder={
-                (minPrice === null || maxPrice === null) ? '' : `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`
+                (minPrice === null || maxPrice === null) ? '' : priceTitle
               }
               readOnly />
-              {(minPrice !== null || maxPrice !== null) &&
-            <RangeSlider className='w-full absolute -bottom-5'
-              min={minPriceAPI}
-              max={maxPriceAPI}
-              value={[minPrice, maxPrice]}
-              onChange={handleSliderChange} /> }
+            {(minPrice !== null || maxPrice !== null) &&
+              <RangeSlider className='w-full absolute -bottom-5'
+                min={minPriceAPI}
+                max={maxPriceAPI}
+                value={[minPrice, maxPrice]}
+                onChange={handleSliderChange} />}
           </div>
         </div>
       </div>
@@ -248,12 +404,12 @@ const EventPage = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-            Yüklənir...
+          {translations[language]['loading']}
           </button>}
 
           {hasMore && !loading && (
             <button onClick={handleLoadMore} className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4'>
-              Daha çox
+              {translations[language]['loadmore']}
             </button>
           )}
         </div>
