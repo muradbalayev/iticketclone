@@ -201,12 +201,16 @@ const Header = () => {
                                     </svg>
                                 </a>
                                 <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
-                                    <a className='text-gray-400 border-e' href="!#">
-                                        EN
-                                    </a>
-                                    <a className='text-gray-400' href="!#">
-                                        RU
-                                    </a>
+                                {filteredLanguages.map(lang => (
+                            <NavLink
+                                to={`/${lang.code}/${currentCategory}`}
+                                key={lang.code}
+                                className={`text-gray-400 text-sm font-medium px-0.5 first:border-e`}
+                                onClick={() => handleLanguageChange(lang.code)}
+                            >
+                                {lang.label}
+                            </NavLink>
+                        ))}
                                 </div>
                             </div>
 
