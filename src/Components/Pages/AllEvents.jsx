@@ -7,7 +7,7 @@ import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';
 import 'rsuite/RangeSlider/styles/index.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 
 const AllEvents = () => {
@@ -357,7 +357,7 @@ const AllEvents = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <a key={event.id} href={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
                   <div className='relative'>
                       <div className='image'>
                         <img
@@ -392,7 +392,7 @@ const AllEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             ) : (showWarning && <div className='warning mt-7 relative flex items-center gap-2'>
