@@ -357,8 +357,8 @@ const AllEvents = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <a key={event.name} href='!#' className='event-list-item'>
-                    <div className='relative'>
+                  <a key={event.id} href={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                  <div className='relative'>
                       <div className='image'>
                         <img
                           src={noposter}

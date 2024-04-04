@@ -13,7 +13,7 @@ import EventDetail from './Pages/EventDetail';
 
 
 function App() {
-  const { language } = useParams()
+  const { language, category } = useParams()
   console.log(language)
   
   return (
@@ -22,8 +22,8 @@ function App() {
       <Routes>
       <Route path="/" element={<Home/>} exact/>
       <Route path="/:language" element={<AllEvents/>} exact/>
-      <Route path='/eventdetail' element={<EventDetail/>} exact />
       <Route path="/:language/:category" element={<EventPage/>} exact/>
+      <Route path='/:language/:category/:slug' element={<EventDetail category={category}/>} exact />
       <Route path='/:language/cart' element={<Cart/>} exact/>
       <Route path='/:language/favorites' element={<Favorites/>} exact/>
       </Routes>

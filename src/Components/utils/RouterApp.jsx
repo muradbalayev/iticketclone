@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter} from "react-router-dom";
 import AllEvents from "../Pages/AllEvents";
 import EventPage from "../Pages/EventPage";
 import App from "../App";
@@ -22,7 +22,7 @@ export const RouterApp = createBrowserRouter([
                 element: <AllEvents />
             },
             {
-                path: 'eventdetail',
+                path: ':language/:category/:slug',
                 element: <EventDetail/>
             },
             {

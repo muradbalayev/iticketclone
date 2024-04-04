@@ -29,34 +29,34 @@ const Header = () => {
     useEffect(() => {
         // Ensure ScrollTrigger is enabled
         gsap.registerPlugin(ScrollTrigger);
-    
+
         let lastScroll = 0;
-    
+
         // Function to handle the scroll direction
         const handleScroll = () => {
-          const currentScroll = window.pageYOffset;
-          const scrollUp = currentScroll < lastScroll;
-    
-          // If scrolling up, move the header to the top
-          if (scrollUp) {
-            gsap.to('.header', { top: 0, duration: .8, ease: 'power2.inOut' });
-          } else {
-            // If scrolling down, keep the header static
-            gsap.to('.header', { top: '-100%', duration: .2, ease: 'power1.inOut' });
-          }
-    
-          lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+            const currentScroll = window.pageYOffset;
+            const scrollUp = currentScroll < lastScroll;
+
+            // If scrolling up, move the header to the top
+            if (scrollUp) {
+                gsap.to('.header', { top: 0, duration: .8, ease: 'power2.inOut' });
+            } else {
+                // If scrolling down, keep the header static
+                gsap.to('.header', { top: '-100%', duration: .2, ease: 'power1.inOut' });
+            }
+
+            lastScroll = currentScroll <= 0 ? 0 : currentScroll;
         };
-    
+
         // Add event listener for scroll
         window.addEventListener('scroll', handleScroll);
-    
+
         // Cleanup function to remove event listener
         return () => {
-          window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
-      }, []);
-    
+    }, []);
+
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem('language');
@@ -91,16 +91,20 @@ const Header = () => {
         }
         return '';
     };
-
     const currentCategory = getCategoryFromUrl();
 
-    //      https://iticket.az/en/concerts
-    //     window.location.href =url
-    // const url =[
-    //     url[0] = 'https://iticket.az/',
-    //     url[1] = language
-    //     url[2] = category
-    // ]
+    const getSlugFromUrl = () => {
+        const parts = location.pathname.split('/');
+        const languageIndex = parts.findIndex(part => ['az', 'ru', 'en'].includes(part));
+        if (languageIndex >= 0) {
+            const categoryIndex = languageIndex + 2;
+            if (categoryIndex < parts.length && parts[categoryIndex] !== '') {
+                return parts[categoryIndex];
+            }
+        }
+        return '';
+    };    const currentSlug = getSlugFromUrl();
+
 
 
 
@@ -237,8 +241,8 @@ const Header = () => {
                                 <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
                                     {filteredLanguages.map(lang => (
                                         <NavLink
-                                            to={`/${lang.code}/${currentCategory}`}
-                                            key={lang.code}
+                                        to={`/${lang.code}${currentCategory ? `/${currentCategory}` : ''}${currentSlug ? `/${currentSlug}` : ''}`}
+                                        key={lang.code}
                                             className={`text-gray-400 text-sm font-medium px-0.5 first:border-e`}
                                             onClick={() => handleLanguageChange(lang.code)}
                                         >
@@ -330,7 +334,7 @@ const Header = () => {
                     <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
                         {filteredLanguages.map(lang => (
                             <NavLink
-                                to={`/${lang.code}${currentCategory ? `/${currentCategory}` : ''}`}
+                                to={`/${lang.code}${currentCategory ? `/${currentCategory}` : ''}${currentSlug ? `/${currentSlug}` : ''}`}
                                 key={lang.code}
                                 className={`text-gray-400 text-sm font-medium px-0.5 first:border-e`}
                                 onClick={() => handleLanguageChange(lang.code)}
