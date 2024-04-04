@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
+
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select'
 import DatePicker from "react-multi-date-picker";
@@ -11,6 +13,9 @@ import 'rsuite/RangeSlider/styles/index.css';
 
 const Home = () => {
   const navigate = useNavigate()
+
+  const language = 'az'
+
 
   const [events, setEvents] = useState([]);
   const [page, setPage] = useState(1);
@@ -79,7 +84,7 @@ const Home = () => {
       setLoading(false);
       setTimeout(() => setShowWarning(true), 1000);
     }
-  }, [ minPriceAPI, maxPriceAPI]);
+  }, [minPriceAPI, maxPriceAPI]);
 
 
   const handleLoadMore = () => {
@@ -134,7 +139,7 @@ const Home = () => {
   const handleDateChange = (dates) => {
     let url = '';
     if (selectedVenue && selectedVenue.value) {
-        if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -153,7 +158,7 @@ const Home = () => {
     }
 
     if (dates.length === 1) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -163,7 +168,7 @@ const Home = () => {
       setStartDate(dates[0]);
       setEndDate(null);
     } else if (dates.length === 2) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -183,41 +188,41 @@ const Home = () => {
       setMaxPrice(maxValue);
       let url = '';
 
-    if (startDate && endDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (startDate && endDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
+      } else if (startDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}`;
       }
-      url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
-    } else if (startDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+
+      if (selectedVenue && selectedVenue.value) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `venue_id=${selectedVenue.value}`;
       }
-      url += `start_date=${formatDate(startDate)}`;
-    }
 
-    if (selectedVenue && selectedVenue.value) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
-      } 
-      url += `venue_id=${selectedVenue.value}`;
-    }
-
-    if (minValue !== null || maxValue !== null) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (minValue !== null || maxValue !== null) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `min_price=${minValue}&max_price=${maxValue}`;
       }
-      url += `min_price=${minValue}&max_price=${maxValue}`;
-    }
 
-    navigate(url);
+      navigate(url);
     }
   };
 
@@ -229,7 +234,7 @@ const Home = () => {
 
 
   useEffect(() => {
-    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null,  minPrice, maxPrice);
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
   }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice]);
 
 
@@ -269,12 +274,12 @@ const Home = () => {
                 (minPrice === null || maxPrice === null) ? '' : `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`
               }
               readOnly />
-              {(minPrice !== null || maxPrice !== null) &&
-            <RangeSlider className='w-full absolute -bottom-5'
-              min={minPriceAPI}
-              max={maxPriceAPI}
-              value={[minPrice, maxPrice]}
-              onChange={handleSliderChange} /> }
+            {(minPrice !== null || maxPrice !== null) &&
+              <RangeSlider className='w-full absolute -bottom-5'
+                min={minPriceAPI}
+                max={maxPriceAPI}
+                value={[minPrice, maxPrice]}
+                onChange={handleSliderChange} />}
           </div>
         </div>
       </div>
@@ -284,7 +289,7 @@ const Home = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <a key={event.name} href='!#' className='event-list-item'>
+                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
                     <div className='relative'>
                       <div className='image'>
                         <img
@@ -318,7 +323,7 @@ const Home = () => {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             ) : (showWarning && <div className='warning mt-7 relative flex items-center gap-2'>
@@ -330,12 +335,12 @@ const Home = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-Daha çox
+            Yüklənir...
           </button>}
 
           {hasMore && !loading && (
             <button onClick={handleLoadMore} className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4'>
-Yüklənir...
+              Daha çox
             </button>
           )}
         </div>

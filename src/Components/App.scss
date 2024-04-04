@@ -667,6 +667,7 @@ footer {
 .event-image{
   max-width: 1420px;
     min-height: 300px;
+    filter: drop-shadow(0 52px 94px rgba(0, 0, 0, .3));
 }
 
 }
@@ -690,6 +691,8 @@ footer {
 @media (min-width: 1024px) {
   .content-container {
     max-width: 1024px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 

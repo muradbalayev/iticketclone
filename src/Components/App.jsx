@@ -20,7 +20,7 @@ function App() {
     <div className='relative'>
       <Header/>
       <Routes>
-      <Route path="/" element={<Home/>} exact/>
+      <Route path="/" element={<Home language={language} />} exact/>
       <Route path="/:language" element={<AllEvents/>} exact/>
       <Route path="/:language/:category" element={<EventPage/>} exact/>
       <Route path='/:language/:category/:slug' element={<EventDetail category={category}/>} exact />
