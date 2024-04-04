@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import translations from "./translations.json"
 import { heart } from 'react-icons-kit/feather/heart'
 import Icon from 'react-icons-kit'
@@ -68,8 +68,6 @@ const Header = () => {
     const handleLanguageChange = (newLanguage) => {
         setLanguage(newLanguage);
         localStorage.setItem('language', newLanguage);
-        // window.location.reload(); 
-        // window.location.href = `${window.location.origin}/${newLanguage}${location.pathname}`;
     };
 
     const languages = [
@@ -219,7 +217,7 @@ const Header = () => {
                     <div className='mobile-navigation relative flex flex-col'>
                         <div className='mobilenav-header pt-6 px-4'>
                             <div className='flex justify-between items-center mb-6'>
-                                <a href={`/${language}`} className="logo">
+                                <Link to={`/${language}`} className="logo">
                                     <svg viewBox="0 0 160 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M28.4104 40.7111V42.6294H6.7431C3.01861 42.6294 0.000244141 39.6111 0.000244141 35.8874V7.15433C0.000244141 3.42616 3.01861 0.408203 6.7431 0.408203H28.4104V2.3229C26.7358 2.34902 25.377 3.71555 25.377 5.39677C25.377 7.07514 26.7358 8.44167 28.4104 8.46412V10.3862C26.7358 10.4127 25.377 11.7751 25.377 13.4572C25.377 15.1392 26.7358 16.5049 28.4104 16.5278V18.4462C26.7358 18.4727 25.377 19.8351 25.377 21.5204C25.377 23.1988 26.7358 24.5649 28.4104 24.5874V26.5098C26.7358 26.5323 25.377 27.8984 25.377 29.5804C25.377 31.2584 26.7358 32.6286 28.4104 32.6515V34.5694C26.7358 34.5923 25.377 35.9584 25.377 37.6409C25.377 39.3221 26.7358 40.6886 28.4104 40.7111" fill="#FFDC00"></path>
                                         <path d="M124.469 30.4205C124.469 31.8278 123.327 32.9691 121.919 32.9691C120.512 32.9691 119.374 31.8278 119.374 30.4205C119.374 29.0123 120.512 27.8711 121.919 27.8711C123.327 27.8711 124.469 29.0123 124.469 30.4205Z" fill="#FFDC00"></path>
@@ -237,7 +235,7 @@ const Header = () => {
                                         <path d="M138.01 28.0396C138.891 27.1898 139.332 26.089 139.332 24.7368C139.332 23.3849 138.891 22.2792 138.01 21.4188C137.129 20.558 136.115 20.1278 134.968 20.1278C133.718 20.1278 132.688 20.5482 131.879 21.3878C131.07 22.2278 130.665 23.3441 130.665 24.7368C130.665 26.1298 131.07 27.2413 131.879 28.0702C132.688 28.9 133.718 29.3147 134.968 29.3147C136.115 29.3147 137.129 28.8898 138.01 28.0396ZM143.388 32.3878H139.332V31.1894C137.959 32.2955 136.269 32.8486 134.261 32.8486C132.233 32.8486 130.47 32.08 128.975 30.5445C127.479 29.0078 126.732 27.0723 126.732 24.7368C126.732 22.4017 127.484 20.4613 128.99 18.9147C130.496 17.3678 132.253 16.5947 134.261 16.5947C136.289 16.5947 137.979 17.158 139.332 18.2845V17.0551H143.388V32.3878Z" fill="#828283"></path>
                                         <path d="M159.829 32.3876H146.215V29.7451L154.451 20.3741H146.43V17.0553H159.46V19.7594L151.224 29.0692H159.829V32.3876Z" fill="#828283"></path>
                                     </svg>
-                                </a>
+                                </Link>
                                 <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
                                     {filteredLanguages.map(lang => (
                                         <NavLink
@@ -264,7 +262,7 @@ const Header = () => {
                             <div className='list-group z-50 flex flex-col items-center w-full rounded-t-xl rounded-b-xl overflow-x-hidden overflow-y-scroll absolute'>
 
                                 {events.length > 0 && (
-                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
+                                    <p className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
                                 )}
                                 {events.map((event, index) => (
                                     <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{event}</a>
@@ -272,7 +270,7 @@ const Header = () => {
 
 
                                 {venues.length > 0 && (
-                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
+                                    <p className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
                                 )}
                                 {venues.map((venue, index) => (
                                     <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{venue}</a>
@@ -310,7 +308,7 @@ const Header = () => {
                 <button onClick={() => { setOpenNav(!openNav) }} className='text-gray-400 xl:hidden block me-12'>
                     <Icon icon={menu} size={25} />
                 </button>
-                <a href={`/${language}`} className="logo">
+                <Link to={`/${language}`} className="logo">
                     <svg viewBox="0 0 160 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M28.4104 40.7111V42.6294H6.7431C3.01861 42.6294 0.000244141 39.6111 0.000244141 35.8874V7.15433C0.000244141 3.42616 3.01861 0.408203 6.7431 0.408203H28.4104V2.3229C26.7358 2.34902 25.377 3.71555 25.377 5.39677C25.377 7.07514 26.7358 8.44167 28.4104 8.46412V10.3862C26.7358 10.4127 25.377 11.7751 25.377 13.4572C25.377 15.1392 26.7358 16.5049 28.4104 16.5278V18.4462C26.7358 18.4727 25.377 19.8351 25.377 21.5204C25.377 23.1988 26.7358 24.5649 28.4104 24.5874V26.5098C26.7358 26.5323 25.377 27.8984 25.377 29.5804C25.377 31.2584 26.7358 32.6286 28.4104 32.6515V34.5694C26.7358 34.5923 25.377 35.9584 25.377 37.6409C25.377 39.3221 26.7358 40.6886 28.4104 40.7111" fill="#FFDC00"></path>
                         <path d="M124.469 30.4205C124.469 31.8278 123.327 32.9691 121.919 32.9691C120.512 32.9691 119.374 31.8278 119.374 30.4205C119.374 29.0123 120.512 27.8711 121.919 27.8711C123.327 27.8711 124.469 29.0123 124.469 30.4205Z" fill="#FFDC00"></path>
@@ -328,7 +326,7 @@ const Header = () => {
                         <path d="M138.01 28.0396C138.891 27.1898 139.332 26.089 139.332 24.7368C139.332 23.3849 138.891 22.2792 138.01 21.4188C137.129 20.558 136.115 20.1278 134.968 20.1278C133.718 20.1278 132.688 20.5482 131.879 21.3878C131.07 22.2278 130.665 23.3441 130.665 24.7368C130.665 26.1298 131.07 27.2413 131.879 28.0702C132.688 28.9 133.718 29.3147 134.968 29.3147C136.115 29.3147 137.129 28.8898 138.01 28.0396ZM143.388 32.3878H139.332V31.1894C137.959 32.2955 136.269 32.8486 134.261 32.8486C132.233 32.8486 130.47 32.08 128.975 30.5445C127.479 29.0078 126.732 27.0723 126.732 24.7368C126.732 22.4017 127.484 20.4613 128.99 18.9147C130.496 17.3678 132.253 16.5947 134.261 16.5947C136.289 16.5947 137.979 17.158 139.332 18.2845V17.0551H143.388V32.3878Z" fill="#828283"></path>
                         <path d="M159.829 32.3876H146.215V29.7451L154.451 20.3741H146.43V17.0553H159.46V19.7594L151.224 29.0692H159.829V32.3876Z" fill="#828283"></path>
                     </svg>
-                </a>
+                </Link>
                 {/* Header Middle */}
                 <div className='items-center justify-start xl:flex xl:grow hidden'>
                     <div className="lang-switcher flex mx-10 border border-gray-300 rounded-md">
@@ -373,19 +371,19 @@ const Header = () => {
                 </div>
                 {/* Header End */}
                 <div className='buttons flex items-center'>
-                    <a className='lg:block hidden' href={`/${language}/favorites`}>
+                    <Link className='lg:block hidden' to={`/${language}/favorites`}>
                         <button className='p-3 flex items-center justify-center'>
                             <Icon className='text-gray-400' size={22} icon={heart} />
                         </button>
-                    </a>
+                    </Link>
                     <button onClick={() => { handleSearchModal() }} className='p-3 xl:flex hidden items-center justify-center'>
                         <Icon className='text-gray-400 text-center' size={22} icon={search} />
                     </button>
-                    <a href={`/${language}/cart`}>
+                    <Link to={`/${language}/cart`}>
                         <button className='p-3 flex items-center justify-center xl:me-8 text-gray-400'>
                             <Icon size={22} className=' text-center' icon={ic_shopping_cart} /><p className='text-sm font-bold'>{wishlist}</p>
                         </button>
-                    </a>
+                    </Link>
                     <button onClick={() => { handleLoginModal() }} className='profile p-3 w-12 h-12 rounded-full flex items-center justify-center orange'>
                         <Icon icon={user} size={25} />
                     </button>

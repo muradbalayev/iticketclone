@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import translations from '../translations.json'
 import axios from 'axios';
 import Select from 'react-select'
@@ -356,7 +356,7 @@ const EventPage = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <a key={event.id} href={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
                     <div className='relative'>
                       <div className='image'>
                         <img
@@ -391,7 +391,7 @@ const EventPage = () => {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             ) : (showWarning && <div className='warning mt-7 relative flex items-center gap-2'>
