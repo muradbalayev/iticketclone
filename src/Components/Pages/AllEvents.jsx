@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import translations from '../translations.json'
-
 import axios from 'axios';
 import Select from 'react-select'
 import DatePicker from "react-multi-date-picker";
@@ -8,8 +7,7 @@ import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';
 import 'rsuite/RangeSlider/styles/index.css';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 const AllEvents = () => {
@@ -243,7 +241,7 @@ const AllEvents = () => {
   };
   
   const formatDate = date => {
-    const formattedDate = new Date(date).toLocaleDateString('en-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     return formattedDate.split('.').join('.');
   };
   

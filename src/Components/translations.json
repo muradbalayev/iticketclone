@@ -2,6 +2,8 @@
   "az": {
     "loadmore": "Daha çox",
     "loading": "Yüklənir...",
+    "events": "Tədbirlər",
+    "venues": "Məkanlar",
     "all_events": "Bütün tədbirlər",
     "concerts": "Konsert",
     "theatre": "Tamaşa",
@@ -23,6 +25,8 @@
   "en": {
     "loadmore": "Load more",
     "loading": "Loading...",
+    "events": "Events",
+    "venues": "Venues",
     "all_events": "All Events",
     "concerts": "Concerts",
     "theatre": "Theatre",
@@ -44,6 +48,8 @@
   "ru": {
     "loadmore": "Более",
     "loading": "Загрузка...",
+    "events": "События",
+    "venues": "Локации",
     "all_events": "Все события",
     "concerts": "Концерты",
     "theatre": "Театр",

@@ -28,6 +28,7 @@ const SearchModal = ({ show, onHide, language }) => {
                 });
         } else {
             setEvents([]);
+            setVenues([]);
         }
     }, [inputValue, language]);
 
@@ -65,7 +66,7 @@ const SearchModal = ({ show, onHide, language }) => {
                 <div className='list-group flex flex-col items-center w-full mt-6 rounded-t-xl rounded-b-xl overflow-x-hidden'>
                   
                     {events.length > 0 && (
-                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>Tədbirlər</p>
+                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
                     )}
                     {events.map((event, index) => (
                         <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{event}</a>
@@ -73,7 +74,7 @@ const SearchModal = ({ show, onHide, language }) => {
                     
                    
                      {venues.length > 0 && (
-                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>Məkanlar</p>
+                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
                     )}
                     {venues.map((venue, index) => (
                         <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{venue}</a>

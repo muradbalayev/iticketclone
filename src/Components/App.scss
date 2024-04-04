@@ -15,12 +15,23 @@
 }
 
 // Header
+.sticky {
+  transition: .8s ease;
+  position: sticky;
+  top: 0;
+}
+
+.header-hidden {
+  transform: translateY(-100%);
+}
 
 .wrapper {
   max-width: 1440px;
 }
 
 .header {
+transition: .3 ease;
+
   .logo {
     flex: 0 0 160px;
     width: 160px;
@@ -182,7 +193,7 @@
   position: fixed;
   right: 0px;
   width: 100%;
-  z-index: 30;
+  z-index: 60;
   height: 100vh;
 
 
@@ -212,7 +223,7 @@
   bottom: 0px;
   position: sticky;
   right: 0px;
-  z-index: 30;
+  z-index: 60;
   height: 100vh;
 
   .modal-dialog {
@@ -648,6 +659,21 @@ footer {
     }
   }
 }
+
+//Event Details
+
+.event-detail{
+
+.event-image{
+  max-width: 1420px;
+    min-height: 300px;
+}
+
+}
+
+
+
+
 
 @media (min-width: 640px) {
   .content-container {

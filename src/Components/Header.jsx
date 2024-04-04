@@ -12,6 +12,10 @@ import LoginModal from './Modals/LoginModal'
 import { x } from 'react-icons-kit/feather/x'
 import SearchModal from './Modals/SearchModal'
 import axios from 'axios'
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+
 
 
 const Header = () => {
@@ -21,6 +25,38 @@ const Header = () => {
     const [searchModalShow, setSearchModalShow] = useState(false);
     const [openNav, setOpenNav] = useState(false)
     const [language, setLanguage] = useState(localStorage.getItem('language') || 'az');
+
+    useEffect(() => {
+        // Ensure ScrollTrigger is enabled
+        gsap.registerPlugin(ScrollTrigger);
+    
+        let lastScroll = 0;
+    
+        // Function to handle the scroll direction
+        const handleScroll = () => {
+          const currentScroll = window.pageYOffset;
+          const scrollUp = currentScroll < lastScroll;
+    
+          // If scrolling up, move the header to the top
+          if (scrollUp) {
+            gsap.to('.header', { top: 0, duration: .8, ease: 'power2.inOut' });
+          } else {
+            // If scrolling down, keep the header static
+            gsap.to('.header', { top: '-100%', duration: .2, ease: 'power1.inOut' });
+          }
+    
+          lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+        };
+    
+        // Add event listener for scroll
+        window.addEventListener('scroll', handleScroll);
+    
+        // Cleanup function to remove event listener
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
+    
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem('language');
@@ -159,7 +195,7 @@ const Header = () => {
 
     const wishlist = 0;
     return (
-        <div className='header w-full bg-white shadow-md'>
+        <div className={`header w-full bg-white shadow-md z-50 sticky`}>
             <LoginModal
                 language={language}
                 show={loginModalShow}
@@ -170,8 +206,6 @@ const Header = () => {
                 show={searchModalShow}
                 onHide={() => { setSearchModalShow(false); }}
             />
-
-
             {
                 openNav &&
                 <div className='mobile-overlay bg-black z-50 fixed'>
@@ -222,11 +256,11 @@ const Header = () => {
                                     className='search-input w-full border rounded-lg' />
                             </div>
                         </div>
-                        <div className='mobilenav-body overflow-x-hidden overflow-y-scroll px-4 pt-2 relative'>
+                        <div className='mobilenav-body overflow-x-hidden overflow-y-scroll px-4 pt-2'>
                             <div className='list-group z-50 flex flex-col items-center w-full rounded-t-xl rounded-b-xl overflow-x-hidden overflow-y-scroll absolute'>
 
                                 {events.length > 0 && (
-                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>Tədbirlər</p>
+                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
                                 )}
                                 {events.map((event, index) => (
                                     <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{event}</a>
@@ -234,7 +268,7 @@ const Header = () => {
 
 
                                 {venues.length > 0 && (
-                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>Məkanlar</p>
+                                    <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
                                 )}
                                 {venues.map((venue, index) => (
                                     <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{venue}</a>

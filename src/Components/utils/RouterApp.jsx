@@ -5,6 +5,7 @@ import App from "../App";
 import Cart from "../Pages/Cart";
 import Favorites from "../Pages/Favorites";
 import Home from "../Pages/Home";
+import EventDetail from "../Pages/EventDetail";
 
 
 export const RouterApp = createBrowserRouter([
@@ -12,6 +13,18 @@ export const RouterApp = createBrowserRouter([
         path: '/*',
         element: <App />,
         children: [
+            {
+                path: '',
+                element: <Home />
+            },
+            {
+                path: ':language',
+                element: <AllEvents />
+            },
+            {
+                path: 'eventdetail',
+                element: <EventDetail/>
+            },
             {
                 path: ':language/cart',
                 element: <Cart/>
@@ -23,14 +36,6 @@ export const RouterApp = createBrowserRouter([
             {
                 path: ':language/:category',
                 element: <EventPage />
-            },
-            {
-                path: ':language',
-                element: <AllEvents />
-            },
-            {
-                path: '',
-                element: <Home />
             }
         ]
     }

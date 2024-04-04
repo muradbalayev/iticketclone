@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import translations from '../translations.json'
-
 import axios from 'axios';
 import Select from 'react-select'
 import DatePicker from "react-multi-date-picker";
-import { useParams } from 'react-router-dom';
 import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';

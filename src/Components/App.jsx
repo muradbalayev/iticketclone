@@ -8,6 +8,7 @@ import AllEvents from './Pages/AllEvents';
 import Cart from './Pages/Cart';
 import Favorites from './Pages/Favorites';
 import Home from './Pages/Home';
+import EventDetail from './Pages/EventDetail';
 
 
 
@@ -21,6 +22,7 @@ function App() {
       <Routes>
       <Route path="/" element={<Home/>} exact/>
       <Route path="/:language" element={<AllEvents/>} exact/>
+      <Route path='/eventdetail' element={<EventDetail/>} exact />
       <Route path="/:language/:category" element={<EventPage/>} exact/>
       <Route path='/:language/cart' element={<Cart/>} exact/>
       <Route path='/:language/favorites' element={<Favorites/>} exact/>
