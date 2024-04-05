@@ -21,7 +21,8 @@
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
     "rsuite": "^5.58.1",
-    "sass": "^1.72.0"
+    "sass": "^1.72.0",
+    "yet-another-react-lightbox": "^3.17.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
