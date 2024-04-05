@@ -256,7 +256,7 @@ const EventDetail = ({ category }) => {
                                         </p>
                                     </div>
                                 </div>
-                                    <a href={`https://maps.google.com/maps?q=${locations[0].map_lat},${locations[0].map_lng}`} target="_blank" className="btn mt-2">
+                                    <a href={`https://maps.google.com/maps?q=40.3767902,49.8409054`} target="_blank" className="btn mt-2">
                                         <button className='orange rounded-full text-black text-xl font-bold py-4 px-12'>
                                     İstiqamət
                                         </button>
