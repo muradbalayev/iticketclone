@@ -22,7 +22,7 @@ export const RouterApp = createBrowserRouter([
                 element: <AllEvents />
             },
             {
-                path: ':language/:category/:slug/:page',
+                path: ':language/:category/:slug',
                 element: <EventDetail/>
             },
             {
