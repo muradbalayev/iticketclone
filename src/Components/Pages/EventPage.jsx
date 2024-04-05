@@ -356,8 +356,9 @@ const EventPage = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
-                    <div className='relative'>
+                  // <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}${(page > 1) ? `/${page}` : ''}`} className='event-list-item'>
+                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}/${page}`} className='event-list-item'>
+                   <div className='relative'>
                       <div className='image'>
                         <img
                           src={noposter}

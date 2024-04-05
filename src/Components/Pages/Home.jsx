@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select'
+import translations from '../translations.json'
 import DatePicker from "react-multi-date-picker";
 import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
@@ -14,9 +15,8 @@ import 'rsuite/RangeSlider/styles/index.css';
 const Home = () => {
   const navigate = useNavigate()
 
-  const language = 'az'
 
-
+  const language = localStorage.getItem('language') || 'az'
   const [events, setEvents] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -31,11 +31,71 @@ const Home = () => {
   const [maxPriceAPI, setMaxPriceAPI] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
 
+  const getPageTitle = (language) => {
+    switch(language) {
+      case 'az':
+        return "Bütün Tədbirlər";
+      case 'en':
+        return "All Events";
+      case 'ru':
+        return "Все события";
+      default:
+        return "Bütün Tədbirlər";
+    }
+  };
+  const pagetitle = getPageTitle(language);
+
+
+  const getVenueName = (language) => {
+    switch(language) {
+      case 'az':
+      return "Məkan seçin";
+      case 'en':
+      return "Choose venue";
+      case 'ru':
+      return "Выберите местоположение";
+      default:
+        return "Məkan seçin";
+    }
+  }
+  const venueTitle = getVenueName(language);
+  const getDateName = (language) => {
+    switch(language) {
+      case 'az':
+      return "Tarix aralığını seçin";
+      case 'en':
+      return "Choose date range";
+      case 'ru':
+      return "Выберите диапазон дат";
+      default:
+        return "Tarix aralığını seçin";
+    }
+  }
+
+  const dateTitle = getDateName(language);
+
+
+  const getPriceName = (language) => {
+    switch(language) {
+      case 'az':
+      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+      case 'en':
+      return `Price from ${minPrice} ₼ to ${maxPrice}`;
+      case 'ru':
+      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
+      default:
+        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+    }
+  }
+
+  const priceTitle = getPriceName(language);
+
+
 
   const fetchData = useCallback(async (pageNumber, startDate, endDate, venueId, minPrice, maxPrice) => {
     try {
       setLoading(true);
-      let url = `https://api.iticket.az/az/v5/events?client=web`;
+      let url = `https://api.iticket.az/${language}/v5/events?client=web`;
 
       if (pageNumber > 1) {
         url += `&page=${pageNumber}`
@@ -84,7 +144,7 @@ const Home = () => {
       setLoading(false);
       setTimeout(() => setShowWarning(true), 1000);
     }
-  }, [minPriceAPI, maxPriceAPI]);
+  }, [minPriceAPI, maxPriceAPI, language]);
 
 
   const handleLoadMore = () => {
@@ -241,13 +301,13 @@ const Home = () => {
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
-        <h1 className="page-title">Bütün Tədbirlər</h1>
+        <h1 className="page-title">{pagetitle}</h1>
       </div>
       <div className="content-container concert-filter mx-auto pt-7 px-3 lg:px-0 lg:pt-12 pb-6">
         <div className="grid lg:grid-cols-3 gap-10">
           <div className='form-control flex items-center shadow-md'>
             <Select classNamePrefix="react-select"
-              placeholder="Məkan seçin"
+              placeholder={venueTitle}
               className='react-select-container z-20 w-full text-start'
               options={venues}
               onChange={handleVenueChange}
@@ -260,7 +320,7 @@ const Home = () => {
               format="DD MMM YYYY"
               maxDate={endDate}
               multiple={false}
-              placeholder="Tarix aralığını seçin"
+              placeholder={dateTitle}
               containerClassName='DatePicker myDatePicker'
               inputClass='DatePicker'
               minDate={new Date()}
@@ -271,7 +331,7 @@ const Home = () => {
           <div className='form-control relative flex items-center shadow-md flex-col'>
             <input type='text' className='w-full text-center price-sorter'
               placeholder={
-                (minPrice === null || maxPrice === null) ? '' : `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`
+                (minPrice === null || maxPrice === null) ? '' : priceTitle
               }
               readOnly />
             {(minPrice !== null || maxPrice !== null) &&
@@ -306,7 +366,7 @@ const Home = () => {
 
                         />
                         <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
-                          <span className="price whitespace-nowrap">{event.min_price} ₼</span>-dan
+                        <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
                         </span>
                       </div>
                       <div className='info lg:p-8 lg:text-xl'>
@@ -315,8 +375,8 @@ const Home = () => {
                         </p>
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
-                            {new Date(event.event_starts_at).toLocaleDateString('tr-TR', { month: 'long', day: 'numeric', year: 'numeric' })}
-                          </div>
+                          {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
+                             { month: 'long', day: 'numeric', year: 'numeric' })}                          </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
                           </div>
@@ -335,12 +395,12 @@ const Home = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-            Yüklənir...
+          {translations[language]['loading']}
           </button>}
 
           {hasMore && !loading && (
             <button onClick={handleLoadMore} className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4'>
-              Daha çox
+              {translations[language]['loadmore']}
             </button>
           )}
         </div>

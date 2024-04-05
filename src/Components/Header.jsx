@@ -258,7 +258,7 @@ const Header = () => {
                                     className='search-input w-full border rounded-lg' />
                             </div>
                         </div>
-                        <div className='mobilenav-body overflow-x-hidden overflow-y-scroll px-4 pt-2'>
+                        <div className='mobilenav-body overflow-x-hidden overflow-y-scroll px-4 pt-2 flex flex-col justify-start h-full'>
                             <div className='list-group z-50 flex flex-col items-center w-full rounded-t-xl rounded-b-xl overflow-x-hidden overflow-y-scroll absolute'>
 
                                 {events.length > 0 && (
