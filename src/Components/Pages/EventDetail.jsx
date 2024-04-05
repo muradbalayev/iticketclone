@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 
 import Icon from 'react-icons-kit'
-import posterwide from '../Images/ZoRQOrI142gHqgRHD6Wa9aVSFzAraiNe2BwCeSH5.jpg'
-import poster from '../Images/bznVyxd836vkSNoEVOHHhi4QdQN8IL433kW8BOpp.jpg'
-import artistimage from '../Images/RYUXEJU1lwFIFaDdw1k8Zu5ELYNlmzIuX82v6AfZ.png'
+// import posterwide from '../Images/ZoRQOrI142gHqgRHD6Wa9aVSFzAraiNe2BwCeSH5.jpg'
+// import poster from '../Images/bznVyxd836vkSNoEVOHHhi4QdQN8IL433kW8BOpp.jpg'
+// import artistimage from '../Images/RYUXEJU1lwFIFaDdw1k8Zu5ELYNlmzIuX82v6AfZ.png'
+// import lightboximg from '../Images/lightbox.jpg'
 import { heart } from 'react-icons-kit/feather/heart'
 import { share } from 'react-icons-kit/feather/share'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import venuesvg from '../Images/venue.svg'
@@ -16,7 +17,7 @@ import localesvg from '../Images/locale.svg'
 import currencysvg from '../Images/currency.svg'
 import infosvg from '../Images/info.svg'
 import ticketssvg from '../Images/tickets.svg'
-import lightboximg from '../Images/lightbox.jpg'
+import noposter from '../Images/no-app-poster.png'
 import Lightbox from 'yet-another-react-lightbox';
 import "yet-another-react-lightbox/styles.css";
 import L from 'leaflet';
@@ -25,10 +26,18 @@ import 'leaflet/dist/leaflet.css';
 
 
 const EventDetail = ({ category }) => {
-    const { language, page } = useParams()
-    const [eventDetail, setEventDetail] = useState([]);
+    const { language } = useParams()
     const [title1, setTitle1] = useState(true);
     const [title2, setTitle2] = useState(false);
+    const [events, setEvents] = useState([]);
+    const [eventsSugg, setEventsSugg] = useState([]);
+
+    const venueId = JSON.parse(localStorage.getItem('venueId'));
+    const minPrice = JSON.parse(localStorage.getItem('minPrice'));
+    const maxPrice = JSON.parse(localStorage.getItem('maxPrice'));
+    const page = JSON.parse(localStorage.getItem('page'));
+
+
 
     const title1Toggle = () => {
         setTitle1(true);
@@ -45,9 +54,10 @@ const EventDetail = ({ category }) => {
         setIsOpen(!isOpen);
     };
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [eventsSugg]);
+
     const [locations, setLocations] = useState([]);
 
     useEffect(() => {
@@ -59,61 +69,123 @@ const EventDetail = ({ category }) => {
         ]);
     }, []);
 
-  useEffect(() => {
-    if (locations.length > 0) {
-        const map = L.map('map').setView([locations[0].map_lat, locations[0].map_lng], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-        locations.forEach(location => {
-            L.marker([location.map_lat, location.map_lng]).addTo(map);
-        });
-        return () => {
-            map.remove();
-        };
-    }
-}, [locations]);
+    useEffect(() => {
+        if (locations.length > 0) {
+            const map = L.map('map').setView([locations[0].map_lat, locations[0].map_lng], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            locations.forEach(location => {
+                L.marker([location.map_lat, location.map_lng]).addTo(map);
+            });
+            return () => {
+                map.remove();
+            };
+        }
+    }, [locations]);
+
+ 
+    // useEffect(() => {
+    //     if (events && events.venues && events.venues.length > 0) {
+    //         const firstVenue = events[0].venues; // Get the first venue
+    //         const map = L.map('map').setView([firstVenue.map_lat, firstVenue.map_lng], 15); // Use coordinates of the first venue
+    //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //             attribution: '© OpenStreetMap contributors'
+    //         }).addTo(map);
+    //         events.venues.forEach(location => {
+    //             L.marker([location.map_lat, location.map_lng]).addTo(map);
+    //         });
+    //         return () => {
+    //             map.remove();
+    //         };
+    //     }
+    // }, [events]);
 
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
                 // https://api.iticket.az/az/v5/events?client=web&category_slug=concerts&venue_id=352&page=1&venue_id=352&min_price=7&max_price=10
                 let url = `https://api.iticket.az/${language}/v5/events?client=web`;
+                let urlSuggestion = `https://api.iticket.az/${language}/v5/events?client=web`;
 
-                if (category) {
-                    url += `&category_slug=${category}`
-                }
                 if (page) {
                     url += `&page=${page}`
                 }
 
+                if (page) {
+                    urlSuggestion += `&page=${page + 1}`
+                }
+
+
+                if (category) {
+                    url += `&category_slug=${category}`
+                    urlSuggestion += `&category_slug=${category}`
+
+                }
+
+                if (venueId) {
+                    url += `&venue_id=${venueId}`
+                }
+
+                if (minPrice && maxPrice) {
+                    url += `&min_price=${minPrice}&max_price=${maxPrice}`;
+                }
+
+
                 const response = await axios.get(url);
-                setEventDetail(response.data.response.data.events.data);
+                const responseSuggestion = await axios.get(urlSuggestion);
+
+                setEvents(response.data.response.events.data);
+                setEventsSugg(responseSuggestion.data.response.events.data);
+
             } catch (error) {
                 console.error('Error fetching event detail:', error);
             }
         };
 
         fetchEventDetail();
-    }, [language, category, page]);
-    console.log(eventDetail);
+    }, [language, category, minPrice, maxPrice, venueId, page]);
+    // console.log(eventDetail);
+
+    const handleEventClick = (eventData) => {
+        const { venues, min_price, max_price } = eventData;
+
+        localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
+        localStorage.setItem('minPrice', JSON.stringify(min_price));
+        localStorage.setItem('maxPrice', JSON.stringify(max_price));
+        localStorage.setItem('page', JSON.stringify(page));
+    };
+
 
     return (
         <div className="event-detail">
+
+            {events && events.length > 0 && events.slice(0, 1).map(event => (
+            <div key={event.id}>
+
             <div className="event-image mb-10 lg:p-5 overflow-hidden mx-auto relative w-full">
-                <img className="lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide' src={posterwide} />
-                <img className='lg:hidden block w-full' alt='poster' src={poster} />
+           {
+            event.poster_wide_url && 
+            <img className="wide-bg lg:block absolute object-cover hidden w-full rounded-2xl shadow-md" alt='posterwide'
+                    src={event.poster_wide_url}
+                />
+           }
+                <img className="wide-bg lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide'
+                    src={event.poster_wide_bg_url}
+                />
+                <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
+                <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
                 <div className='info absolute lg:left-0 lg:right-0 lg:bottom-5 lg:py-10 lg:px-5 xl:py-20 xl:px-0'>
                     <div className='content-container lg:flex hidden items-center justify-start gap-3 lg:px-5'>
                         <span className={`btn text-xl lg:py-4 lg:px-6  z-20 orange rounded-full py-2 px-4 font-bold`}>
-                            <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  4 ₼</span>{language === 'az' ? '-dan' : ''}
+                            <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''} {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
                         </span>
                         <a href={`/${language}/favorites`}>
-                            <button className='p-5 group hover:bg-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full'>
+                            <button className='p-5 group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full'>
                                 <Icon className='text-white group-hover:text-amber-400 transition' size={22} icon={heart} />
                             </button>
                         </a>
-                        <button className='p-5 flex items-center justify-center group hover:bg-white hover:border-amber-400 transition duration-300 lg:h-16 lg:w-16 lg:border-4 rounded-full'>
+                        <button className='p-5 flex shadow-md items-center border-white justify-center group hover:bg-white hover:border-amber-400 transition duration-300 lg:h-16 lg:w-16 lg:border-4 rounded-full'>
                             <Icon className='text-white group-hover:text-amber-400 transition' size={24} icon={share} />
                         </button>
 
@@ -180,7 +252,7 @@ const EventDetail = ({ category }) => {
                 <div className='detail grid grid-cols-1 lg:grid-cols-12 gap-10 lg:pt-10 order-4'>
                     <div className='lg:col-span-7'>
                         <div className='list'>
-                            <div className='list-header gap-5 mb-5 md:flex'>
+                            <div className='list-header gap-5 mb-5 flex md:flex-row flex-col'>
                                 <button onClick={title1Toggle} className={`list-title bg-white grow ${title1 ? 'active' : ''} rounded-3xl`}>
                                     <h2 className='p-5 text-center'>
                                         <p className='text-xl font-bold '>
@@ -219,20 +291,31 @@ const EventDetail = ({ category }) => {
                             </div>
                         </div>
                         <div className='light-box mt-5'>
-                            <div onClick={toggleLightbox} className='light-box-img max-w-32 max-h-32 rounded-3xl overflow-hidden  cursor-pointer'>
-                                <img src={lightboximg} alt='gallery' className='object-contain' />
+                            <div onClick={toggleLightbox} className='light-box-img max-w-32 max-h-32 rounded-3xl overflow-hidden  cursor-pointer relative'>
+                            <img src={event.poster_url} alt='gallery' className='object-cover absolute' />
+                            <img src={event.poster_bg_url} alt='gallery' className='object-contain' />
+                            <Lightbox
+                slides={[{ src: event.poster_bg_url, caption: 'Image Caption' }]} 
+                open={isOpen}
+                close={toggleLightbox}
+                backdropCloseable={true}
+            />
                             </div>
                         </div>
                     </div>
                     <div className='lg:col-span-5'>
                         <div className='artist-image relative'>
-                            <img src={artistimage} alt='artistimage' className='h-full object-contain object-bottom w-full z-10' />
+                            <img src={event.poster_url} alt='artistimage' className='h-full object-cover absolute object-bottom w-full ' />
+                            <img src={event.poster_bg_url}  alt='artistimage' className='h-full object-contain object-bottom w-full' />
+
                         </div>
 
                     </div>
                 </div>
 
             </div>
+            </div>
+    ))}
             <div className='content-container flex flex-col relative px-3 lg:px-0'>
                 <div className='venue-detail'>
                     <hr className='my-10' />
@@ -243,7 +326,9 @@ const EventDetail = ({ category }) => {
                                 <div id='map' className="flex-1 map lg:h-full rounded-3xl">
                                 </div>
                             </div>
-                            <div className='lg:col-span-5 bg-white flex flex-col venue-card py-4 px-6 shadow-md rounded-3xl'>
+                            {events && events.length > 0 && events.slice(0, 1).map(event => (
+
+                            <div key={event.slug} className='lg:col-span-5 bg-white flex flex-col venue-card py-4 px-6 shadow-md rounded-3xl'>
                                 <div className="flex-1">
                                     <div className="venue-name text-2xl font-bold mb-2">
                                         <p > XG Club Cafe </p>
@@ -256,24 +341,73 @@ const EventDetail = ({ category }) => {
                                         </p>
                                     </div>
                                 </div>
-                                    <a href={`https://maps.google.com/maps?q=40.3767902,49.8409054`} target="_blank" className="btn mt-2">
-                                        <button className='orange rounded-full text-black text-xl font-bold py-4 px-12'>
-                                    İstiqamət
-                                        </button>
+                                <a href={`https://maps.google.com/maps?q=40.3767902,49.8409054`} target="_blank" className="btn mx-auto mt-2">
+                                    <button className='orange rounded-full text-black text-xl font-bold py-4 px-12'>
+                                        İstiqamət
+                                    </button>
                                 </a>
-                                
+
                             </div>
+                            ))}
                         </div>
 
                     </div>
                 </div>
             </div>
-            <Lightbox
-                slides={[{ src: lightboximg, caption: 'Image Caption' }]} // Add more images as needed
-                open={isOpen}
-                close={toggleLightbox}
-                backdropCloseable={true}
-            />
+        
+            <div className="Suggestions content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-8 pb-3">
+        <h1 className="page-title !text-3xl !font-extrabold">Oxşar tədbirlər</h1>
+      </div>
+            <div className='events-list lg:pt-10 pt-5'>
+                <div className='content-container lg:px-5 px-6'>
+                    <div>
+                        {events.length > 0 ? (
+                            <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
+                                {eventsSugg.slice(0, 6).map(event => (
+                                    <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                                        <div className='relative'>
+                                            <div className='image'>
+                                                <img
+                                                    src={noposter}
+                                                    alt='bg'
+                                                    className='bg'
+                                                    onLoad={(e) => { e.target.src = event.poster_bg_url; }}
+                                                />
+                                                <img
+                                                    src={noposter}
+                                                    alt='pic'
+                                                    className='op'
+                                                    onLoad={(e) => { e.target.src = event.poster_url; }}
+
+                                                />
+                                                <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
+                                                    <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
+                                                </span>
+                                            </div>
+                                            <div className='info lg:p-8 lg:text-xl'>
+                                                <p className="event-name lg:pt-2 text-white">
+                                                    {event.name}
+                                                </p>
+                                                <div className="flex w-full items-center flex-1">
+                                                    <div className="event-date">
+                                                        {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
+                                                            { month: 'long', day: 'numeric', year: 'numeric' })}
+                                                    </div>
+                                                    <div className="venue-name ms-1">
+                                                        • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        ) : ''}
+                    </div>
+                </div>
+
+            </div>
+       
 
         </div>
     )

@@ -84,7 +84,6 @@ const EventPage = () => {
     try {
       setLoading(true);
       let url = `https://api.iticket.az/${language}/v5/events?client=web`;
-
       if (category) {
         url += `&category_slug=${category}`
       }
@@ -140,6 +139,9 @@ const EventPage = () => {
       setTimeout(() => setShowWarning(true), 1000);
     }
   }, [minPriceAPI, maxPriceAPI, language]);
+
+
+
 
 
   const handleLoadMore = () => {
@@ -305,6 +307,18 @@ const EventPage = () => {
   };
 
 
+  const handleEventClick = (eventData) => {
+    const { venues, min_price, max_price} = eventData;    
+
+    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
+    localStorage.setItem('minPrice', JSON.stringify(min_price));
+    localStorage.setItem('maxPrice', JSON.stringify(max_price));
+    localStorage.setItem('page',  JSON.stringify(page)); 
+  };
+
+
+
+
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
@@ -357,7 +371,7 @@ const EventPage = () => {
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
                   // <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}${(page > 1) ? `/${page}` : ''}`} className='event-list-item'>
-                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                  <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
                    <div className='relative'>
                       <div className='image'>
                         <img

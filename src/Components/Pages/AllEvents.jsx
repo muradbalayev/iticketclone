@@ -29,7 +29,7 @@ const AllEvents = () => {
   const [showWarning, setShowWarning] = useState(false);
 
   const getPageTitle = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
         return "Bütün Tədbirlər";
       case 'en':
@@ -44,26 +44,26 @@ const AllEvents = () => {
 
 
   const getVenueName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Məkan seçin";
+        return "Məkan seçin";
       case 'en':
-      return "Choose venue";
+        return "Choose venue";
       case 'ru':
-      return "Выберите местоположение";
+        return "Выберите местоположение";
       default:
         return "Məkan seçin";
     }
   }
   const venueTitle = getVenueName(language);
   const getDateName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Tarix aralığını seçin";
+        return "Tarix aralığını seçin";
       case 'en':
-      return "Choose date range";
+        return "Choose date range";
       case 'ru':
-      return "Выберите диапазон дат";
+        return "Выберите диапазон дат";
       default:
         return "Tarix aralığını seçin";
     }
@@ -73,13 +73,13 @@ const AllEvents = () => {
 
 
   const getPriceName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
       case 'en':
-      return `Price from ${minPrice} ₼ to ${maxPrice}`;
+        return `Price from ${minPrice} ₼ to ${maxPrice}`;
       case 'ru':
-      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
+        return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
       default:
         return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
     }
@@ -87,6 +87,14 @@ const AllEvents = () => {
 
   const priceTitle = getPriceName(language);
 
+  const handleEventClick = (eventData) => {
+    const { venues, min_price, max_price } = eventData;
+
+    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
+    localStorage.setItem('minPrice', JSON.stringify(min_price));
+    localStorage.setItem('maxPrice', JSON.stringify(max_price));
+    localStorage.setItem('page', JSON.stringify(page));
+  };
 
 
 
@@ -143,7 +151,7 @@ const AllEvents = () => {
       setLoading(false);
       setTimeout(() => setShowWarning(true), 1000);
     }
-  }, [language , minPriceAPI, maxPriceAPI]);
+  }, [language, minPriceAPI, maxPriceAPI]);
 
 
   const handleLoadMore = () => {
@@ -198,7 +206,7 @@ const AllEvents = () => {
   const handleDateChange = (dates) => {
     let url = '';
     if (selectedVenue && selectedVenue.value) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -217,7 +225,7 @@ const AllEvents = () => {
     }
 
     if (dates.length === 1) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -227,7 +235,7 @@ const AllEvents = () => {
       setStartDate(dates[0]);
       setEndDate(null);
     } else if (dates.length === 2) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -239,16 +247,16 @@ const AllEvents = () => {
     }
     navigate(url);
   };
-  
+
   const formatDate = date => {
     const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     return formattedDate.split('.').join('.');
   };
-  
-  
-  
+
+
+
   useEffect(() => {
-    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null,  minPrice, maxPrice ,language);
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice, language);
   }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
 
 
@@ -259,8 +267,8 @@ const AllEvents = () => {
     setPage(1)
     setMaxPrice(null)
     setMinPrice(null)
-  }, [ language]);
-  
+  }, [language]);
+
   const handleSliderChange = (values) => {
     const [minValue, maxValue] = values;
     if (minPrice !== null && maxPrice !== null) {
@@ -268,44 +276,44 @@ const AllEvents = () => {
       setMaxPrice(maxValue);
       let url = '';
 
-    if (startDate && endDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (startDate && endDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
+      } else if (startDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}`;
       }
-      url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
-    } else if (startDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+
+      if (selectedVenue && selectedVenue.value) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `venue_id=${selectedVenue.value}`;
       }
-      url += `start_date=${formatDate(startDate)}`;
-    }
 
-    if (selectedVenue && selectedVenue.value) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
-      } 
-      url += `venue_id=${selectedVenue.value}`;
-    }
-
-    if (minValue !== null || maxValue !== null) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (minValue !== null || maxValue !== null) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `min_price=${minValue}&max_price=${maxValue}`;
       }
-      url += `min_price=${minValue}&max_price=${maxValue}`;
-    }
 
-    navigate(url);
+      navigate(url);
     }
   };
-  
+
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
@@ -342,12 +350,12 @@ const AllEvents = () => {
                 (minPrice === null || maxPrice === null) ? '' : priceTitle
               }
               readOnly />
-              {(minPrice !== null || maxPrice !== null) &&
-            <RangeSlider className='w-full absolute -bottom-5'
-              min={minPriceAPI}
-              max={maxPriceAPI}
-              value={[minPrice, maxPrice]}
-              onChange={handleSliderChange} /> }
+            {(minPrice !== null || maxPrice !== null) &&
+              <RangeSlider className='w-full absolute -bottom-5'
+                min={minPriceAPI}
+                max={maxPriceAPI}
+                value={[minPrice, maxPrice]}
+                onChange={handleSliderChange} />}
           </div>
         </div>
       </div>
@@ -357,8 +365,12 @@ const AllEvents = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
-                  <div className='relative'>
+                  <Link
+                    onClick={() => handleEventClick(event)}
+                    key={event.id}
+                    to={`/${language}/${event.category_slug}/${event.slug}`}
+                    className='event-list-item'>
+                    <div className='relative'>
                       <div className='image'>
                         <img
                           src={noposter}
@@ -384,7 +396,7 @@ const AllEvents = () => {
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
                             {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
-                             { month: 'long', day: 'numeric', year: 'numeric' })}
+                              { month: 'long', day: 'numeric', year: 'numeric' })}
                           </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
@@ -404,7 +416,7 @@ const AllEvents = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-          {translations[language]['loading']}
+            {translations[language]['loading']}
           </button>}
 
           {hasMore && !loading && (
