@@ -1,4 +1,4 @@
-import visa from "./Images/cards.svg"
+import visa from "../Images/cards.svg"
 
 const Footer = () => {
   return (

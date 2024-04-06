@@ -20,7 +20,16 @@
     "cantfind": "Seçiminizə uyğun tədbir tapılmadı.",
     "fetcherror": "Sorğunuza uyğun tədbir tapılmadı",
     "cart": "Səbət",
-    "carterror": "Səbətinizdə bilet yoxdur."
+    "carterror": "Səbətinizdə bilet yoxdur.",
+    "about": "Tədbir haqqında",
+    "yas/dil": "Yaş məhdudiyyəti / Dil",
+    "location": "Məkan",
+    "date": "Tarix",
+    "language": "Dil",
+    "age_restriction": "Yaş məhdudiyyəti",
+    "price": "Qiymət",
+    "about_tickets": "Bilet haqqında",
+    "about_events": "Tədbir haqqında"
   },
   "en": {
     "loadmore": "Load more",
@@ -43,7 +52,16 @@
     "cantfind": "No events found according to your request.",
     "fetcherror": "No events found according to your request.",
     "cart": "Cart",
-    "carterror": "You have no items in your cart."
+    "carterror": "You have no items in your cart.",
+    "about": "About event",
+    "yas/dil": "Age restrictions / Language",
+    "location": "Location",
+    "date": "Date",
+    "language": "Language",
+    "age_restriction": "Age restriction",
+    "price": "Price",
+    "about_tickets": "Ticket info",
+    "about_events": "About event"
   },
   "ru": {
     "loadmore": "Более",
@@ -66,8 +84,16 @@
     "cantfind": "По вашему запросу событий не найдено.",
     "fetcherror": "По вашему запросу событий не найдено.",
     "cart": "Корзина",
-    "carterror":"У вас нет билетов в корзине."
-
+    "carterror": "У вас нет билетов в корзине.",
+    "about": "О мероприятии",
+    "yas/dil": "Возраст / Язык",
+    "location": "Местоположение",
+    "date": "Дата",
+    "language": "Язык",
+    "age_restriction": "Возрастное ограничение",
+    "price": "Цена",
+    "about_tickets": "О билетах",
+    "about_events": "О мероприятии"
 
   }
 }

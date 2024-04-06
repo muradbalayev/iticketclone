@@ -674,6 +674,8 @@ footer {
     }
 }
 
+
+
 .active{
   background-color: #fd0;
 }
@@ -693,6 +695,9 @@ footer {
 @media (min-width: 768px) {
   .content-container {
     max-width: 768px;
+  }
+  .list-title-2{
+    max-width: 350px;
   }
 }
 

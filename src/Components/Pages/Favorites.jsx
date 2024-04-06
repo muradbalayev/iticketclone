@@ -4,6 +4,9 @@ import translations from '../translations.json'
 
 const Favorites = () => {
   const  {language} = useParams()
+
+    window.scrollTo(0, 0);
+
   return (
     <div>
        <div className="content-container px-5 mx-auto pt-7 lg:pt-9 pb-6">

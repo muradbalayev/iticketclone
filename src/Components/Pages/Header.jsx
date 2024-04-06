@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import translations from "./translations.json"
+import translations from "../translations.json"
 import { heart } from 'react-icons-kit/feather/heart'
 import Icon from 'react-icons-kit'
 import { search } from 'react-icons-kit/feather/search'
@@ -8,9 +8,9 @@ import { ic_shopping_cart } from 'react-icons-kit/md/ic_shopping_cart'
 import { menu } from 'react-icons-kit/feather/menu'
 import { user } from 'react-icons-kit/feather/user'
 import { threeHorizontal } from 'react-icons-kit/entypo/threeHorizontal'
-import LoginModal from './Modals/LoginModal'
+import LoginModal from '../Modals/LoginModal'
 import { x } from 'react-icons-kit/feather/x'
-import SearchModal from './Modals/SearchModal'
+import SearchModal from '../Modals/SearchModal'
 import axios from 'axios'
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

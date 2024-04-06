@@ -7,6 +7,7 @@ import Icon from 'react-icons-kit'
 // import lightboximg from '../Images/lightbox.jpg'
 import { heart } from 'react-icons-kit/feather/heart'
 import { share } from 'react-icons-kit/feather/share'
+import translations from '../translations.json'
 import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
@@ -56,7 +57,7 @@ const EventDetail = ({ category }) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [eventsSugg]);
+    }, [events]);
 
     const [locations, setLocations] = useState([]);
 
@@ -85,21 +86,6 @@ const EventDetail = ({ category }) => {
     }, [locations]);
 
  
-    // useEffect(() => {
-    //     if (events && events.venues && events.venues.length > 0) {
-    //         const firstVenue = events[0].venues; // Get the first venue
-    //         const map = L.map('map').setView([firstVenue.map_lat, firstVenue.map_lng], 15); // Use coordinates of the first venue
-    //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //             attribution: '© OpenStreetMap contributors'
-    //         }).addTo(map);
-    //         events.venues.forEach(location => {
-    //             L.marker([location.map_lat, location.map_lng]).addTo(map);
-    //         });
-    //         return () => {
-    //             map.remove();
-    //         };
-    //     }
-    // }, [events]);
 
     useEffect(() => {
         const fetchEventDetail = async () => {
@@ -107,21 +93,24 @@ const EventDetail = ({ category }) => {
                 // https://api.iticket.az/az/v5/events?client=web&category_slug=concerts&venue_id=352&page=1&venue_id=352&min_price=7&max_price=10
                 let url = `https://api.iticket.az/${language}/v5/events?client=web`;
                 let urlSuggestion = `https://api.iticket.az/${language}/v5/events?client=web`;
-
-                if (page) {
-                    url += `&page=${page}`
-                }
-
-                if (page) {
-                    urlSuggestion += `&page=${page + 1}`
-                }
-
-
+               
                 if (category) {
                     url += `&category_slug=${category}`
                     urlSuggestion += `&category_slug=${category}`
 
                 }
+
+                if (page) {
+                    url += `&page=${page}`
+                    
+                }
+
+                if (page) {
+                    urlSuggestion += `&page=${page}`
+                }
+
+
+               
 
                 if (venueId) {
                     url += `&venue_id=${venueId}`
@@ -203,8 +192,8 @@ const EventDetail = ({ category }) => {
                         </span>
                         <div className="flex-1 pl-1">
                             <div className="title !mb-0 flex flex-col font-medium text-lg">
-                                <span>Məkan</span>
-                                <span>Tarix</span>
+                                <span> {translations[language]['location']}</span>
+                                <span> {translations[language]['date']}</span>
                             </div>
                         </div>
                     </div>
@@ -218,8 +207,8 @@ const EventDetail = ({ category }) => {
                         </span>
                         <div className="flex-1 pl-1">
                             <div className="title !mb-0 flex flex-col font-medium text-lg">
-                                <span>Dil</span>
-                                <span>Yaş məhdudiyyəti</span>
+                                <span> {translations[language]['language']}</span>
+                                <span> {translations[language]['age_restriction']}</span>
                             </div>
                         </div>
                     </div>
@@ -232,8 +221,8 @@ const EventDetail = ({ category }) => {
                         </span>
                         <div className="flex-1 pl-1">
                             <div className="title !mb-0 flex flex-col font-medium text-lg">
-                                <span>Qiymət</span>
-                                <span>Biletlər haqda</span>
+                                <span> {translations[language]['price']}</span>
+                                <span> {translations[language]['about_tickets']}</span>
                             </div>
                         </div>
                     </div>
@@ -244,7 +233,7 @@ const EventDetail = ({ category }) => {
 
                         <div className="flex-1 pl-1">
                             <div className="title !mb-0 flex flex-col font-medium text-lg">
-                                <span>Tədbir haqqında</span>
+                                <span> {translations[language]['about_events']}</span>
                             </div>
                         </div>
                     </div>
@@ -256,14 +245,14 @@ const EventDetail = ({ category }) => {
                                 <button onClick={title1Toggle} className={`list-title bg-white grow ${title1 ? 'active' : ''} rounded-3xl`}>
                                     <h2 className='p-5 text-center'>
                                         <p className='text-xl font-bold '>
-                                            Tədbir haqqında
+                                        {translations[language]['about']}
                                         </p>
                                     </h2>
                                 </button>
-                                <button onClick={title2Toggle} className={`list-title bg-white ${title2 ? 'active' : ''} grow rounded-3xl`}>
+                                <button onClick={title2Toggle} className={`list-title-2 bg-white ${title2 ? 'active' : ''} grow rounded-3xl`}>
                                     <h2 className='p-5 text-center'>
                                         <p className='text-xl font-bold '>
-                                            Yaş məhdudiyyəti / Dil
+                                        {translations[language]['yas/dil']}
                                         </p>
                                     </h2>
                                 </button>
@@ -280,7 +269,7 @@ const EventDetail = ({ category }) => {
                                     }
                                     {title2 &&
                                         <div className='md:h-full overflow-auto w-full'>
-                                            <p className='mb-4'>16+ / Azərbaycanca</p>
+                                            <p className='mb-4'>{event.age_limit} / Azərbaycanca</p>
                                             <p className='mb-4'></p>
                                             <p className='mb-4'></p>
                                             <p className='mb-4'></p>
@@ -326,9 +315,9 @@ const EventDetail = ({ category }) => {
                                 <div id='map' className="flex-1 map lg:h-full rounded-3xl">
                                 </div>
                             </div>
-                            {events && events.length > 0 && events.slice(0, 1).map(event => (
+                            {/* {events.venues && events.venues.length > 0 && events.venues.slice(0, 1).map(venue => ( */}
 
-                            <div key={event.slug} className='lg:col-span-5 bg-white flex flex-col venue-card py-4 px-6 shadow-md rounded-3xl'>
+                            <div  className='lg:col-span-5 bg-white flex flex-col venue-card py-4 px-6 shadow-md rounded-3xl'>
                                 <div className="flex-1">
                                     <div className="venue-name text-2xl font-bold mb-2">
                                         <p > XG Club Cafe </p>
@@ -348,7 +337,7 @@ const EventDetail = ({ category }) => {
                                 </a>
 
                             </div>
-                            ))}
+                            {/* ))} */}
                         </div>
 
                     </div>

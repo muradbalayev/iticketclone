@@ -32,7 +32,7 @@ const Home = () => {
   const [showWarning, setShowWarning] = useState(false);
 
   const getPageTitle = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
         return "Bütün Tədbirlər";
       case 'en':
@@ -47,26 +47,26 @@ const Home = () => {
 
 
   const getVenueName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Məkan seçin";
+        return "Məkan seçin";
       case 'en':
-      return "Choose venue";
+        return "Choose venue";
       case 'ru':
-      return "Выберите местоположение";
+        return "Выберите местоположение";
       default:
         return "Məkan seçin";
     }
   }
   const venueTitle = getVenueName(language);
   const getDateName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Tarix aralığını seçin";
+        return "Tarix aralığını seçin";
       case 'en':
-      return "Choose date range";
+        return "Choose date range";
       case 'ru':
-      return "Выберите диапазон дат";
+        return "Выберите диапазон дат";
       default:
         return "Tarix aralığını seçin";
     }
@@ -76,13 +76,13 @@ const Home = () => {
 
 
   const getPriceName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
       case 'en':
-      return `Price from ${minPrice} ₼ to ${maxPrice}`;
+        return `Price from ${minPrice} ₼ to ${maxPrice}`;
       case 'ru':
-      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
+        return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
       default:
         return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
     }
@@ -298,6 +298,15 @@ const Home = () => {
   }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice]);
 
 
+  const handleEventClick = (eventData) => {
+    const { venues, min_price, max_price } = eventData;
+
+    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
+    localStorage.setItem('minPrice', JSON.stringify(min_price));
+    localStorage.setItem('maxPrice', JSON.stringify(max_price));
+    localStorage.setItem('page', JSON.stringify(page));
+  };
+
   return (
     <div>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
@@ -349,7 +358,11 @@ const Home = () => {
             {events.length > 0 ? (
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
-                  <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                  <Link
+                    onClick={() => handleEventClick(event)}
+                    key={event.id}
+                    to={`/${language}/${event.category_slug}/${event.slug}`}
+                    className='event-list-item'>
                     <div className='relative'>
                       <div className='image'>
                         <img
@@ -366,7 +379,7 @@ const Home = () => {
 
                         />
                         <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
-                        <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
+                          <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
                         </span>
                       </div>
                       <div className='info lg:p-8 lg:text-xl'>
@@ -375,8 +388,8 @@ const Home = () => {
                         </p>
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
-                          {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
-                             { month: 'long', day: 'numeric', year: 'numeric' })}                          </div>
+                            {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
+                              { month: 'long', day: 'numeric', year: 'numeric' })}                          </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
                           </div>
@@ -395,7 +408,7 @@ const Home = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-          {translations[language]['loading']}
+            {translations[language]['loading']}
           </button>}
 
           {hasMore && !loading && (

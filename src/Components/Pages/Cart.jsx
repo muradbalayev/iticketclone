@@ -1,10 +1,15 @@
 import { useParams } from "react-router-dom";
 import warning from "../Images/warning.svg";
 import translations from '../translations.json';
+import { useEffect } from "react";
 
 
 const Cart = () => {
   const { language } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   return (
     <div>
