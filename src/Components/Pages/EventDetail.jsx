@@ -355,7 +355,8 @@ const EventDetail = ({ category }) => {
                     <div>
                         {events.length > 0 ? (
                             <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
-                                {eventsSugg.slice(0, 6).map(event => (
+                                {eventsSugg.slice(0, 7).map(event => (
+                                        id !== event.id && (
                                     <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
                                         <div className='relative'>
                                             <div className='image'>
@@ -392,6 +393,7 @@ const EventDetail = ({ category }) => {
                                             </div>
                                         </div>
                                     </Link>
+                                        )
                                 ))}
                             </div>
                         ) : ''}
