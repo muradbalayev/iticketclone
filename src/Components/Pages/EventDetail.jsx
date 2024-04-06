@@ -181,7 +181,7 @@ const EventDetail = ({ category }) => {
                                 </span>
                                 <button  onClick={() => addToFavorites(event.id)}
                                     className={`${favoriteActive ? 'favorite_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
-                                    <Icon className={`${favoriteActive ? 'text-amber-400' : ' '} text-white group-hover:text-amber-400 transition`} size={22} icon={heart} />
+                                    <Icon className={`${favoriteActive ? 'favorite_active' : ' '} text-white group-hover:text-amber-400 transition`} size={22} icon={heart} />
                                 </button>
                                 <button className='p-5 flex shadow-md items-center border-white justify-center group hover:bg-white hover:border-amber-400 transition duration-300 lg:h-16 lg:w-16 lg:border-4 rounded-full'>
                                     <Icon className='text-white group-hover:text-amber-400 transition' size={24} icon={share} />
