@@ -35,12 +35,10 @@ const Header = () => {
             const currentScroll = window.pageYOffset;
             const scrollUp = currentScroll < lastScroll;
 
-            // If scrolling up, move the header to the top
             if (scrollUp) {
                 gsap.to('.header', { top: 0, duration: .8, ease: 'power2.inOut' });
             } else {
-                // If scrolling down, keep the header static
-                gsap.to('.header', { top: '-100%', duration: .2, ease: 'power1.inOut' });
+                gsap.to('.header', { top: '-100%', duration: .4, ease: 'power2.inOut' });
             }
 
             lastScroll = currentScroll <= 0 ? 0 : currentScroll;

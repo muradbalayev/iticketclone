@@ -128,7 +128,7 @@ const EventPage = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
