@@ -125,8 +125,9 @@ const EventDetail = ({ category }) => {
                 if (page) {
                     urlSuggestion += `&page=${page}`
                 }
-
-
+                
+                
+                window.scrollTo(0, 0);
                 const response = await axios.get(url);
                 const responseSuggestion = await axios.get(urlSuggestion);
 
@@ -139,7 +140,6 @@ const EventDetail = ({ category }) => {
                 console.error('Error fetching event detail:', error);
             }
         };
-        window.scrollTo(0, 0);
         fetchEventDetail();
     }, [language, category, id, page]);
     // console.log(eventDetail);
