@@ -27,12 +27,10 @@ const Header = () => {
     const [language, setLanguage] = useState(localStorage.getItem('language') || 'az');
 
     useEffect(() => {
-        // Ensure ScrollTrigger is enabled
         gsap.registerPlugin(ScrollTrigger);
 
         let lastScroll = 0;
 
-        // Function to handle the scroll direction
         const handleScroll = () => {
             const currentScroll = window.pageYOffset;
             const scrollUp = currentScroll < lastScroll;
@@ -48,10 +46,8 @@ const Header = () => {
             lastScroll = currentScroll <= 0 ? 0 : currentScroll;
         };
 
-        // Add event listener for scroll
         window.addEventListener('scroll', handleScroll);
 
-        // Cleanup function to remove event listener
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };

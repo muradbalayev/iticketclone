@@ -31,8 +31,9 @@
     "about_tickets": "Bilet haqqında",
     "about_events": "Tədbir haqqında",
     "locationplace": "Məkan yer",
-    "suggestions": "Oxşar tədbirlər"
-
+    "suggestions": "Oxşar tədbirlər",
+    "info": "Məlumat",
+    "security": "Təhlükəsizlik"
   },
   "en": {
     "loadmore": "Load more",
@@ -66,8 +67,9 @@
     "about_tickets": "Ticket info",
     "about_events": "About event",
     "locationplace": "Venue location",
-    "suggestions": "Similar Events"
-
+    "suggestions": "Similar Events",
+    "info": "Information",
+    "security": "Security"
   },
   "ru": {
     "loadmore": "Более",
@@ -101,7 +103,8 @@
     "about_tickets": "О билетах",
     "about_events": "О мероприятии",
     "locationplace": "Mестоположение",
-    "suggestions": "Похожие мероприятия"
-
+    "suggestions": "Похожие мероприятия",
+    "info": "Информация",
+    "security": "Безопасность"
   }
 }

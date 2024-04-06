@@ -1,6 +1,10 @@
 import visa from "../Images/cards.svg"
+import translations from "../translations.json"
+
 
 const Footer = () => {
+  const language = localStorage.getItem('language') || 'az'
+
   return (
     <footer className="mt-20 pt-3 px-8 lg:px-5 mx-auto lg:text-lg">
     <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-10 lg:mb-14 pb-1">
@@ -17,7 +21,7 @@ const Footer = () => {
        <hr className="lg:hidden mt-4"/>
     </div> 
     <div className="column">
-      <div className="title">Məlumat</div> 
+      <div className="title">{translations[language]['info']}</div> 
       <nav>
         <a href="/page/faq" className="">Ən çox verilən suallar</a>
          <a href="/page/support" className="">
@@ -57,7 +61,7 @@ const Footer = () => {
         </nav>
         </div> 
         <div className="column col-span-2 lg:col-span-1">
-          <div className="title">Təhlükəsizlik</div>
+          <div className="title">{translations[language]['security']}</div>
            <div className="text">
           Bütün ödənişlər Visa, Visa Electron, Maestro və MasterCard-dan 3D Secure ilə qorunur.
           <img alt='img' src={visa} className="mt-7 w-48"/>
