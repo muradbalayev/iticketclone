@@ -58,12 +58,6 @@ const EventDetail = ({ category }) => {
         }
     }, [favorites]);
 
-
-
-
-
-
-
     const title1Toggle = () => {
         setTitle1(true);
         setTitle2(false);
@@ -106,7 +100,7 @@ const EventDetail = ({ category }) => {
                 map.remove();
             };
         }
-    }, [locations, venues]);
+    }, [locations]);
 
 
     const id = JSON.parse(localStorage.getItem('id'));
@@ -318,7 +312,7 @@ const EventDetail = ({ category }) => {
                 <div className='venue-detail'>
                     <hr className='my-10' />
                     <div className='venue'>
-                        <h1 className='venue-title mb-8 text-3xl font-bold'>Məkan yeri</h1>
+                        <h1 className='venue-title mb-8 text-3xl font-bold'>{translations[language]['locationplace']}</h1>
                         <div className='lg:grid-cols-12 my-10 grid grid-cols-1 gap-10 h-full'>
                             <div className="lg:col-span-7 z-0 flex min-h-72">
                                 <div id='map' className="flex-1 map lg:h-full rounded-3xl">
@@ -354,7 +348,7 @@ const EventDetail = ({ category }) => {
             </div>
 
             <div className="Suggestions content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-8 pb-3">
-                <h1 className="page-title !text-3xl !font-extrabold">Oxşar tədbirlər</h1>
+                <h1 className="page-title !text-3xl !font-extrabold">{translations[language]['suggestions']}</h1>
             </div>
             <div className='events-list lg:pt-10 pt-5'>
                 <div className='content-container lg:px-5 px-6'>

@@ -29,7 +29,10 @@
     "age_restriction": "Yaş məhdudiyyəti",
     "price": "Qiymət",
     "about_tickets": "Bilet haqqında",
-    "about_events": "Tədbir haqqında"
+    "about_events": "Tədbir haqqında",
+    "locationplace": "Məkan yer",
+    "suggestions": "Oxşar tədbirlər"
+
   },
   "en": {
     "loadmore": "Load more",
@@ -61,7 +64,10 @@
     "age_restriction": "Age restriction",
     "price": "Price",
     "about_tickets": "Ticket info",
-    "about_events": "About event"
+    "about_events": "About event",
+    "locationplace": "Venue location",
+    "suggestions": "Similar Events"
+
   },
   "ru": {
     "loadmore": "Более",
@@ -93,7 +99,9 @@
     "age_restriction": "Возрастное ограничение",
     "price": "Цена",
     "about_tickets": "О билетах",
-    "about_events": "О мероприятии"
+    "about_events": "О мероприятии",
+    "locationplace": "естоположение",
+    "suggestions": "Похожие мероприятия"
 
   }
 }

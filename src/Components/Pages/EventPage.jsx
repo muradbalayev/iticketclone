@@ -33,26 +33,26 @@ const EventPage = () => {
 
 
   const getVenueName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Məkan seçin";
+        return "Məkan seçin";
       case 'en':
-      return "Choose venue";
+        return "Choose venue";
       case 'ru':
-      return "Выберите местоположение";
+        return "Выберите местоположение";
       default:
         return "Məkan seçin";
     }
   }
   const venueTitle = getVenueName(language);
   const getDateName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return "Tarix aralığını seçin";
+        return "Tarix aralığını seçin";
       case 'en':
-      return "Choose date range";
+        return "Choose date range";
       case 'ru':
-      return "Выберите диапазон дат";
+        return "Выберите диапазон дат";
       default:
         return "Tarix aralığını seçin";
     }
@@ -62,13 +62,13 @@ const EventPage = () => {
 
 
   const getPriceName = (language) => {
-    switch(language) {
+    switch (language) {
       case 'az':
-      return  `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
+        return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
       case 'en':
-      return `Price from ${minPrice} ₼ to ${maxPrice}`;
+        return `Price from ${minPrice} ₼ to ${maxPrice}`;
       case 'ru':
-      return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
+        return `Цена от ${minPrice} ₼ до ${maxPrice} ₼`;
       default:
         return `Qiymət ${minPrice} ₼-dan ${maxPrice} ₼-dək`;
     }
@@ -196,7 +196,7 @@ const EventPage = () => {
   const handleDateChange = (dates) => {
     let url = '';
     if (selectedVenue && selectedVenue.value) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -215,7 +215,7 @@ const EventPage = () => {
     }
 
     if (dates.length === 1) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -225,7 +225,7 @@ const EventPage = () => {
       setStartDate(dates[0]);
       setEndDate(null);
     } else if (dates.length === 2) {
-      if(url !== ''){
+      if (url !== '') {
         url += '&'
       }
       else {
@@ -263,52 +263,49 @@ const EventPage = () => {
       setMaxPrice(maxValue);
       let url = '';
 
-    if (startDate && endDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (startDate && endDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
+      } else if (startDate) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `start_date=${formatDate(startDate)}`;
       }
-      url += `start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`;
-    } else if (startDate) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+
+      if (selectedVenue && selectedVenue.value) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `venue_id=${selectedVenue.value}`;
       }
-      url += `start_date=${formatDate(startDate)}`;
-    }
 
-    if (selectedVenue && selectedVenue.value) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
-      } 
-      url += `venue_id=${selectedVenue.value}`;
-    }
-
-    if (minValue !== null || maxValue !== null) {
-      if (url !== '') {
-        url += '&';
-      } else {
-        url += '?';
+      if (minValue !== null || maxValue !== null) {
+        if (url !== '') {
+          url += '&';
+        } else {
+          url += '?';
+        }
+        url += `min_price=${minValue}&max_price=${maxValue}`;
       }
-      url += `min_price=${minValue}&max_price=${maxValue}`;
-    }
 
-    navigate(url);
+      navigate(url);
     }
   };
 
 
   const handleEventClick = (eventData) => {
-    const {id} = eventData;    
+    const { id } = eventData;
     localStorage.setItem('id', JSON.stringify(id));
   };
-
-
-
 
   return (
     <div>
@@ -362,8 +359,11 @@ const EventPage = () => {
               <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                 {events.map(event => (
                   // <Link key={event.id} to={`/${language}/${event.category_slug}/${event.slug}${(page > 1) ? `/${page}` : ''}`} className='event-list-item'>
-                  <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
-                   <div className='relative'>
+                  <Link onClick={() => handleEventClick(event)}
+                    key={event.id}
+                    to={`/${language}/${event.category_slug}/${event.slug}`}
+                    className='event-list-item'>
+                    <div className='relative'>
                       <div className='image'>
                         <img
                           src={noposter}
@@ -389,7 +389,7 @@ const EventPage = () => {
                         <div className="flex w-full items-center flex-1">
                           <div className="event-date">
                             {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
-                             { month: 'long', day: 'numeric', year: 'numeric' })}
+                              { month: 'long', day: 'numeric', year: 'numeric' })}
                           </div>
                           <div className="venue-name ms-1">
                             • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
@@ -409,7 +409,7 @@ const EventPage = () => {
         </div>
         <div className='mt-10 w-full flex justify-center'>
           {loading && <button className='load-more orange mx-auto text-xl lg:py-4 lg:px-6 rounded-full font-bold py-2 px-4 cursor-none'>
-          {translations[language]['loading']}
+            {translations[language]['loading']}
           </button>}
 
           {hasMore && !loading && (

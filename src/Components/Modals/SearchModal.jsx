@@ -6,6 +6,7 @@ import { x } from 'react-icons-kit/feather/x'
 import translations from "../translations.json"
 
 import Icon from 'react-icons-kit';
+import { Link } from 'react-router-dom';
 
 
 
@@ -18,10 +19,8 @@ const SearchModal = ({ show, onHide, language }) => {
         if (inputValue.trim() !== '') {
             axios.get(`https://api.iticket.az/${language}/v5/events/search?client=web&q=${inputValue}`)
                 .then(response => {
-                    const searchEvents = response.data.response.events.map(event => event.name);
-                    const searchVenues = response.data.response.venues.map(venue => venue.name);
-                    setEvents(searchEvents);
-                    setVenues(searchVenues);
+                    setEvents(response.data.response.events);
+                    setVenues(response.data.response.venues.data);
                 })
                 .catch(error => {
                     console.error('Error fetching events:', error);
@@ -43,6 +42,9 @@ const SearchModal = ({ show, onHide, language }) => {
         setInputValue(e.target.value);
     };
 
+    const handleLinkClick = () => {
+        handleClose(); 
+    };
     return (
 
         <Modal
@@ -64,22 +66,25 @@ const SearchModal = ({ show, onHide, language }) => {
                     </button>
                 </div>
                 <div className='list-group flex flex-col items-center w-full mt-6 rounded-t-xl rounded-b-xl overflow-x-hidden'>
-                  
-                    {events.length > 0 && (
-                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
+
+                    {events && events.length > 0 && (
+                        <p className='list-group-item flex items-center w-full bg-slate-900  px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['events']}</p>
                     )}
-                    {events.map((event, index) => (
-                        <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{event}</a>
+                    {events && events.map((event) => (
+                        <Link onClick={handleLinkClick}
+                        key={events.id} 
+                        to={`/`}
+                            className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{event.name}</Link>
                     ))}
-                    
-                   
-                     {venues.length > 0 && (
-                        <p href='!#' className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
+
+
+                    {venues && venues.length > 0 && (
+                        <p className='list-group-item flex items-center w-full bg-slate-900 px-4 py-2 bg-dark border-black text-white font-medium'>{translations[language]['venues']}</p>
                     )}
-                    {venues.map((venue, index) => (
-                        <a key={index} href='!#' className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{venue}</a>
+                    {venues && venues.map((venue, index) => (
+                        <Link key={index} to={'/'} className='list-group-item w-full text-sm px-4 py-2 bg-white border border-gray-400 border-t-0 hover:bg-amber-400'>{venue}</Link>
                     ))}
-                    
+
                 </div>
 
             </div>
