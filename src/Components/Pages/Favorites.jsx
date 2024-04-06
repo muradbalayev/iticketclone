@@ -10,6 +10,7 @@ const Favorites = () => {
   const  {language} = useParams()
   const [favorites, setFavorites] = useState([])
   const [ids, setIds] = useState([]);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -33,6 +34,8 @@ const Favorites = () => {
         setFavorites(response.data.response.events.data);
       } catch (error) {
         console.error('Error fetching event detail:', error);
+      } finally {
+        setTimeout(() => setShowWarning(true), 1000);
       }
     };
 
@@ -91,7 +94,7 @@ const handleEventClick = (eventData) => {
                   </Link>
                 ))}
               </div>
-            ) : (<div className='warning mt-7 relative flex items-center gap-2'>
+            ) : (showWarning && <div className='warning mt-7 relative flex items-center gap-2'>
               <img src={warning} alt='warning' className='w-8' />
               <p className='font-medium text-lg'>  {translations[language]['fetcherror']}</p>
             </div>
