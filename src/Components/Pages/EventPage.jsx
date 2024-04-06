@@ -77,9 +77,6 @@ const EventPage = () => {
   const priceTitle = getPriceName(language);
 
 
-
-
-
   const fetchData = useCallback(async (pageNumber, category, startDate, endDate, venueId, minPrice, maxPrice) => {
     try {
       setLoading(true);
@@ -131,7 +128,7 @@ const EventPage = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -141,6 +138,9 @@ const EventPage = () => {
   }, [minPriceAPI, maxPriceAPI, language]);
 
 
+  useEffect(() => {
+    fetchData(page, category, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
+  }, [fetchData, page, category, startDate, endDate, selectedVenue, minPrice, maxPrice]);
 
 
 
@@ -255,11 +255,6 @@ const EventPage = () => {
   }, [category, language]);
 
 
-  useEffect(() => {
-    fetchData(page, category, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
-  }, [fetchData, page, category, startDate, endDate, selectedVenue, minPrice, maxPrice]);
-
-
 
   const handleSliderChange = (values) => {
     const [minValue, maxValue] = values;
@@ -308,12 +303,8 @@ const EventPage = () => {
 
 
   const handleEventClick = (eventData) => {
-    const { venues, min_price, max_price} = eventData;    
-
-    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
-    localStorage.setItem('minPrice', JSON.stringify(min_price));
-    localStorage.setItem('maxPrice', JSON.stringify(max_price));
-    localStorage.setItem('page',  JSON.stringify(page)); 
+    const {id} = eventData;    
+    localStorage.setItem('id', JSON.stringify(id));
   };
 
 

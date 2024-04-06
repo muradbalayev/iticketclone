@@ -88,12 +88,8 @@ const AllEvents = () => {
   const priceTitle = getPriceName(language);
 
   const handleEventClick = (eventData) => {
-    const { venues, min_price, max_price } = eventData;
-
-    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
-    localStorage.setItem('minPrice', JSON.stringify(min_price));
-    localStorage.setItem('maxPrice', JSON.stringify(max_price));
-    localStorage.setItem('page', JSON.stringify(page));
+    const { id } = eventData;
+    localStorage.setItem('id', JSON.stringify(id));
   };
 
 
@@ -144,7 +140,7 @@ const AllEvents = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -152,6 +148,11 @@ const AllEvents = () => {
       setTimeout(() => setShowWarning(true), 1000);
     }
   }, [language, minPriceAPI, maxPriceAPI]);
+
+  
+  useEffect(() => {
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice, language);
+  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
 
 
   const handleLoadMore = () => {
@@ -252,12 +253,6 @@ const AllEvents = () => {
     const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     return formattedDate.split('.').join('.');
   };
-
-
-
-  useEffect(() => {
-    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice, language);
-  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
 
 
   useEffect(() => {

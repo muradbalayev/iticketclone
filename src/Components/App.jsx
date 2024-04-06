@@ -18,7 +18,6 @@ import { ic_shopping_cart } from 'react-icons-kit/md/ic_shopping_cart'
 
 function App() {
   const { language, category } = useParams()
-  console.log(language)
   
   return (
     <div className='relative'>

@@ -137,7 +137,7 @@ const Home = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -299,12 +299,10 @@ const Home = () => {
 
 
   const handleEventClick = (eventData) => {
-    const { venues, min_price, max_price } = eventData;
+    const { id } = eventData;
 
-    localStorage.setItem('venueId', JSON.stringify(venues && venues.length > 0 ? venues[0].id : null,));
-    localStorage.setItem('minPrice', JSON.stringify(min_price));
-    localStorage.setItem('maxPrice', JSON.stringify(max_price));
-    localStorage.setItem('page', JSON.stringify(page));
+    localStorage.setItem('id', JSON.stringify(id));
+
   };
 
   return (
