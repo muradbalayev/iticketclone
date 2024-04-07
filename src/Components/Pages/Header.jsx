@@ -113,6 +113,10 @@ const Header = () => {
         };
     }, [location]);
 
+    const handleToggleNav = () => {
+        setOpenNav(!openNav);
+    };
+
     const handleLoginModal = () => {
         setLoginModalShow(true)
     }
@@ -204,7 +208,7 @@ const Header = () => {
             />
             {/* { openNav &&  */}
                 <div className={`mobile-overlay ${openNav ? 'left-0' : '-left-full '} bg-black z-50 fixed`}>
-                    <button className='absolute top-5 right-10 z-30' onClick={() => { setOpenNav(!openNav) }}>
+                    <button className='absolute top-5 right-10 z-30' onClick={handleToggleNav}>
                         <Icon className='text-white' icon={x} size={35} />
                     </button>
                     <div className={`mobile-navigation  ${openNav ? 'left-0' : '-left-full '} fixed flex flex-col`}>
@@ -298,7 +302,7 @@ const Header = () => {
             {/* } */}
             {/* Header Left */}
             <div className='nav wrapper z-10 mx-auto container flex items-center xl:justify-start justify-between md:py-5 md:px-8 py-2 px-4'>
-                <button onClick={() => { setOpenNav(!openNav) }} className='text-gray-400 xl:hidden block me-12'>
+                <button onClick={handleToggleNav} className='text-gray-400 xl:hidden block me-12'>
                     <Icon icon={menu} size={25} />
                 </button>
                 <Link to={`/${language}`} className="logo">
