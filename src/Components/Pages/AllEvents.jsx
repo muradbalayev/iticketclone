@@ -40,6 +40,7 @@ const AllEvents = () => {
         return "Bütün Tədbirlər";
     }
   };
+
   const pagetitle = getPageTitle(language);
 
 
@@ -140,7 +141,6 @@ const AllEvents = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-      // window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -154,11 +154,20 @@ const AllEvents = () => {
     fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice, language);
   }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice, language]);
 
+  useEffect(() => {
+    setStartDate(null)
+    setEndDate(null)
+    setSelectedVenue(null);
+    setPage(1)
+    setMaxPrice(null)
+    setMinPrice(null)
+    window.scrollTo(0, 0);
+  }, [language]);
+
 
   const handleLoadMore = () => {
     setPage(prevPage => prevPage + 1);
   };
-
 
   const handleVenueChange = selectedOption => {
     setSelectedVenue(selectedOption);
@@ -253,16 +262,6 @@ const AllEvents = () => {
     const formattedDate = new Date(date).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     return formattedDate.split('.').join('.');
   };
-
-
-  useEffect(() => {
-    setStartDate(null)
-    setEndDate(null)
-    setSelectedVenue(null);
-    setPage(1)
-    setMaxPrice(null)
-    setMinPrice(null)
-  }, [language]);
 
   const handleSliderChange = (values) => {
     const [minValue, maxValue] = values;

@@ -1,10 +1,6 @@
 /* eslint-disable react/prop-types */
 
 import Icon from 'react-icons-kit'
-// import posterwide from '../Images/ZoRQOrI142gHqgRHD6Wa9aVSFzAraiNe2BwCeSH5.jpg'
-// import poster from '../Images/bznVyxd836vkSNoEVOHHhi4QdQN8IL433kW8BOpp.jpg'
-// import artistimage from '../Images/RYUXEJU1lwFIFaDdw1k8Zu5ELYNlmzIuX82v6AfZ.png'
-// import lightboximg from '../Images/lightbox.jpg'
 import { heart } from 'react-icons-kit/feather/heart'
 import { share } from 'react-icons-kit/feather/share'
 import translations from '../translations.json'
@@ -142,7 +138,6 @@ const EventDetail = ({ category }) => {
         };
         fetchEventDetail();
     }, [language, category, id, page]);
-    // console.log(eventDetail);
 
     const handleEventClick = (eventData) => {
         const { id } = eventData;

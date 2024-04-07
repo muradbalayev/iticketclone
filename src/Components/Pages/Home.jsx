@@ -137,7 +137,6 @@ const Home = () => {
       }
 
       setHasMore(response.data.response.events.data.length > 0);
-      // window.scrollTo(0, 0);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -145,6 +144,10 @@ const Home = () => {
       setTimeout(() => setShowWarning(true), 1000);
     }
   }, [minPriceAPI, maxPriceAPI, language]);
+
+  useEffect(() => {
+    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
+  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice]);
 
 
   const handleLoadMore = () => {
@@ -291,11 +294,6 @@ const Home = () => {
     return formattedDate.split('.').join('.');
   };
 
-
-
-  useEffect(() => {
-    fetchData(page, startDate, endDate, selectedVenue ? selectedVenue.value : null, minPrice, maxPrice);
-  }, [fetchData, page, startDate, endDate, selectedVenue, minPrice, maxPrice]);
 
 
   const handleEventClick = (eventData) => {
