@@ -202,13 +202,12 @@ const Header = () => {
                 show={searchModalShow}
                 onHide={() => { setSearchModalShow(false); }}
             />
-            {
-                openNav &&
-                <div className='mobile-overlay bg-black z-50 fixed'>
+            {/* { openNav &&  */}
+                <div className={`mobile-overlay ${openNav ? 'left-0' : '-left-full '} bg-black z-50 fixed`}>
                     <button className='absolute top-5 right-10 z-30' onClick={() => { setOpenNav(!openNav) }}>
                         <Icon className='text-white' icon={x} size={35} />
                     </button>
-                    <div className='mobile-navigation relative flex flex-col'>
+                    <div className={`mobile-navigation  ${openNav ? 'left-0' : '-left-full '} fixed flex flex-col`}>
                         <div className='mobilenav-header pt-6 px-4'>
                             <div className='flex justify-between items-center mb-6'>
                                 <Link to={`/${language}`} className="logo">
@@ -296,7 +295,7 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
-            }
+            {/* } */}
             {/* Header Left */}
             <div className='nav wrapper z-10 mx-auto container flex items-center xl:justify-start justify-between md:py-5 md:px-8 py-2 px-4'>
                 <button onClick={() => { setOpenNav(!openNav) }} className='text-gray-400 xl:hidden block me-12'>
