@@ -95,10 +95,10 @@ const Cart = () => {
                             <div>Standart</div>
                           </div>
                         </div>
-                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-2">
+                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-2 min-w-40">
                           <div className="price-block p-3 orange text-center md:rounded-xl rounded-b-none rounded-t-xl flex flex-col items-center justify-center">
                             <div className="price whitespace-nowrap text-2xl text-center">{event.min_price} ₼</div>
-                            <div className="label text-gray-600 text-sm">4-16 yaş uşaqlar üçün</div>
+                            <div className="label text-gray-600 text-sm">{event.age_limit} yaşlar üçün</div>
                           </div>
                           <button onClick={() => handleDelete(event.id)}
                             className="delete-btn flex items-center justify-center md:rounded-full rounded-t-none rounded-b-xl md:h-10 md:w-10 p-2 group-hover:bg-red-600 bg-red-400 transition duration-300">

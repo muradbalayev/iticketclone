@@ -192,8 +192,9 @@ const EventDetail = ({ category }) => {
                         <img className="wide-bg lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide'
                             src={event.poster_wide_bg_url}
                         />
-                        <button className='absolute bottom-5 left-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-amber-400 justify-center group bg-white hover:bg-amber-400 hover:border-white transition duration-300 h-20 w-20 border-4 rounded-full'>
-                                    <Icon className='text-amber-400 transition group-hover:text-white' size={30} icon={ic_shopping_cart} />
+                        <button onClick={() => addToCarts(event.id)}
+                        className={`${cartActive ? 'cartmobile_active' : ' '} absolute bottom-5 left-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-amber-400 justify-center group bg-white hover:bg-amber-400 hover:border-white transition duration-300 h-20 w-20 border-4 rounded-full`}>
+                                    <Icon className={`${cartActive ? 'cartmobile_active' : ' '} text-amber-400 transition group-hover:text-white`} size={30} icon={ic_shopping_cart} />
                                 </button>
                         <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
                         <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
