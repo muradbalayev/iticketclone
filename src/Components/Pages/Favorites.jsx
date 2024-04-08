@@ -4,6 +4,8 @@ import translations from '../translations.json'
 import { useEffect, useState } from "react"
 import axios from "axios"
 import noposter from '../Images/no-app-poster.png'
+import { Helmet } from 'react-helmet';
+
 
 
 const Favorites = () => {
@@ -50,6 +52,9 @@ const handleEventClick = (eventData) => {
 
   return (
     <div>
+       <Helmet>
+        <title>Favorites | iTicket.AZ</title>
+      </Helmet>
        <div className="content-container px-5 mx-auto pt-7 lg:pt-9 pb-6">
         <h1 className="page-title">{translations[language]['favorites']}</h1>
         {favorites.length > 0 ? (

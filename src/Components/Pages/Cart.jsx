@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import warning from "../Images/warning.svg";
 import translations from '../translations.json';
 import { useEffect } from "react";
+import { Helmet } from 'react-helmet';
+
 
 
 const Cart = () => {
@@ -13,6 +15,9 @@ const Cart = () => {
 
   return (
     <div>
+        <Helmet>
+        <title>Cart | iTicket.AZ</title>
+      </Helmet>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
         <div className='bg-white rounded-3xl px-5 py-7'>
         <h1 className="page-title">{translations[language]['cart']}</h1>

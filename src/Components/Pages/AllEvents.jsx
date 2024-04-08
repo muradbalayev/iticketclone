@@ -8,6 +8,8 @@ import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';
 import 'rsuite/RangeSlider/styles/index.css';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
 
 
 const AllEvents = () => {
@@ -308,8 +310,13 @@ const AllEvents = () => {
     }
   };
 
+
+
   return (
     <div>
+        <Helmet>
+        <title>All Events | iTicket.AZ</title>
+      </Helmet>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
         <h1 className="page-title">{pagetitle}</h1>
       </div>

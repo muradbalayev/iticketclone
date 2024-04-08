@@ -7,6 +7,8 @@ import DatePicker from "react-multi-date-picker";
 import noposter from '../Images/no-app-poster.png'
 import warning from "../Images/warning.svg"
 import { RangeSlider } from 'rsuite';
+import { Helmet } from 'react-helmet';
+
 import 'rsuite/RangeSlider/styles/index.css';
 
 
@@ -306,9 +308,13 @@ const EventPage = () => {
     const { id } = eventData;
     localStorage.setItem('id', JSON.stringify(id));
   };
+  const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
     <div>
+      <Helmet>
+        <title>{`${capitalizedCategory} | iTicket.AZ`}</title>
+      </Helmet>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
         <h1 className="page-title">{pageTitle} </h1>
       </div>
