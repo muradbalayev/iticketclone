@@ -95,7 +95,7 @@ const Cart = () => {
                             <div>Standart</div>
                           </div>
                         </div>
-                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-2 min-w-40">
+                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-2 md:min-w-40">
                           <div className="price-block p-3 orange text-center md:rounded-xl rounded-b-none rounded-t-xl flex flex-col items-center justify-center">
                             <div className="price whitespace-nowrap text-2xl text-center">{event.min_price} ₼</div>
                             <div className="label text-gray-600 text-sm">{event.age_limit} yaşlar üçün</div>
