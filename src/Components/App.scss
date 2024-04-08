@@ -133,7 +133,7 @@ transition: .3 ease;
     position: relative;
     background-color: white;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     justify-content: space-between;
     width: 80%;
     height: 100%;
@@ -360,9 +360,10 @@ footer {
       display: flex;
       flex-direction: column;
 
-      a {
+      p {
         display: inline-block;
         margin-bottom: 0.75rem;
+        user-select: none;
       }
     }
   }
@@ -478,25 +479,6 @@ footer {
     .rs-slider-handle::before {
       border: 2px solid #fd0;
     }
-
-    //  .element-selector {
-    //    max-width: 90%;
-    //    max-height: 4px;
-    //    position: absolute !important;
-    //    bottom: -2px;
-    //    background: transparent;
-       
-    //     .range-slider__range{
-    //     background: #fd0!important;
-    //     }
-       
-
-    //    .range-slider__thumb {
-    //      width: 1rem;
-    //      height: 1rem;
-    //      background: #fd0!important;
-    //    }
-    //  }
   }
 }
 

@@ -33,7 +33,19 @@
     "locationplace": "Məkan yer",
     "suggestions": "Oxşar tədbirlər",
     "info": "Məlumat",
-    "security": "Təhlükəsizlik"
+    "security": "Təhlükəsizlik",
+    "questions": "Ən çox verilən suallar",
+    "help": "Dəstək",
+    "rules": "Şərtlər və Qaydalar",
+    "electron-ticket": "Elektron bilet",
+    "ticket-return": "Biletin qaytarılması və dəyişdirilməsi",
+    "privacy": "Məxfilik",
+    "about-us": "Haqqımızda",
+    "ticket-location": "Biletlərin satış məntəqələri",
+    "karabakh-revival-foundation": "Qarabağ Dirçəliş Fondu",
+    "contact": "Əlaqə",
+    "visa": "Bütün ödənişlər Visa, Visa Electron, Maestro və MasterCard-dan 3D Secure ilə qorunur.",
+    "supportservice": "Dəstək xidməti"
   },
   "en": {
     "loadmore": "Load more",
@@ -69,7 +81,19 @@
     "locationplace": "Venue location",
     "suggestions": "Similar Events",
     "info": "Information",
-    "security": "Security"
+    "security": "Security",
+    "questions": "FAQ",
+    "help": "Support",
+    "rules": "Terms & Conditions",
+    "electron-ticket": "E-Ticket",
+    "ticket-return": "Ticket refunds or changes",
+    "privacy": "Privacy Policy",
+    "about-us": "About Us",
+    "ticket-location": "Ticket Sales Points",
+    "karabakh-revival-foundation": "Karabakh Revival Foundation",
+    "contact": "Contact",
+    "visa": "All payments are protected by 3D Secure from Visa, Visa Electron, Maestro & MasterCard",
+    "supportservice": "Support service"
   },
   "ru": {
     "loadmore": "Более",
@@ -105,6 +129,18 @@
     "locationplace": "Mестоположение",
     "suggestions": "Похожие мероприятия",
     "info": "Информация",
-    "security": "Безопасность"
+    "security": "Безопасность",
+    "questions": "Часто задаваемые вопросы",
+    "help": "Помощь",
+    "rules": "Условия и правила",
+    "electron-ticket": "Электронный билет",
+    "ticket-return": "Возврат и обмен билетов",
+    "privacy": "Конфиденциальность",
+    "about-us": "О нас",
+    "ticket-location": "Места продажи билетов",
+    "karabakh-revival-foundation": "Фонд Возрождения Карабаха",
+    "contact": "Контакт",
+    "visa": "Все платежи защищены 3D Secure от Visa, Visa Electron, Maestro и MasterCard.",
+    "supportservice": "Сервис поддержки"
   }
 }
