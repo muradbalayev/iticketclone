@@ -12,20 +12,32 @@ import EventDetail from './Pages/EventDetail';
 import Icon from 'react-icons-kit'
 
 import { ic_shopping_cart } from 'react-icons-kit/md/ic_shopping_cart'
+import { useEffect, useState } from 'react';
 
 
 
 
 function App() {
   const { language, category } = useParams()
-  
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [cartsFromLocalStorage, setCartsFromLocalStorage] = useState(JSON.parse(localStorage.getItem('carts')) || []);
+
+  useEffect(() => {
+    const carts = JSON.parse(localStorage.getItem('carts')) || [];
+    setCartItemCount(carts.length);
+    setCartsFromLocalStorage(carts);
+  }, [cartsFromLocalStorage]); 
+
+
   return (
     <div className='relative'>
       <button className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-30 right-0 rounded-full bottom-0'>
         <Icon icon={ic_shopping_cart} size={27}/>
-        <span className='rounded-full w-5 absolute top-0 right-0 bg-red-700 text-white text-sm'>0</span>
+        <span className='rounded-full w-5 absolute top-0 right-0 bg-red-700 text-white text-sm'>
+        {cartItemCount}
+        </span>
       </button>
-      <Header/>
+      <Header cartItemCount={cartItemCount}/>
       <Routes>
       <Route path="/" element={<Home language={language} />} exact/>
       <Route path="/:language" element={<AllEvents category={category}/>} exact/>

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import translations from "../translations.json"
@@ -18,7 +20,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
 
-const Header = () => {
+const Header = ({cartItemCount}) => {
     const location = useLocation();
     const [openDrop, setOpenDrop] = useState(false);
     const [loginModalShow, setLoginModalShow] = useState(false);
@@ -192,7 +194,6 @@ const Header = () => {
 
 
 
-    const wishlist = 0;
     return (
         <div className={`header w-full bg-white shadow-md z-50 sticky`}>
             <LoginModal
@@ -290,11 +291,11 @@ const Header = () => {
                         </nav>
                     </div>
                     <div className="mobilenav-footer flex justify-between items-center shadow-md border-t py-2 px-4">
-                        <a href="/" className="">
-                            Biletlərin Satış Məntəqələri
+                        <a href="/">
+                        {translations[language]['ticket-location']}
                         </a>
-                        <a href="/" className="">
-                            Əlaqə
+                        <a href="/">
+                        {translations[language]['contact']}
                         </a>
                     </div>
                 </div>
@@ -379,7 +380,8 @@ const Header = () => {
                     </button>
                     <Link to={`/${language}/cart`}>
                         <button className='p-3 flex items-center justify-center xl:me-8 text-gray-400'>
-                            <Icon size={22} className=' text-center' icon={ic_shopping_cart} /><p className='text-sm font-bold'>{wishlist}</p>
+                            <Icon size={22} className=' text-center' icon={ic_shopping_cart} />
+                            <p className='text-sm font-bold'>{cartItemCount}</p>
                         </button>
                     </Link>
                     <button onClick={() => { handleLoginModal() }} className='profile p-3 w-12 h-12 rounded-full flex items-center justify-center orange'>

@@ -3,6 +3,7 @@
 import Icon from 'react-icons-kit'
 import { heart } from 'react-icons-kit/feather/heart'
 import { share } from 'react-icons-kit/feather/share'
+import { ic_shopping_cart } from 'react-icons-kit/md/ic_shopping_cart'
 import translations from '../translations.json'
 import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -30,8 +31,12 @@ const EventDetail = ({ category }) => {
     const [venues, setVenues] = useState([]);
     const [eventsSugg, setEventsSugg] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [carts, setCarts] = useState([]);
     const [favoriteActive, setFavoriteActive] = useState(false)
+    const [cartActive, setCartActive] = useState(false)
 
+
+    //Favorites
     const addToFavorites = (eventId) => {
         if (favorites.includes(eventId)) {
             setFavorites(prevFavorites => prevFavorites.filter(id => id !== eventId));
@@ -53,6 +58,32 @@ const EventDetail = ({ category }) => {
             setFavoriteActive(true);
         }
     }, [favorites]);
+
+
+
+//Cart
+
+    const addToCarts = (eventId) => {
+        if (carts.includes(eventId)) {
+            setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
+            setCartActive(false);
+        } else {
+            setCarts(prevCarts => [...prevCarts, eventId]);
+            setCartActive(true);
+        }    };
+
+    useEffect(() => {
+        const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+        setCarts(storedCarts);
+    }, []);
+    
+    useEffect(() => {
+        localStorage.setItem('carts', JSON.stringify(carts));
+        const id = JSON.parse(localStorage.getItem('id'));
+        if (id && carts.includes(id)) {
+            setCartActive(true);
+        }
+    }, [carts]);
 
     const title1Toggle = () => {
         setTitle1(true);
@@ -161,6 +192,9 @@ const EventDetail = ({ category }) => {
                         <img className="wide-bg lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide'
                             src={event.poster_wide_bg_url}
                         />
+                        <button className='absolute bottom-5 left-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-amber-400 justify-center group bg-white hover:bg-amber-400 hover:border-white transition duration-300 h-20 w-20 border-4 rounded-full'>
+                                    <Icon className='text-amber-400 transition group-hover:text-white' size={30} icon={ic_shopping_cart} />
+                                </button>
                         <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
                         <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
                         <div className='info absolute lg:left-0 lg:right-0 lg:bottom-5 lg:py-10 lg:px-5 xl:py-20 xl:px-0'>
@@ -174,6 +208,10 @@ const EventDetail = ({ category }) => {
                                 </button>
                                 <button className='p-5 flex shadow-md items-center border-white justify-center group hover:bg-white hover:border-amber-400 transition duration-300 lg:h-16 lg:w-16 lg:border-4 rounded-full'>
                                     <Icon className='text-white group-hover:text-amber-400 transition' size={24} icon={share} />
+                                </button>
+                                <button  onClick={() => addToCarts(event.id)}
+                                    className={`${cartActive ? 'cart_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
+                                    <Icon className={`${cartActive ? 'cart_active' : ' '} text-white group-hover:text-amber-400 transition`} size={27} icon={ic_shopping_cart} />
                                 </button>
 
                             </div>
