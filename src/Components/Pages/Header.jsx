@@ -206,7 +206,7 @@ const Header = () => {
                 onHide={() => { setSearchModalShow(false); }}
             />
             {/* { openNav &&  */}
-            <div className={`mobile-overlay ${openNav ? 'left-0' : '-left-full '} bg-black z-50 fixed`}>
+            <div className={`mobile-overlay ${openNav ? 'left-0 opacity-100' : '-left-full opacity-20 '} bg-black z-50 fixed`}>
                 <button className='absolute top-5 right-10 z-40' onClick={() => setOpenNav(false)}
                 >
                     <Icon className='text-white' icon={x} size={35} />
