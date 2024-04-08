@@ -78,8 +78,8 @@ const Cart = () => {
                     {carts.map(event => (
                       <div key={event.id} className="ticket-list-item  md:flex md:items-center !justify-between pb-8 border-b-2 flex flex-row mt-8">
                         <div className="flex items-center">
-                          <div className="ticket_image md:w-28 md:h-28 h-36 w-36 mr-2 lg:mr-4 flex items-center relative">
-                            <img className="rounded-lg object-cover" src={event.poster_bg_url} />
+                          <div className="ticket_image overflow-hidden md:w-28 md:h-28 h-36 w-36 mr-2 lg:mr-4 rounded-lg flex items-center relative">
+                            <img className="object-cover" src={event.poster_bg_url} />
                             <img className="object-contain absolute" src={event.poster_url} />
                           </div>
                           <div className="ticket-info flex flex-col justify-between">
