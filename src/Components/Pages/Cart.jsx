@@ -68,11 +68,11 @@ const Cart = () => {
         <title>Cart | iTicket.AZ</title>
       </Helmet>
       <div className="content-container lg:px-5 px-3 mx-auto pt-7 lg:pt-12 pb-6">
-        <div className='relative bg-white rounded-3xl px-5'>
+        <div className='relative bg-white rounded-3xl px-5 overflow-hidden'>
           {carts.length > 0 ? (
             <div className="grid lg:grid-cols-4">
               <div className="lg:col-span-3">
-                <div className="cart-items py-8 px-5 lg:pr-10 lg:pl-7 lg:border-r border-gray-300">
+                <div className="cart-items py-8 md:px-5 lg:pr-10 lg:pl-7 lg:border-r border-gray-300">
                   <h1 className="page-title">{translations[language]['cart']}</h1>
                   <div className="tickets-list lg:-mr-5 pb-10">
                     {carts.map(event => (
@@ -83,19 +83,19 @@ const Cart = () => {
                             <img className="object-contain absolute" src={event.poster_url} />
                           </div>
                           <div className="ticket-info flex flex-col justify-between">
-                            <div className="session-datetime lg:hidden text-sm text-gray-500 mb-1">
+                            <div className="session-datetime lg:hidden md:text-sm text-xs text-gray-500 mb-1">
                               BZP /
                               10:00, 19.04.24
                             </div>
-                            <div className="session-datetime hidden lg:flex text-sm text-gray-500 lg:mb-2">
+                            <div className="session-datetime hidden lg:flex  md:text-sm text-xs text-gray-500 lg:mb-2">
                               BZP /
                               Cümə, 19 Aprel - 10:00
                             </div>
-                            <div className="event-name lg:text-2xl text-xl font-medium mb-2">{event.name}</div>
+                            <div className="event-name md:text-2xl text-base font-medium mb-2 whitespace-normal">{event.name}</div>
                             <div>Standart</div>
                           </div>
                         </div>
-                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-2 md:min-w-40">
+                        <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-1">
                           <div className="price-block p-3 orange text-center md:rounded-xl rounded-b-none rounded-t-xl flex flex-col items-center justify-center">
                             <div className="price whitespace-nowrap text-2xl text-center">{event.min_price} ₼</div>
                             <div className="label text-gray-600 text-sm">{event.age_limit} yaşlar üçün</div>
