@@ -11,6 +11,7 @@ import translations from '../translations.json';
 import { Link } from 'react-router-dom'
 
 
+
 const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, handleClearCart}) => {
     const [carts, setCarts] = useState([])
     const language = localStorage.getItem('language') || 'az'
@@ -73,7 +74,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                 <Icon onClick={handleClose} icon={x} size={25} className='text-gray-500 cursor-pointer' />
                             </div>
                             <div className='mb-5'>
-                                <h1 className="page-title">Sebet</h1>
+                                <h1 className="page-title">{translations[language]['cart']}</h1>
                                 <div className="time-limit-container h-1.5 mt-4 bg-gray-400 relative">
                                     <div style={{ width: `${(timeLeft / (5 * 60)) * 100}%` }}
                                         className="time-limit orange h-1.5"></div>
@@ -134,7 +135,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                     <p className='text-gray-500 text-sm font-semibold'>Səbəti təmizlə</p>
                                 </button>
                                 <Link onClick={handleClose} to={`/${language}/cart`} className="orange rounded-lg">
-                                    <p className="text-xl font-bold text-center py-4 px-5">Səbət</p>
+                                    <p className="text-xl font-bold text-center py-4 px-5">{translations[language]['cart']}</p>
                                 </Link>
                             </div>
 
