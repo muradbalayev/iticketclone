@@ -82,7 +82,7 @@ function App() {
         </span>
       </button>
       <Header cartItemCount={carts.length} />
-      {openSideCart &&
+      {openSideCart && 
         <SideCart
           ids={ids}
           setIds={setIds}

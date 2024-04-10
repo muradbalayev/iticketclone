@@ -86,7 +86,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, setIds, handleDelete, time
                                 {carts.map(event => (
                                     <div key={event.id} className="ticket-list-item  md:flex md:items-center !justify-between pb-8 flex flex-row mt-8">
                                         <div className="flex items-center">
-                                            <div className="ticket_image overflow-hidden md:w-28 md:h-28 h-36 w-36 mr-2 lg:mr-4 rounded-lg flex items-center relative">
+                                            <div className="ticket_image overflow-hidden  max-h-28 max-w-28 mr-2 lg:mr-4 rounded-lg flex items-center relative">
                                                 <img className="object-cover" src={event.poster_bg_url} />
                                                 <img className="object-contain absolute" src={event.poster_url} />
                                             </div>
@@ -99,7 +99,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, setIds, handleDelete, time
                                                     BZP /
                                                     Cümə, 19 Aprel - 10:00
                                                 </div>
-                                                <div className="event-name lg:text-2xl md:text-lg text-base font-medium mb-2 whitespace-normal">
+                                                <div className="event-name lg:text-xl md:text-lg text-base font-medium mb-2 whitespace-normal">
                                                     {event.name}
                                                 </div>
                                                 <div>Standart</div>
@@ -107,7 +107,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, setIds, handleDelete, time
                                         </div>
                                         <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-1">
                                             <div className="price-block p-3 orange text-center md:rounded-xl rounded-b-none rounded-t-xl flex flex-col items-center justify-center">
-                                                <div className="price whitespace-nowrap text-2xl text-center">
+                                                <div className="price whitespace-nowrap lg:text-2xl text-lg text-center">
                                                     {event.min_price} ₼
                                                 </div>
                                                 <div className="label text-gray-600 text-sm">
