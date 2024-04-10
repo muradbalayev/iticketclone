@@ -11,15 +11,13 @@ import translations from '../translations.json';
 import { Link } from 'react-router-dom'
 
 
-const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) => {
+const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, handleClearCart}) => {
     const [carts, setCarts] = useState([])
     const language = localStorage.getItem('language') || 'az'
     const [showWarning, setShowWarning] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0); 
 
-    // useEffect(() => {
-    //     const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-    //     setIds(storedCarts);
-    // }, [setIds]);
+
 
     useEffect(() => {
         const fetchCarts = async () => {
@@ -36,13 +34,15 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) =
                 const response = await axios.get(url);
                 setCarts(response.data.response.events.data);
 
+                const totalPrice = response.data.response.events.data.reduce((acc, event) => acc + event.min_price, 0);
+                setTotalPrice(totalPrice);
+
             } catch (error) {
                 console.error('Error fetching event detail:', error);
             } finally {
-                setTimeout(() => setShowWarning(true), 500);
+                setTimeout(() => setShowWarning(true), 300);
             }
         };
-        window.scrollTo(0, 0);
         fetchCarts();
     }, [language, ids]);
 
@@ -60,10 +60,9 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) =
     return (
         <div style={{ zIndex: "1000" }}
             className='sidecart-overlay fixed top-0 left-0 w-full h-dvh flex justify-end'>
-            <div style={{ maxWidth: "600px" }}
-                className='side-cart px-5 md:w-1/2 pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
+            <div className='side-cart px-5 md:w-1/2 w-full pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
                 {carts.length > 0 ? (
-                    <div className='h-full flex flex-col justify-between'>
+                    <div className='h-full flex flex-col justify-between w-full'>
                         <div className='flex flex-col'>
                             <div className="flex justify-between items-center mt-4 mb-5 w-full">
                                 <div className="flex gap-2 text-gray-500">
@@ -124,13 +123,13 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) =
                             </div>
                         </div>
                         <div className='cart-footer border-t-2 flex flex-col pt-6 gap-3 border-gray-300'>
-                            <div className="last-price flex justify-between items-center mb-2">
+                            <div className="total-price flex justify-between items-center mb-2">
                                 <p className='text-lg font-semibold text-gray-700'>Cəmi</p>
-                                <p className='text-lg font-semibold text-gray-700'>14 ₼</p>
+                                <p className='text-lg font-semibold text-gray-700'>{totalPrice} ₼</p>
                             </div>
                             <div className='basket flex justify-between items-center'>
                                 
-                                <button  className='flex gap-3 items-center'>
+                                <button onClick={handleClearCart}  className='flex gap-3 items-center'>
                                     <Icon icon={trash} size={15} className='text-gray-500' />
                                     <p className='text-gray-500 text-sm font-semibold'>Səbəti təmizlə</p>
                                 </button>
@@ -143,7 +142,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) =
                     </div>
                 ) :
                     (showWarning &&
-                        <div className='warning h-full justify-center flex items-center gap-2'>
+                        <div className='warning h-full w-full justify-center flex items-center gap-2'>
                             <Icon onClick={handleClose} icon={x} size={25} className='text-gray-500 cursor-pointer absolute top-4 right-4' />
                             <img src={warning} alt='warning' className='w-8' />
                             <p className='font-medium text-lg'>{translations[language]['carterror']}</p>

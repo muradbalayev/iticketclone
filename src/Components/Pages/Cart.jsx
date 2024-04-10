@@ -17,11 +17,8 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
   const { language } = useParams();
   const [carts, setCarts] = useState([])
   const [showWarning, setShowWarning] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0); 
 
-  // useEffect(() => {
-  //   const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-  //   setIds(storedCarts);
-  // }, [setIds]);
 
 
   const formatTime = (timeLeft) => {
@@ -44,14 +41,16 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
         }
         const response = await axios.get(url);
         setCarts(response.data.response.events.data);
+
+        const totalPrice = response.data.response.events.data.reduce((acc, event) => acc + event.min_price, 0);
+        setTotalPrice(totalPrice);
       } catch (error) {
         console.error('Error fetching event detail:', error);
       } finally {
-        setTimeout(() => setShowWarning(true), 500);
+        setTimeout(() => setShowWarning(true), 300);
       }
     };
 
-    window.scrollTo(0, 0);
     fetchCarts();
   }, [language, ids]);
 
@@ -157,7 +156,7 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
                   </div>
                   <div className="last-price flex justify-between items-center text-xl color-gray-500 mb-2">
                     <p>Cəmi</p>
-                    <p>14 ₼</p>
+                    <p>{totalPrice} ₼</p>
                   </div>
                   <div className="mt-5 flex">
                     <input type="checkbox" className="outline-none border-blue-800" />

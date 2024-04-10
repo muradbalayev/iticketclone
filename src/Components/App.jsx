@@ -22,40 +22,39 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(5 * 60);
 
 
-      const addToCarts = (eventId) => {
-        if (carts.includes(eventId)) {
-            setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
-        } else {
-            setCarts(prevCarts => [...prevCarts, eventId]);
-            setTimeLeft(5 * 60);
+  const addToCarts = (eventId) => {
+    if (carts.includes(eventId)) {
+      setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
+    } else {
+      setCarts(prevCarts => [...prevCarts, eventId]);
+      setTimeLeft(5 * 60);
+    }
+  };
 
-        }   
-    };
+  useEffect(() => {
+    // Sebet itemleri deyisende Fetch Id render
+    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+    setIds(storedCarts);
 
+    //Time Limit
+    if (carts.length > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTimeLeft) => {
+          if (prevTimeLeft === 0) {
+            clearInterval(timer);
+            localStorage.removeItem('carts');
+            setIds([]);
+            setCarts([])
+            return 0;
+          } else {
+            return prevTimeLeft - 1;
+          }
+        });
+      }, 1000);
 
-    
-    useEffect(() => {
-      const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-      setIds(storedCarts);
-
-      if (carts.length > 0) {
-        const timer = setInterval(() => {
-          setTimeLeft((prevTimeLeft) => {
-            if (prevTimeLeft === 0) {
-              clearInterval(timer);
-              localStorage.removeItem('carts');
-              setIds([]);
-              setCarts([])
-              return 0;
-            } else {
-              return prevTimeLeft - 1;
-            }
-          });
-        }, 1000);
-    
-        return () => clearInterval(timer);
-      }
-    }, [carts]); 
+      return () => clearInterval(timer);
+    }
+  }, [carts]);
 
 
 
@@ -75,6 +74,12 @@ function App() {
   };
 
 
+  const handleClearCart = () => {
+    setCarts([])
+    localStorage.removeItem('carts');
+    setOpenSideCart(false);
+  }
+
 
   return (
     <div className='relative'>
@@ -87,14 +92,16 @@ function App() {
         </span>
       </button>
       <Header cartItemCount={carts.length} />
-      {openSideCart && 
+      {openSideCart &&
         <SideCart
           ids={ids}
           setIds={setIds}
           handleDelete={handleDelete}
           handleClose={() => setOpenSideCart(false)}
           timeLeft={timeLeft}
-          cartItemCount={carts.length} />
+          cartItemCount={carts.length}
+          handleClearCart={handleClearCart}
+        />
       }
       <Routes>
         <Route path="/" element={<Home language={language} />} exact />
@@ -102,7 +109,7 @@ function App() {
         <Route path="/:language/:category" element={<EventPage />} exact />
         <Route path='/:language/:category/:slug'
           element={<EventDetail
-          addToCarts={addToCarts}
+            addToCarts={addToCarts}
             carts={carts}
             setCarts={setCarts}
             category={category} />} exact />
