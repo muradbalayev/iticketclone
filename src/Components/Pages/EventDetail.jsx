@@ -23,7 +23,7 @@ import 'leaflet/dist/leaflet.css';
 
 
 
-const EventDetail = ({ category }) => {
+const EventDetail = ({ category, carts, addToCarts }) => {
     const { language } = useParams()
     const [title1, setTitle1] = useState(true);
     const [title2, setTitle2] = useState(false);
@@ -31,9 +31,9 @@ const EventDetail = ({ category }) => {
     const [venues, setVenues] = useState([]);
     const [eventsSugg, setEventsSugg] = useState([]);
     const [favorites, setFavorites] = useState([]);
-    const [carts, setCarts] = useState([]);
     const [favoriteActive, setFavoriteActive] = useState(false)
-    const [cartActive, setCartActive] = useState(false)
+    // const [cartActive, setCartActive] = useState(false)
+    const [cartStatus, setCartStatus] = useState({});
 
 
     //Favorites
@@ -61,28 +61,27 @@ const EventDetail = ({ category }) => {
 
 
 
-//Cart
-
-    const addToCarts = (eventId) => {
-        if (carts.includes(eventId)) {
-            setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
-            setCartActive(false);
-        } else {
-            setCarts(prevCarts => [...prevCarts, eventId]);
-            setCartActive(true);
-        }    };
-
-    useEffect(() => {
-        const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-        setCarts(storedCarts);
-    }, []);
+    //Cart
+    
+    // const addToCarts = (eventId) => {
+    //     if (carts.includes(eventId)) {
+    //         setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
+    //     } else {
+    //         setCarts(prevCarts => [...prevCarts, eventId]);
+    //     }   
+    // };
     
     useEffect(() => {
         localStorage.setItem('carts', JSON.stringify(carts));
+    }, [carts]);
+    
+     useEffect(() => {
         const id = JSON.parse(localStorage.getItem('id'));
-        if (id && carts.includes(id)) {
-            setCartActive(true);
-        }
+        const updatedCartStatus = {};
+        carts.forEach(eventId => {
+            updatedCartStatus[eventId] = eventId === id;
+        });
+        setCartStatus(updatedCartStatus);
     }, [carts]);
 
     const title1Toggle = () => {
@@ -193,8 +192,8 @@ const EventDetail = ({ category }) => {
                             src={event.poster_wide_bg_url}
                         />
                         <button onClick={() => addToCarts(event.id)}
-                        className={`${cartActive ? 'cartmobile_active' : ' '} absolute bottom-5 left-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-amber-400 justify-center group bg-white hover:bg-amber-400 hover:border-white transition duration-300 h-16 w-16 border-2 rounded-full`}>
-                                    <Icon className={`${cartActive ? 'cartmobile_active' : ' '} text-amber-400 transition group-hover:text-white`} size={30} icon={ic_shopping_cart} />
+                        className={`${cartStatus[event.id] ? 'cart_active' : ' '} absolute bottom-5 left-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-amber-400 justify-center group bg-white hover:bg-amber-400 hover:border-white transition duration-300 h-16 w-16 border-2 rounded-full`}>
+                                    <Icon className={`${cartStatus[event.id] ? 'cart_active' : ' '} text-amber-400 transition group-hover:text-white`} size={30} icon={ic_shopping_cart} />
                                 </button>
                         <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
                         <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
@@ -211,8 +210,8 @@ const EventDetail = ({ category }) => {
                                     <Icon className='text-white group-hover:text-amber-400 transition' size={24} icon={share} />
                                 </button>
                                 <button  onClick={() => addToCarts(event.id)}
-                                    className={`${cartActive ? 'cart_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
-                                    <Icon className={`${cartActive ? 'cart_active' : ' '} text-white group-hover:text-amber-400 transition`} size={27} icon={ic_shopping_cart} />
+                                className={`${cartStatus[event.id] ? 'cart_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
+                                <Icon className={`${cartStatus[event.id] ? 'cart_active' : ' '} text-white group-hover:text-amber-400 transition`} size={27} icon={ic_shopping_cart} />
                                 </button>
 
                             </div>

@@ -116,8 +116,6 @@ const Header = ({cartItemCount}) => {
     }, [location]);
 
  
-    console.log(openNav)
-
     const handleLoginModal = () => {
         setLoginModalShow(true)
     }
@@ -135,11 +133,11 @@ const Header = ({cartItemCount}) => {
     }, []);
 
     const handleClickOutside = (e) => {
-        // Check if the click is outside the mobile-navigation component
         if (e.target.closest('.mobile-navigation') === null) {
             setOpenNav(false);
         }
     };
+    
     const DropToggle = () => {
         setOpenDrop(!openDrop)
     }

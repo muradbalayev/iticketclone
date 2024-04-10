@@ -13,17 +13,19 @@ import ticket2 from '../Images/2.svg'
 
 
 
-const Cart = () => {
+const Cart = ({handleDelete, ids, setIds, timeLeft}) => {
   const { language } = useParams();
   const [carts, setCarts] = useState([])
-  const [ids, setIds] = useState([]);
+  // const [ids, setIds] = useState([]);
   const [showWarning, setShowWarning] = useState(false);
 
+  
 
-  useEffect(() => {
-    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-    setIds(storedCarts);
-  }, []);
+  const formatTime = (timeLeft) => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
 
   useEffect(() => {
     const fetchCarts = async () => {
@@ -37,13 +39,12 @@ const Cart = () => {
           setCarts([]);
           return;
         }
-
         const response = await axios.get(url);
         setCarts(response.data.response.events.data);
       } catch (error) {
         console.error('Error fetching event detail:', error);
       } finally {
-        setTimeout(() => setShowWarning(true), 1000);
+        setTimeout(() => setShowWarning(true), 500);
       }
     };
 
@@ -51,16 +52,16 @@ const Cart = () => {
     fetchCarts();
   }, [language, ids]);
 
+  useEffect(() => {
+    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+    setIds(storedCarts);
+  }, [setIds]);
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleDelete = (idToDelete) => {
-    const updatedIds = ids.filter(id => id !== idToDelete);
-    setIds(updatedIds);
-    localStorage.setItem('carts', JSON.stringify(updatedIds));
-  };
 
   return (
     <div>
@@ -74,6 +75,13 @@ const Cart = () => {
               <div className="lg:col-span-3">
                 <div className="cart-items py-8 md:px-5 lg:pr-10 lg:pl-7 lg:border-r border-gray-300">
                   <h1 className="page-title">{translations[language]['cart']}</h1>
+                  <div className="time-limit-container h-1.5 mt-4 bg-gray-400 relative">
+                                    <div style={{ width: `${(timeLeft / (5 * 60)) * 100}%` }}
+                                        className="time-limit orange h-1.5"></div>
+                                    <div className="max-w-16 h-8 rounded-lg absolute right-0 -top-3 py-1 px-2 bg-white shadow text-base font-semibold">
+                                        {formatTime(timeLeft)}
+                                    </div>
+                                </div>
                   <div className="tickets-list lg:-mr-5 pb-10">
                     {carts.map(event => (
                       <div key={event.id} className="ticket-list-item  md:flex md:items-center !justify-between pb-8 border-b-2 flex flex-row mt-8">
