@@ -13,13 +13,16 @@ import ticket2 from '../Images/2.svg'
 
 
 
-const Cart = ({handleDelete, ids, setIds, timeLeft}) => {
+const Cart = ({handleDelete, ids, timeLeft}) => {
   const { language } = useParams();
   const [carts, setCarts] = useState([])
-  // const [ids, setIds] = useState([]);
   const [showWarning, setShowWarning] = useState(false);
 
-  
+  // useEffect(() => {
+  //   const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+  //   setIds(storedCarts);
+  // }, [setIds]);
+
 
   const formatTime = (timeLeft) => {
     const minutes = Math.floor(timeLeft / 60);
@@ -52,10 +55,6 @@ const Cart = ({handleDelete, ids, setIds, timeLeft}) => {
     fetchCarts();
   }, [language, ids]);
 
-  useEffect(() => {
-    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-    setIds(storedCarts);
-  }, [setIds]);
 
 
   useEffect(() => {

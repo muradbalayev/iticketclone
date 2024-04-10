@@ -35,6 +35,9 @@ function App() {
 
     
     useEffect(() => {
+      const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+      setIds(storedCarts);
+
       if (carts.length > 0) {
         const timer = setInterval(() => {
           setTimeLeft((prevTimeLeft) => {
@@ -53,6 +56,8 @@ function App() {
         return () => clearInterval(timer);
       }
     }, [carts]); 
+
+
 
   const handleCartIconClick = () => {
     setOpenSideCart(true);

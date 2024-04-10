@@ -11,11 +11,15 @@ import translations from '../translations.json';
 import { Link } from 'react-router-dom'
 
 
-const SideCart = ({ handleClose , cartItemCount, ids, setIds, handleDelete, timeLeft}) => {
+const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft}) => {
     const [carts, setCarts] = useState([])
     const language = localStorage.getItem('language') || 'az'
     const [showWarning, setShowWarning] = useState(false);
 
+    // useEffect(() => {
+    //     const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+    //     setIds(storedCarts);
+    // }, [setIds]);
 
     useEffect(() => {
         const fetchCarts = async () => {
@@ -43,10 +47,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, setIds, handleDelete, time
     }, [language, ids]);
 
 
-    useEffect(() => {
-        const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-        setIds(storedCarts);
-    }, [setIds]);
+
 
 
     const formatTime = (timeLeft) => {
