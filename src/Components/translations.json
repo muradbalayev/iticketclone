@@ -45,7 +45,8 @@
     "karabakh-revival-foundation": "Qarabağ Dirçəliş Fondu",
     "contact": "Əlaqə",
     "visa": "Bütün ödənişlər Visa, Visa Electron, Maestro və MasterCard-dan 3D Secure ilə qorunur.",
-    "supportservice": "Dəstək xidməti"
+    "supportservice": "Dəstək xidməti",
+    "clearcart": "Səbəti təmizlə"
   },
   "en": {
     "loadmore": "Load more",
@@ -93,7 +94,8 @@
     "karabakh-revival-foundation": "Karabakh Revival Foundation",
     "contact": "Contact",
     "visa": "All payments are protected by 3D Secure from Visa, Visa Electron, Maestro & MasterCard",
-    "supportservice": "Support service"
+    "supportservice": "Support service",
+    "clearcart": "Clear cart"
   },
   "ru": {
     "loadmore": "Более",
@@ -141,6 +143,7 @@
     "karabakh-revival-foundation": "Фонд Возрождения Карабаха",
     "contact": "Контакт",
     "visa": "Все платежи защищены 3D Secure от Visa, Visa Electron, Maestro и MasterCard.",
-    "supportservice": "Сервис поддержки"
+    "supportservice": "Сервис поддержки",
+    "clearcart": "Очистить корзину"
   }
 }
