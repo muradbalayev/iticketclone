@@ -132,7 +132,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                 
                                 <button onClick={handleClearCart}  className='flex gap-3 items-center'>
                                     <Icon icon={trash} size={15} className='text-gray-500' />
-                                    <p className='text-gray-500 text-sm font-semibold'>Səbəti təmizlə</p>
+                                    <p className='text-gray-500 text-sm font-semibold'>{translations[language]['clearcart']}  </p>
                                 </button>
                                 <Link onClick={handleClose} to={`/${language}/cart`} className="orange rounded-lg">
                                     <p className="text-xl font-bold text-center py-4 px-5">{translations[language]['cart']}</p>
