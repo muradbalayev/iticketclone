@@ -32,7 +32,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
     const [eventsSugg, setEventsSugg] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [favoriteActive, setFavoriteActive] = useState(false)
-    // const [cartActive, setCartActive] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     const [cartStatus, setCartStatus] = useState({});
 
 
@@ -62,9 +62,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
 
 
     //Cart 
-    useEffect(() => {
-        localStorage.setItem('carts', JSON.stringify(carts));
-    }, [carts]);
+
     
      useEffect(() => {
         const id = JSON.parse(localStorage.getItem('id'));
@@ -84,7 +82,6 @@ const EventDetail = ({ category, carts, addToCarts }) => {
         setTitle2(true);
     }
 
-    const [isOpen, setIsOpen] = useState(false);
 
     const toggleLightbox = () => {
         setIsOpen(!isOpen);

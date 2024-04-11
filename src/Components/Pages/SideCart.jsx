@@ -49,8 +49,6 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
 
 
 
-
-
     const formatTime = (timeLeft) => {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
@@ -68,7 +66,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                             <div className="flex justify-between items-center mt-4 mb-5 w-full">
                                 <div className="flex gap-2 text-gray-500">
                                     <Icon icon={ic_shopping_cart} size={25} />
-                                    <p>Biletlərin sayı: {cartItemCount} 
+                                    <p>{translations[language]['ticketcount']} {cartItemCount} 
                                     </p>
                                 </div>
                                 <Icon onClick={handleClose} icon={x} size={25} className='text-gray-500 cursor-pointer' />
@@ -112,7 +110,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                                     {event.min_price} ₼
                                                 </div>
                                                 <div className="label text-gray-600 text-sm">
-                                                    {event.age_limit} yaşlar üçün</div>
+                                                    {event.age_limit}</div>
                                             </div>
                                             <button  onClick={() => handleDelete(event.id)}
                                                 className="delete-btn flex items-center justify-center md:rounded-full rounded-t-none rounded-b-xl md:h-10 md:w-10 p-2 group-hover:bg-red-600 bg-red-400 transition duration-300">
@@ -125,7 +123,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                         </div>
                         <div className='cart-footer border-t-2 flex flex-col pt-6 gap-3 border-gray-300'>
                             <div className="total-price flex justify-between items-center mb-2">
-                                <p className='text-lg font-semibold text-gray-700'>Cəmi</p>
+                                <p className='text-lg font-semibold text-gray-700'>{translations[language]['total']}</p>
                                 <p className='text-lg font-semibold text-gray-700'>{totalPrice} ₼</p>
                             </div>
                             <div className='basket flex justify-between items-center'>

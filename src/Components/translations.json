@@ -46,7 +46,10 @@
     "contact": "Əlaqə",
     "visa": "Bütün ödənişlər Visa, Visa Electron, Maestro və MasterCard-dan 3D Secure ilə qorunur.",
     "supportservice": "Dəstək xidməti",
-    "clearcart": "Səbəti təmizlə"
+    "clearcart": "Səbəti təmizlə",
+    "total": "Cəmi",
+    "ticketcount": "Biletlərin sayı:",
+    "order": "Sifariş yarat"
   },
   "en": {
     "loadmore": "Load more",
@@ -95,7 +98,10 @@
     "contact": "Contact",
     "visa": "All payments are protected by 3D Secure from Visa, Visa Electron, Maestro & MasterCard",
     "supportservice": "Support service",
-    "clearcart": "Clear cart"
+    "clearcart": "Clear cart",
+    "total": "Total",
+    "ticketcount": "Tickets:",
+    "order": "Create order"
   },
   "ru": {
     "loadmore": "Более",
@@ -144,6 +150,9 @@
     "contact": "Контакт",
     "visa": "Все платежи защищены 3D Secure от Visa, Visa Electron, Maestro и MasterCard.",
     "supportservice": "Сервис поддержки",
-    "clearcart": "Очистить корзину"
+    "clearcart": "Очистить корзину",
+    "total": "Общий",
+    "ticketcount": "Кол-во билетов:",
+    "order": "Создать заказ"
   }
 }

@@ -22,6 +22,11 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(5 * 60);
 
 
+  useEffect(() => {
+    localStorage.setItem('carts', JSON.stringify(carts));
+}, [carts]);
+
+
   const addToCarts = (eventId) => {
     if (carts.includes(eventId)) {
       setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
@@ -30,6 +35,12 @@ function App() {
       setTimeLeft(5 * 60);
     }
   };
+
+
+  useEffect(() => {
+    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+    setCarts(storedCarts);
+}, []);
 
   useEffect(() => {
     // Sebet itemleri deyisende Fetch Id render

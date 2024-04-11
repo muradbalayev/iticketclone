@@ -44,6 +44,7 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
 
         const totalPrice = response.data.response.events.data.reduce((acc, event) => acc + event.min_price, 0);
         setTotalPrice(totalPrice);
+
       } catch (error) {
         console.error('Error fetching event detail:', error);
       } finally {
@@ -155,7 +156,7 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
                     <span className="text-blue-600">Promo kodum var</span>
                   </div>
                   <div className="last-price flex justify-between items-center text-xl color-gray-500 mb-2">
-                    <p>Cəmi</p>
+                    <p>{translations[language]['total']}</p>
                     <p>{totalPrice} ₼</p>
                   </div>
                   <div className="mt-5 flex">
@@ -163,7 +164,7 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
                     <p className="ml-4">Şərtləri və qaydaları qəbul edirəm.</p>
                   </div>
                   <button className="mt-5 orange rounded-lg w-full">
-                    <p className="text-xl font-bold text-center py-4 px-5">Sifariş yarat</p>
+                    <p className="text-xl font-bold text-center py-4 px-5">{translations[language]['order']}</p>
                   </button>
                 </div>
               </div>
