@@ -125,7 +125,7 @@ delay={2000}>
                 fontWeight: "600",
                 padding: '16px',
                 color: '#713200',
-                animation: 'fade-in 0.5s ease, fade-out 0.5s ease 2s',
+                // animation: 'fade-in 0.5s ease, fade-out 0.5s ease ',
 
               },
             }}/>
