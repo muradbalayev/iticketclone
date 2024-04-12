@@ -13,6 +13,9 @@ import Icon from 'react-icons-kit'
 import { ic_shopping_cart } from 'react-icons-kit/md/ic_shopping_cart'
 import { useEffect, useState } from 'react';
 import SideCart from './Pages/SideCart';
+import translations from "./translations.json"
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function App() {
   const { language, category } = useParams()
@@ -24,23 +27,27 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('carts', JSON.stringify(carts));
-}, [carts]);
+  }, [carts]);
 
 
   const addToCarts = (eventId) => {
     if (carts.includes(eventId)) {
       setCarts(prevCarts => prevCarts.filter(id => id !== eventId));
+      toast.success(translations[language]['toast-error']);
+
     } else {
       setCarts(prevCarts => [...prevCarts, eventId]);
+      toast.success(translations[language]['toast-success']);
       setTimeLeft(5 * 60);
     }
   };
 
 
+
   useEffect(() => {
     const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
     setCarts(storedCarts);
-}, []);
+  }, []);
 
   useEffect(() => {
     // Sebet itemleri deyisende Fetch Id render
@@ -56,6 +63,7 @@ function App() {
             localStorage.removeItem('carts');
             setIds([]);
             setCarts([])
+            toast.success(translations[language]['toast-error']);
             return 0;
           } else {
             return prevTimeLeft - 1;
@@ -65,7 +73,7 @@ function App() {
 
       return () => clearInterval(timer);
     }
-  }, [carts]);
+  }, [carts, language]);
 
 
 
@@ -82,6 +90,7 @@ function App() {
     setCarts(updatedCarts);
 
     localStorage.setItem('carts', JSON.stringify(updatedIds));
+    toast.success(translations[language]['toast-error']);
   };
 
 
@@ -89,11 +98,38 @@ function App() {
     setCarts([])
     localStorage.removeItem('carts');
     setOpenSideCart(false);
+    toast.error('Item removed from cart');
   }
 
 
   return (
     <div className='relative'>
+      {/* <Toast
+        style={{ zIndex: "2000" }}
+        show={showToast}
+        onClose={handleCloseToast}
+        className={`absolute top-10 right-4 p-4 orange text-white rounded-3xl`}
+        autohide
+delay={2000}>
+        <Toast.Header closeButton={false} className='bg-success'>
+          <strong className="me-auto text-black">{toastMessage}</strong>
+        </Toast.Header>
+      </Toast> */}
+            <Toaster 
+            position='top-right'
+            toastOptions={{
+              duration: 1500,
+              className: 'custom-toast',
+              style: {
+                backgroundColor: "#fd0",
+                fontWeight: "600",
+                padding: '16px',
+                color: '#713200',
+                animation: 'fade-in 0.5s ease, fade-out 0.5s ease 2s',
+
+              },
+            }}/>
+
       <button onClick={handleCartIconClick}
         className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-30 right-0 rounded-full bottom-0'>
         <Icon

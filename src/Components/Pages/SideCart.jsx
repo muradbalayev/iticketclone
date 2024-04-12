@@ -18,8 +18,6 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
     const [showWarning, setShowWarning] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0); 
 
-
-
     useEffect(() => {
         const fetchCarts = async () => {
             try {
