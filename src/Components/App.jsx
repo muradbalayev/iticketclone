@@ -26,6 +26,12 @@ function App() {
 
 
   useEffect(() => {
+    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
+    setCarts(storedCarts);
+  }, []);
+
+
+  useEffect(() => {
     localStorage.setItem('carts', JSON.stringify(carts));
   }, [carts]);
 
@@ -42,12 +48,6 @@ function App() {
     }
   };
 
-
-
-  useEffect(() => {
-    const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
-    setCarts(storedCarts);
-  }, []);
 
   useEffect(() => {
     // Sebet itemleri deyisende Fetch Id render
@@ -98,7 +98,7 @@ function App() {
     setCarts([])
     localStorage.removeItem('carts');
     setOpenSideCart(false);
-    toast.error('Item removed from cart');
+    toast.success(translations[language]['toast-error']);
   }
 
 
@@ -118,7 +118,7 @@ delay={2000}>
             <Toaster 
             position='top-right'
             toastOptions={{
-              duration: 1500,
+              duration: 2000,
               className: 'custom-toast',
               style: {
                 backgroundColor: "#fd0",
