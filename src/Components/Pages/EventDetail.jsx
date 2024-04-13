@@ -206,7 +206,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                     <div className='content-container flex flex-col relative px-3 lg:px-0'>
                         <button onClick={() => addToCarts(event.id)} className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} z-40 group p-5 gap-3 mb-6 bg-white lg:hidden flex shadow-md items-center border-amber-400 justify-center group border-4 rounded-full`}>
                         <p className={`${cartStatus[event.id] ? 'text-white add-to-cart' : ' '} font-bold text-lg text-black`}>
-                            {cartStatus[event.id] ? translations[language]['add-to-cart'] : translations[language]['added-to-cart']}
+                            {cartStatus[event.id] ? translations[language]['added-to-cart'] : translations[language]['add-to-cart']}
                             </p>
                          <Icon className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} text-black`} size={30} icon={ic_shopping_cart} />
                         </button>
