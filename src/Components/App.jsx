@@ -50,7 +50,7 @@ function App() {
 
 
   useEffect(() => {
-    // Sebet itemleri deyisende Fetch Id render
+    // Sebet itemleri deyisende Cart Fetch render
     const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
     setIds(storedCarts);
 
@@ -104,36 +104,23 @@ function App() {
 
   return (
     <div className='relative'>
-      {/* <Toast
-        style={{ zIndex: "2000" }}
-        show={showToast}
-        onClose={handleCloseToast}
-        className={`absolute top-10 right-4 p-4 orange text-white rounded-3xl`}
-        autohide
-delay={2000}>
-        <Toast.Header closeButton={false} className='bg-success'>
-          <strong className="me-auto text-black">{toastMessage}</strong>
-        </Toast.Header>
-      </Toast> */}
-            <Toaster 
-            position='top-right'
-            toastOptions={{
-              duration: 2000,
-              className: 'custom-toast',
-              style: {
-                backgroundColor: "#fd0",
-                fontWeight: "600",
-                padding: '16px',
-                color: '#713200',
-                // animation: 'fade-in 0.5s ease, fade-out 0.5s ease ',
-
-              },
-            }}/>
+      <Toaster
+        position='top-right'
+        toastOptions={{
+          duration: 2000,
+          className: 'custom-toast',
+          style: {
+            backgroundColor: "#fd0",
+            fontWeight: "600",
+            padding: '16px',
+            color: '#713200',
+            // animation: 'fade-in 0.5s ease, fade-out 0.5s ease ',
+          },
+        }} />
 
       <button onClick={handleCartIconClick}
         className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-30 right-0 rounded-full bottom-0'>
-        <Icon
-          icon={ic_shopping_cart} size={27} />
+        <Icon icon={ic_shopping_cart} size={27} />
         <span className='rounded-full w-5 absolute top-0 right-0 bg-red-700 text-white text-sm'>
           {carts.length}
         </span>

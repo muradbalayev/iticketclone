@@ -44,13 +44,14 @@ const EventDetail = ({ category, carts, addToCarts }) => {
         } else {
             setFavorites(prevFavorites => [...prevFavorites, eventId]);
             setFavoriteActive(true);
-        }    };
+        }
+    };
 
     useEffect(() => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(storedFavorites);
     }, []);
-    
+
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites));
         const id = JSON.parse(localStorage.getItem('id'));
@@ -62,9 +63,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
 
 
     //Cart 
-
-    
-     useEffect(() => {
+    useEffect(() => {
         const id = JSON.parse(localStorage.getItem('id'));
         const updatedCartStatus = {};
         carts.forEach(eventId => {
@@ -72,6 +71,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
         });
         setCartStatus(updatedCartStatus);
     }, [carts]);
+    ///// 
 
     const title1Toggle = () => {
         setTitle1(true);
@@ -99,7 +99,7 @@ const EventDetail = ({ category, carts, addToCarts }) => {
         setLocations(venueLocations);
     }, [venues]);
 
-    
+
 
     useEffect(() => {
         if (locations.length > 0) {
@@ -122,7 +122,6 @@ const EventDetail = ({ category, carts, addToCarts }) => {
     useEffect(() => {
         const fetchEventDetail = async () => {
             try {
-                // https://api.iticket.az/az/v5/events?client=web&category_slug=concerts&venue_id=352&page=1&venue_id=352&min_price=7&max_price=10
                 let url = `https://api.iticket.az/${language}/v5/events?client=web`;
                 let urlSuggestion = `https://api.iticket.az/${language}/v5/events?client=web`;
 
@@ -139,8 +138,8 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                 if (page) {
                     urlSuggestion += `&page=${page}`
                 }
-                
-                
+
+
                 window.scrollTo(0, 0);
                 const response = await axios.get(url);
                 const responseSuggestion = await axios.get(urlSuggestion);
@@ -178,11 +177,11 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                         }
                         <img className="wide-bg lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide'
                             src={event.poster_wide_bg_url}
-                        />
-                        <button onClick={() => addToCarts(event.id)}
-                        className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} absolute bottom-5 right-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-white justify-center group  h-16 w-16 border-4 rounded-full`}>
-                                    <Icon className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} text-white`} size={30} icon={ic_shopping_cart} />
-                                </button>
+                        />  
+                        {/* <button onClick={() => addToCarts(event.id)}
+                            className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} absolute bottom-5 right-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-white justify-center group  h-16 w-16 border-4 rounded-full`}>
+                            <Icon className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} text-white`} size={30} icon={ic_shopping_cart} />
+                        </button> */}
                         <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
                         <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
                         <div className='info absolute lg:left-0 lg:right-0 lg:bottom-5 lg:py-10 lg:px-5 xl:py-20 xl:px-0'>
@@ -190,22 +189,27 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                                 <span className={`btn text-xl lg:py-4 lg:px-6  z-20 orange rounded-full py-2 px-4 font-bold`}>
                                     <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''} {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
                                 </span>
-                                <button  onClick={() => addToFavorites(event.id)}
+                                <button onClick={() => addToFavorites(event.id)}
                                     className={`${favoriteActive ? 'favorite_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
                                     <Icon className={`${favoriteActive ? 'favorite_active' : ' '} text-white group-hover:text-amber-400 transition`} size={22} icon={heart} />
                                 </button>
                                 <button className='p-5 flex shadow-md items-center border-white justify-center group hover:bg-white hover:border-amber-400 transition duration-300 lg:h-16 lg:w-16 lg:border-4 rounded-full'>
                                     <Icon className='text-white group-hover:text-amber-400 transition' size={24} icon={share} />
                                 </button>
-                                <button  onClick={() => addToCarts(event.id)}
-                                className={`${cartStatus[event.id] ? 'cart_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
-                                <Icon className={`${cartStatus[event.id] ? 'cart_active' : ' '} text-white group-hover:text-amber-400 transition`} size={27} icon={ic_shopping_cart} />
+                                <button onClick={() => addToCarts(event.id)}
+                                    className={`${cartStatus[event.id] ? 'cart_active' : ' '} p-5  group shadow-md hover:bg-white border-white hover:border-amber-400 transition duration-300 flex items-center justify-center lg:h-16 lg:w-16 lg:border-4 rounded-full`}>
+                                    <Icon className={`${cartStatus[event.id] ? 'cart_active' : ' '} text-white group-hover:text-amber-400 transition`} size={27} icon={ic_shopping_cart} />
                                 </button>
-
                             </div>
                         </div>
                     </div>
                     <div className='content-container flex flex-col relative px-3 lg:px-0'>
+                        <button onClick={() => addToCarts(event.id)} className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} z-40 group p-5 gap-3 mb-6 bg-white lg:hidden flex shadow-md items-center border-amber-400 justify-center group border-4 rounded-full`}>
+                        <p className={`${cartStatus[event.id] ? 'text-white add-to-cart' : ' '} font-bold text-lg text-black`}>
+                            {cartStatus[event.id] ? translations[language]['add-to-cart'] : translations[language]['added-to-cart']}
+                            </p>
+                         <Icon className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} text-black`} size={30} icon={ic_shopping_cart} />
+                        </button>
                         <div className='event-chips grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-11 md:grid order-4 lg:order-1'>
                             <div className='info-block flex items-center rounded-3xl p-2 bg-white shadow-xl'>
                                 <span className="icon z-20 w-20 h-20 flex justify-center items-center">
@@ -269,7 +273,8 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                                         <button onClick={title1Toggle} className={`list-title bg-white grow ${title1 ? 'active' : ''} rounded-3xl`}>
                                             <h2 className='p-5 text-center'>
                                                 <p className='text-xl font-bold '>
-                                                    {translations[language]['about']}
+                                                {translations[language]['about']}
+
                                                 </p>
                                             </h2>
                                         </button>
@@ -377,44 +382,44 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                         {events.length > 0 ? (
                             <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10'>
                                 {eventsSugg.slice(0, 7).map(event => (
-                                        id !== event.id && (
-                                    <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
-                                        <div className='relative'>
-                                            <div className='image'>
-                                                <img
-                                                    src={noposter}
-                                                    alt='bg'
-                                                    className='bg'
-                                                    onLoad={(e) => { e.target.src = event.poster_bg_url; }}
-                                                />
-                                                <img
-                                                    src={noposter}
-                                                    alt='pic'
-                                                    className='op'
-                                                    onLoad={(e) => { e.target.src = event.poster_url; }}
+                                    id !== event.id && (
+                                        <Link onClick={() => handleEventClick(event)} key={event.id} to={`/${language}/${event.category_slug}/${event.slug}`} className='event-list-item'>
+                                            <div className='relative'>
+                                                <div className='image'>
+                                                    <img
+                                                        src={noposter}
+                                                        alt='bg'
+                                                        className='bg'
+                                                        onLoad={(e) => { e.target.src = event.poster_bg_url; }}
+                                                    />
+                                                    <img
+                                                        src={noposter}
+                                                        alt='pic'
+                                                        className='op'
+                                                        onLoad={(e) => { e.target.src = event.poster_url; }}
 
-                                                />
-                                                <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
-                                                    <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
-                                                </span>
-                                            </div>
-                                            <div className='info lg:p-8 lg:text-xl'>
-                                                <p className="event-name lg:pt-2 text-white">
-                                                    {event.name}
-                                                </p>
-                                                <div className="flex w-full items-center flex-1">
-                                                    <div className="event-date">
-                                                        {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
-                                                            { month: 'long', day: 'numeric', year: 'numeric' })}
-                                                    </div>
-                                                    <div className="venue-name ms-1">
-                                                        • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
+                                                    />
+                                                    <span className={`btn text-lg lg:py-2 lg:px-4 absolute lg:right-7 lg:bottom-7 z-20 orange rounded-full py-2 px-4 font-bold bottom-5 right-5`}>
+                                                        <span className="price whitespace-nowrap">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''}  {event.min_price} ₼</span>{language === 'az' ? '-dan' : ''}
+                                                    </span>
+                                                </div>
+                                                <div className='info lg:p-8 lg:text-xl'>
+                                                    <p className="event-name lg:pt-2 text-white">
+                                                        {event.name}
+                                                    </p>
+                                                    <div className="flex w-full items-center flex-1">
+                                                        <div className="event-date">
+                                                            {new Date(event.event_starts_at).toLocaleDateString(language === 'az' ? 'tr-TR' : language === 'en' ? 'en-US' : 'ru-RU',
+                                                                { month: 'long', day: 'numeric', year: 'numeric' })}
+                                                        </div>
+                                                        <div className="venue-name ms-1">
+                                                            • {event.venues && event.venues.length > 0 ? event.venues[0].name : ""}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Link>
-                                        )
+                                        </Link>
+                                    )
                                 ))}
                             </div>
                         ) : ''}
