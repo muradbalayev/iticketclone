@@ -78,8 +78,10 @@ function App() {
 
 
   const handleCartIconClick = () => {
-    setOpenSideCart(true);
-  };
+    if (!openSideCart && carts.length > 0) {
+      setOpenSideCart(true);
+    }
+    };
 
 
   const handleDelete = (idToDelete) => {
@@ -91,6 +93,10 @@ function App() {
 
     localStorage.setItem('carts', JSON.stringify(updatedIds));
     toast.success(translations[language]['toast-error']);
+    
+    if (updatedCarts.length === 0) {
+      setOpenSideCart(false);
+    }
   };
 
 
@@ -119,14 +125,14 @@ function App() {
         }} />
 
       <button onClick={handleCartIconClick}
-        className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-30 right-0 rounded-full bottom-0'>
+        className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-50 right-0 rounded-full bottom-0'>
         <Icon icon={ic_shopping_cart} size={27} />
         <span className='rounded-full w-5 absolute top-0 right-0 bg-red-700 text-white text-sm'>
           {carts.length}
         </span>
       </button>
       <Header cartItemCount={carts.length} />
-      {openSideCart &&
+      {openSideCart && 
         <SideCart
           ids={ids}
           setIds={setIds}

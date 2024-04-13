@@ -12,11 +12,28 @@ import { Link } from 'react-router-dom'
 
 
 
-const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, handleClearCart}) => {
+const SideCart = ({ handleClose, cartItemCount, ids, handleDelete, timeLeft, handleClearCart }) => {
     const [carts, setCarts] = useState([])
     const language = localStorage.getItem('language') || 'az'
     const [showWarning, setShowWarning] = useState(false);
-    const [totalPrice, setTotalPrice] = useState(0); 
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (e.target.closest('.side-cart') === null) {
+                handleClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [handleClose]);
+
+
+
 
     useEffect(() => {
         const fetchCarts = async () => {
@@ -57,14 +74,14 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
     return (
         <div style={{ zIndex: "1000" }}
             className='sidecart-overlay fixed top-0 left-0 w-full h-dvh flex justify-end'>
-            <div className='side-cart px-5 md:w-1/2 w-full pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
+            <div className='side-cart px-5 md:w-1/2 w-10/12 pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
                 {carts.length > 0 ? (
                     <div className='h-full flex flex-col justify-between w-full'>
                         <div className='flex flex-col'>
                             <div className="flex justify-between items-center mt-4 mb-5 w-full">
                                 <div className="flex gap-2 text-gray-500">
                                     <Icon icon={ic_shopping_cart} size={25} />
-                                    <p>{translations[language]['ticketcount']} {cartItemCount} 
+                                    <p>{translations[language]['ticketcount']} {cartItemCount}
                                     </p>
                                 </div>
                                 <Icon onClick={handleClose} icon={x} size={25} className='text-gray-500 cursor-pointer' />
@@ -110,7 +127,7 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                                 <div className="label text-gray-600 text-sm">
                                                     {event.age_limit}</div>
                                             </div>
-                                            <button  onClick={() => handleDelete(event.id)}
+                                            <button onClick={() => handleDelete(event.id)}
                                                 className="delete-btn flex items-center justify-center md:rounded-full rounded-t-none rounded-b-xl md:h-10 md:w-10 p-2 group-hover:bg-red-600 bg-red-400 transition duration-300">
                                                 <Icon icon={trash} className="text-white" size={25} />
                                             </button>
@@ -125,8 +142,8 @@ const SideCart = ({ handleClose , cartItemCount, ids, handleDelete, timeLeft, ha
                                 <p className='text-lg font-semibold text-gray-700'>{totalPrice} ₼</p>
                             </div>
                             <div className='basket flex justify-between items-center'>
-                                
-                                <button onClick={handleClearCart}  className='flex gap-3 items-center'>
+
+                                <button onClick={handleClearCart} className='flex gap-3 items-center'>
                                     <Icon icon={trash} size={15} className='text-gray-500' />
                                     <p className='text-gray-500 text-sm font-semibold'>{translations[language]['clearcart']}  </p>
                                 </button>
