@@ -74,7 +74,7 @@ const SideCart = ({ handleClose, cartItemCount, ids, handleDelete, timeLeft, han
     return (
         <div style={{ zIndex: "1000" }}
             className='sidecart-overlay fixed top-0 left-0 w-full h-dvh flex justify-end'>
-            <div className='side-cart px-5 md:w-1/2 w-10/12 pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
+            <div className='side-cart px-5 md:w-1/2 w-11/12 pt-5 pb-3 overflow-x-hidden overflow-y-scroll relative bg-white h-full'>
                 {carts.length > 0 ? (
                     <div className='h-full flex flex-col justify-between w-full'>
                         <div className='flex flex-col'>
