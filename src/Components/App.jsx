@@ -24,7 +24,7 @@ function App() {
   const [ids, setIds] = useState([]);
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedTimeLeft = JSON.parse(localStorage.getItem('timeLeft'));
-    return storedTimeLeft !== null ? storedTimeLeft : 5 * 60;
+    return storedTimeLeft !== null ? storedTimeLeft : 1 * 60;
   })
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function App() {
     } else {
       setCarts(prevCarts => [...prevCarts, eventId]);
       toast.success(translations[language]['toast-success']);
-      setTimeLeft(5 * 60);
+      setTimeLeft(1 * 60);
     }
   };
 
@@ -97,8 +97,9 @@ function App() {
 
     if (updatedCarts.length === 0) {
       setOpenSideCart(false);
-      setTimeLeft(0);
-    }
+      setTimeout(() => {
+        setTimeLeft(0);
+      }, 2000);    }
   };
 
   const handleClearCart = () => {

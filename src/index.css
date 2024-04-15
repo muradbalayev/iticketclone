@@ -9,24 +9,18 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 7px; /* Width of the scrollbar */
+  width: 7px;
 }
 
-/* Define scrollbar thumb */
+
 ::-webkit-scrollbar-thumb {
-  background-color: #fd0; /* Color of the thumb */
-  border-radius: 0px; /* Rounded corners of the thumb */
+  background-color: #fd0; 
+  border-radius: 0px; 
 }
 
-/* Define scrollbar track */
 ::-webkit-scrollbar-track {
-  background-color: #f2f2f251; /* Color of the track */
+  background-color: #f2f2f251; 
 }
-/* 
-img, video {
-  height: auto;
-  max-width: 100%;
-} */
 
 img{
     overflow: clip;

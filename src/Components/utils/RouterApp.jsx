@@ -22,6 +22,10 @@ export const RouterApp = createBrowserRouter([
                 element: <AllEvents />
             },
             {
+                path: ':language/:category',
+                element: <EventPage />
+            },
+            {
                 path: ':language/:category/:slug',
                 element: <EventDetail/>
             },
@@ -32,10 +36,6 @@ export const RouterApp = createBrowserRouter([
             {
                 path: ':language/favorites',
                 element: <Favorites/>
-            },
-            {
-                path: ':language/:category',
-                element: <EventPage />
             }
         ]
     }
