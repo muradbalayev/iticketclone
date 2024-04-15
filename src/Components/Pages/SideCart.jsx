@@ -89,7 +89,7 @@ const SideCart = ({ handleClose, cartItemCount, ids, handleDelete, timeLeft, han
                             <div className='mb-5'>
                                 <h1 className="page-title">{translations[language]['cart']}</h1>
                                 <div className="time-limit-container h-1.5 mt-4 bg-gray-400 relative">
-                                    <div style={{ width: `${(timeLeft / (5 * 60)) * 100}%` }}
+                                    <div style={{ width: `${(timeLeft / (15 * 60)) * 100}%` }}
                                         className="time-limit orange h-1.5"></div>
                                     <div className="max-w-16 h-8 rounded-lg absolute right-0 -top-3 py-1 px-2 bg-white shadow text-base font-semibold">
                                         {formatTime(timeLeft)}
