@@ -24,7 +24,7 @@ function App() {
   const [ids, setIds] = useState([]);
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedTimeLeft = JSON.parse(localStorage.getItem('timeLeft'));
-    return storedTimeLeft !== null ? storedTimeLeft : 1 * 60;
+    return storedTimeLeft !== null ? storedTimeLeft : 15 * 60;
   })
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function App() {
     } else {
       setCarts(prevCarts => [...prevCarts, eventId]);
       toast.success(translations[language]['toast-success']);
-      setTimeLeft(1 * 60);
+      setTimeLeft(15 * 60);
     }
   };
 
