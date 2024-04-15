@@ -22,8 +22,14 @@ function App() {
   const [openSideCart, setOpenSideCart] = useState(false)
   const [carts, setCarts] = useState([]);
   const [ids, setIds] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(5 * 60);
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const storedTimeLeft = JSON.parse(localStorage.getItem('timeLeft'));
+    return storedTimeLeft !== null ? storedTimeLeft : 5 * 60;
+  })
 
+  useEffect(() => {
+    localStorage.setItem('timeLeft', JSON.stringify(timeLeft));
+  }, [timeLeft]);
 
   useEffect(() => {
     const storedCarts = JSON.parse(localStorage.getItem('carts')) || [];
