@@ -36,7 +36,6 @@ function App() {
     setCarts(storedCarts);
   }, []);
 
-
   useEffect(() => {
     localStorage.setItem('carts', JSON.stringify(carts));
   }, [carts]);
@@ -53,7 +52,6 @@ function App() {
       setTimeLeft(5 * 60);
     }
   };
-
 
   useEffect(() => {
     // Sebet itemleri deyisende Cart Fetch render
@@ -81,14 +79,11 @@ function App() {
     }
   }, [carts, language]);
 
-
-
   const handleCartIconClick = () => {
     if (!openSideCart && carts.length > 0) {
       setOpenSideCart(true);
     }
-    };
-
+  };
 
   const handleDelete = (idToDelete) => {
     const updatedIds = ids.filter(id => id !== idToDelete);
@@ -99,20 +94,21 @@ function App() {
 
     localStorage.setItem('carts', JSON.stringify(updatedIds));
     toast.success(translations[language]['toast-error']);
-    
+
     if (updatedCarts.length === 0) {
       setOpenSideCart(false);
+      setTimeLeft(0);
+
     }
   };
-
 
   const handleClearCart = () => {
     setCarts([])
     localStorage.removeItem('carts');
     setOpenSideCart(false);
+    setTimeLeft(0);
     toast.success(translations[language]['toast-error']);
   }
-
 
   return (
     <div className='relative'>
@@ -129,7 +125,6 @@ function App() {
             // animation: 'fade-in 0.5s ease, fade-out 0.5s ease ',
           },
         }} />
-
       <button onClick={handleCartIconClick}
         className='cart-icon fixed h-14 w-14 orange mt-5 mr-5 mb-5 p-3 z-50 right-0 rounded-full bottom-0'>
         <Icon icon={ic_shopping_cart} size={27} />
@@ -138,7 +133,7 @@ function App() {
         </span>
       </button>
       <Header cartItemCount={carts.length} />
-      {openSideCart && 
+      {openSideCart &&
         <SideCart
           ids={ids}
           setIds={setIds}

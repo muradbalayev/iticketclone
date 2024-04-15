@@ -125,7 +125,7 @@ const SideCart = ({ handleClose, cartItemCount, ids, handleDelete, timeLeft, han
                                                     {event.min_price} ₼
                                                 </div>
                                                 <div className="label text-gray-600 text-sm">
-                                                    {event.age_limit}</div>
+                                                {language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''} {event.age_limit} {language === 'az' ? 'yaşlar üçün' : ''} {language === 'en' ? 'years old' : ''} {language === 'ru' ? 'лет' : ''}                                                    </div>
                                             </div>
                                             <button onClick={() => handleDelete(event.id)}
                                                 className="delete-btn flex items-center justify-center md:rounded-full rounded-t-none rounded-b-xl md:h-10 md:w-10 p-2 group-hover:bg-red-600 bg-red-400 transition duration-300">

@@ -105,7 +105,7 @@ const Cart = ({handleDelete, ids, timeLeft}) => {
                         <div className="price-label flex md:flex-row flex-col md:items-center md:gap-3 gap-0 group md:ml-0 ml-1">
                           <div className="price-block p-3 orange text-center md:rounded-xl rounded-b-none rounded-t-xl flex flex-col items-center justify-center">
                             <div className="price whitespace-nowrap text-2xl text-center">{event.min_price} ₼</div>
-                            <div className="label text-gray-600 text-sm">{event.age_limit} yaşlar üçün</div>
+                            <div className="label text-gray-600 text-sm">{language === 'en' ? 'from' : ''}  {language === 'ru' ? 'от' : ''} {event.age_limit} {language === 'az' ? 'yaşlar üçün' : ''} {language === 'en' ? 'years old' : ''} {language === 'ru' ? 'лет' : ''}</div>
                           </div>
                           <button onClick={() => handleDelete(event.id)}
                             className="delete-btn flex items-center justify-center md:rounded-full rounded-t-none rounded-b-xl md:h-10 md:w-10 p-2 group-hover:bg-red-600 bg-red-400 transition duration-300">
