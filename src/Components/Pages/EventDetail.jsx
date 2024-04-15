@@ -178,10 +178,6 @@ const EventDetail = ({ category, carts, addToCarts }) => {
                         <img className="wide-bg lg:block hidden w-full rounded-2xl shadow-md" alt='posterwide'
                             src={event.poster_wide_bg_url}
                         />  
-                        {/* <button onClick={() => addToCarts(event.id)}
-                            className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} absolute bottom-5 right-5 z-40 group p-5 lg:hidden flex shadow-md items-center border-white justify-center group  h-16 w-16 border-4 rounded-full`}>
-                            <Icon className={`${cartStatus[event.id] ? 'cartmobile_active' : ' '} text-white`} size={30} icon={ic_shopping_cart} />
-                        </button> */}
                         <img className='lg:hidden block w-full absolute object-cover' alt='poster' src={event.poster_url} />
                         <img className='lg:hidden block w-full' alt='poster' src={event.poster_bg_url} />
                         <div className='info absolute lg:left-0 lg:right-0 lg:bottom-5 lg:py-10 lg:px-5 xl:py-20 xl:px-0'>

@@ -98,7 +98,6 @@ function App() {
     if (updatedCarts.length === 0) {
       setOpenSideCart(false);
       setTimeLeft(0);
-
     }
   };
 
